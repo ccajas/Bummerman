@@ -10,6 +10,9 @@ namespace Bummerman
         public List<Component> componentList { get; private set; }
         string name;
 
+        /// <summary>
+        /// Create a template from components
+        /// </summary>
         public EntityTemplate(string templateName, params Component[] components)
         {
             componentList = new List<Component>();

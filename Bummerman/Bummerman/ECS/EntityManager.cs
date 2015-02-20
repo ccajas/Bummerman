@@ -11,18 +11,17 @@ namespace Bummerman
     class EntityManager
     {
         // ECS constants and vars
-        int entityCount = 0;
-        const int maxEntities = 2000;
-        const int maxComponents = 250;
+        int nextEntity = 0;
+        const int maxEntities = 1000;
 
         // Component groups
-        List<Components.ScreenPosition> screenPositionComponents;
-        List<Components.TilePosition> tilePositionComponents;
-        List<Components.Sprite> spriteComponents;
-        List<Components.Collision> collisionComponents;
-        List<Components.PlayerInfo> playerInfoComponents;
-        List<Components.PowerUp> powerUpComponents;
-        List<Components.InputContext> inputComponents;
+        Components.ScreenPosition[] screenPositionComponents;
+        Components.TilePosition[] tilePositionComponents;
+        Components.Sprite[] spriteComponents;
+        Components.Collision[] collisionComponents;
+        Components.PlayerInfo[] playerInfoComponents;
+        Components.PowerUp[] powerUpComponents;
+        Components.InputContext[] inputComponents;
 
         // Entity template/prefab collection
         Dictionary<string, EntityTemplate> entityTemplates;
@@ -39,13 +38,13 @@ namespace Bummerman
             entitySystems = new List<EntitySystem>();
 
             // Setup component lists
-            screenPositionComponents = new List<Components.ScreenPosition>(maxComponents);
-            tilePositionComponents = new List<Components.TilePosition>(maxComponents);
-            spriteComponents = new List<Components.Sprite>(maxComponents);
-            collisionComponents = new List<Components.Collision>(maxComponents);
-            playerInfoComponents = new List<Components.PlayerInfo>(maxComponents);
-            powerUpComponents = new List<Components.PowerUp>(maxComponents);
-            inputComponents = new List<Components.InputContext>(10);
+            screenPositionComponents = new Components.ScreenPosition[maxEntities];
+            tilePositionComponents = new Components.TilePosition[maxEntities];
+            spriteComponents = new Components.Sprite[maxEntities];
+            collisionComponents = new Components.Collision[maxEntities];
+            playerInfoComponents = new Components.PlayerInfo[maxEntities];
+            powerUpComponents = new Components.PowerUp[maxEntities];
+            inputComponents = new Components.InputContext[maxEntities];
         }
 
         /// <summary>
@@ -78,9 +77,10 @@ namespace Bummerman
         /// Create an entity from a template
         /// </summary>
         /// <param name="templateName"></param>
-        public void CreateEntity(string templateName)
+        public EntityTemplate CreateEntity(string templateName)
         {
             EntityTemplate template = null;
+            EntityTemplate newTemplate = null;
 
             // Check if a valid template exists first
             if (entityTemplates.TryGetValue(templateName, out template))
@@ -90,45 +90,54 @@ namespace Bummerman
                 MethodInfo theMethod = prefabsType.GetMethod("Create" + templateName);
 
                 // Call method to create new template
-                EntityTemplate newTemplate = (EntityTemplate)theMethod.Invoke(null, null);
+                newTemplate = (EntityTemplate)theMethod.Invoke(null, new object[] { nextEntity });
 
                 // Do a brute force test for type checking to insert in proper list
                 // (could be improved)
                 foreach (Component component in newTemplate.componentList)
                 {                 
                     if (component is Components.Collision)
-                        collisionComponents.Add((component as Components.Collision));
+                        collisionComponents[nextEntity] = (component as Components.Collision);
 
                     if (component is Components.InputContext)
-                        inputComponents.Add((component as Components.InputContext));
+                        inputComponents[nextEntity] = (component as Components.InputContext);
 
                     if (component is Components.PlayerInfo)
-                        playerInfoComponents.Add((component as Components.PlayerInfo));
+                        playerInfoComponents[nextEntity] = (component as Components.PlayerInfo);
 
                     if (component is Components.PowerUp)
-                        powerUpComponents.Add((component as Components.PowerUp));
+                        powerUpComponents[nextEntity] = (component as Components.PowerUp);
 
                     if (component is Components.ScreenPosition)
-                        screenPositionComponents.Add((component as Components.ScreenPosition));
+                        screenPositionComponents[nextEntity] = (component as Components.ScreenPosition);
 
                     if (component is Components.Sprite)
-                        spriteComponents.Add((component as Components.Sprite));
+                        spriteComponents[nextEntity] = (component as Components.Sprite);
 
                     if (component is Components.TilePosition)
-                        tilePositionComponents.Add((component as Components.TilePosition));
+                        tilePositionComponents[nextEntity] = (component as Components.TilePosition);
                 }
             }
 
             // Finish adding components for entity
-            entityCount++;
+            nextEntity++;
+
+            return newTemplate;
         }
 
-        public void UpdateSystems()
+        /// <summary>
+        /// Process components with each system
+        /// </summary>
+        public void ProcessComponents(TimeSpan frameStepTime)
         {
-
+            foreach (EntitySystem system in entitySystems)
+                system.Process(frameStepTime, nextEntity);
         }
 
-        public void DrawSystems(SpriteBatch spriteBatch)
+        /// <summary>
+        /// Draw entities with each system
+        /// </summary>
+        public void DrawEntities(SpriteBatch spriteBatch)
         {
             foreach (EntitySystem system in entitySystems)
                 system.Draw(spriteBatch.GraphicsDevice, spriteBatch);

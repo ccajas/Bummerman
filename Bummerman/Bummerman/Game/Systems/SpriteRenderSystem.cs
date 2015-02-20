@@ -12,35 +12,40 @@ namespace Bummerman
         Dictionary<string, Texture2D> textureCollection;
 
         // Local components
-        List<Components.Sprite> spriteComponents;
-        List<Components.ScreenPosition> screenPositionComponents;
-
-        // Sprite-Position pairs
-        Dictionary<int, Tuple<Components.Sprite, Components.ScreenPosition>> spriteEntities;
+        Components.Sprite[] sprites;
+        Components.ScreenPosition[] screenPos;
 
         public SpriteRenderSystem(Dictionary<string, Texture2D> textureCollection,
-            List<Components.Sprite> spriteComponents, 
-            List<Components.ScreenPosition> screenPosComponents)
+            Components.Sprite[] spriteComponents, 
+            Components.ScreenPosition[] screenPos)
         {
             // Initialize component lists
             this.textureCollection = textureCollection;
-            this.spriteComponents = spriteComponents;
-            this.screenPositionComponents = screenPosComponents;
-
-            this.spriteEntities = new Dictionary<int, Tuple<Components.Sprite, Components.ScreenPosition>>();
+            this.sprites = spriteComponents;
+            this.screenPos = screenPos;
         }
 
-        public override void Process()
+        public override void Process(TimeSpan frameStepTime, int totalEntities)
         {
-
+            this.totalEntities = totalEntities;
         }
 
         public override void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
-        {           
-            foreach (Components.Sprite sprite in spriteComponents)
-            {
+        {
+            spriteBatch.Begin();
 
+            for (int i = 0; i < totalEntities; i++)
+            {
+                // Check valid Sprite components
+                if (sprites[i] != null)
+                {
+                    // Draw the sprite
+                    spriteBatch.Draw(textureCollection[sprites[i].spriteTexture],
+                        screenPos[i].position, sprites[i].textureArea, Color.White);
+                }
             }
+            // Finish drawing entities
+            spriteBatch.End();
         }
     }
 }

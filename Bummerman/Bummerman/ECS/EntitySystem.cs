@@ -8,7 +8,9 @@ namespace Bummerman
 {
     abstract class EntitySystem
     {
-        public abstract void Process();
+        protected int totalEntities = 0;
+
+        public abstract void Process(TimeSpan frameStepTime, int totalEntities);
         public virtual void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch) { }
     }
 }

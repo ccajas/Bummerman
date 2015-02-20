@@ -8,7 +8,7 @@ namespace Bummerman.Components
 {
     class ScreenPosition : Component
     {
-        public Point position = Point.Zero;
+        public Vector2 position = Vector2.Zero;
         public int layer = 0;
     }
 }

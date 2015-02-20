@@ -9,6 +9,6 @@ namespace Bummerman
     abstract class EntitySystem
     {
         public abstract void Process();
-        public void Draw(GraphicsDevice graphicsDevice) { }
+        public virtual void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch) { }
     }
 }

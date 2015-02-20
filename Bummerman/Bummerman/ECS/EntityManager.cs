@@ -128,10 +128,10 @@ namespace Bummerman
 
         }
 
-        public void DrawSystems(GraphicsDevice graphicsDevice)
+        public void DrawSystems(SpriteBatch spriteBatch)
         {
             foreach (EntitySystem system in entitySystems)
-                system.Draw(graphicsDevice);
+                system.Draw(spriteBatch.GraphicsDevice, spriteBatch);
         }
     }
 }

@@ -101,7 +101,7 @@ namespace Bummerman
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            entityManager.DrawSystems(GraphicsDevice);
+            entityManager.DrawSystems(spriteBatch);
 
             base.Draw(gameTime);
         }

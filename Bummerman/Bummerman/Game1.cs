@@ -26,6 +26,9 @@ namespace Bummerman
         // Sprite texture collection
         Dictionary<string, Texture2D> textureCollection;
 
+        // Game resources
+        Level level;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -43,6 +46,7 @@ namespace Bummerman
             // TODO: Add your initialization logic here
             textureCollection = new Dictionary<string, Texture2D>();
             entityManager = new EntityManager();
+            level = new Level();
 
             base.Initialize();
         }
@@ -64,7 +68,9 @@ namespace Bummerman
             entityManager.CreateTemplates();
 
             // Load level entities
-            entityManager.CreateEntity("SolidBlock");
+            level.Load(entityManager);
+            
+            // Finished loading content
         }
 
         /// <summary>
@@ -87,7 +93,10 @@ namespace Bummerman
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // TODO: Add your update logic here
+
+            TimeSpan frameStepTime = gameTime.ElapsedGameTime;
+
+            entityManager.ProcessComponents(frameStepTime);
 
             base.Update(gameTime);
         }
@@ -101,7 +110,7 @@ namespace Bummerman
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            entityManager.DrawSystems(spriteBatch);
+            entityManager.DrawEntities(spriteBatch);
 
             base.Draw(gameTime);
         }

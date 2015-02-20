@@ -96,7 +96,6 @@ namespace Bummerman
 
 
             TimeSpan frameStepTime = gameTime.ElapsedGameTime;
-
             entityManager.ProcessComponents(frameStepTime);
 
             base.Update(gameTime);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Bummerman
@@ -66,6 +67,20 @@ namespace Bummerman
                 {
                     playerNumber = 0
                 },
+                new Components.InputContext(
+                    new KeyValuePair<Keys, InputActions>[]
+                    {
+                        new KeyValuePair<Keys, InputActions>(Keys.Space, InputActions.setBomb),
+                        new KeyValuePair<Keys, InputActions>(Keys.Enter, InputActions.remoteTrigger),
+                    },
+                    new KeyValuePair<Keys, InputStates>[]
+                    {
+                        new KeyValuePair<Keys, InputStates>(Keys.Down, InputStates.MoveDown),
+                        new KeyValuePair<Keys, InputStates>(Keys.Up, InputStates.MoveUp),
+                        new KeyValuePair<Keys, InputStates>(Keys.Right, InputStates.MoveRight),
+                        new KeyValuePair<Keys, InputStates>(Keys.Left, InputStates.MoveLeft),
+                    }
+                ),
                 new Components.ScreenPosition(),
                 new Components.TilePosition(),
                 new Components.Sprite()

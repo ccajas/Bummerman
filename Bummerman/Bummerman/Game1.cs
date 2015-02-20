@@ -59,11 +59,12 @@ namespace Bummerman
             // load your game content here
             textureCollection.Add("blocks", Content.Load<Texture2D>("textures/blocks"));
 
-            // Create entity templates
-            entityManager.CreateTemplates(textureCollection);
+            // Create systems and entity templates
+            entityManager.SetupSystems(textureCollection);
+            entityManager.CreateTemplates();
 
             // Load level entities
-            entityManager.CreateEntity("SolidBlocks");
+            entityManager.CreateEntity("SolidBlock");
         }
 
         /// <summary>
@@ -100,6 +101,7 @@ namespace Bummerman
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            entityManager.DrawSystems(GraphicsDevice);
 
             base.Draw(gameTime);
         }

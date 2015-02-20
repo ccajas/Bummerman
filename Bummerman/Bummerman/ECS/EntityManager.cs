@@ -27,12 +27,16 @@ namespace Bummerman
         // Entity template/prefab collection
         Dictionary<string, EntityTemplate> entityTemplates;
 
+        // System collection
+        List<EntitySystem> entitySystems;
+
         /// <summary>
-        /// Setup component lists
+        /// Setup lists and component groups
         /// </summary>
         public EntityManager()
         {
             entityTemplates = new Dictionary<string, EntityTemplate>();
+            entitySystems = new List<EntitySystem>();
 
             // Setup component lists
             screenPositionComponents = new List<Components.ScreenPosition>(maxComponents);
@@ -45,13 +49,22 @@ namespace Bummerman
         }
 
         /// <summary>
+        /// Add systems
+        /// </summary>
+        public void SetupSystems(Dictionary<string, Texture2D> textureCollection)
+        {
+            entitySystems.Add(new SpriteRenderSystem(textureCollection,
+                spriteComponents, screenPositionComponents));
+        }
+
+        /// <summary>
         /// Create entity templates
         /// </summary>
-        public void CreateTemplates(Dictionary<string, Texture2D> textureCollection)
+        public void CreateTemplates()
         {
             // Load templates
             entityTemplates.Add(
-                "SolidBlocks", 
+                "SolidBlock", 
                 EntityPrefabs.CreateSolidBlock()
             );
 
@@ -61,8 +74,6 @@ namespace Bummerman
             );
         }
 
-        public delegate EntityTemplate TemplateDelegate(string s);
-
         /// <summary>
         /// Create an entity from a template
         /// </summary>
@@ -71,12 +82,14 @@ namespace Bummerman
         {
             EntityTemplate template = null;
 
+            // Check if a valid template exists first
             if (entityTemplates.TryGetValue(templateName, out template))
             {
+                // Get proper EntityPrefab method
                 Type prefabsType = typeof(EntityPrefabs);
                 MethodInfo theMethod = prefabsType.GetMethod("Create" + templateName);
 
-                // Call proper EntityPrefab method to create new template
+                // Call method to create new template
                 EntityTemplate newTemplate = (EntityTemplate)theMethod.Invoke(null, null);
 
                 // Do a brute force test for type checking to insert in proper list
@@ -105,22 +118,20 @@ namespace Bummerman
                         tilePositionComponents.Add((component as Components.TilePosition));
                 }
             }
+
             // Finish adding components for entity
+            entityCount++;
         }
 
-        /// <summary>
-        /// Simple deep clone procedure
-        /// </summary>
-        public static T DeepClone<T>(T obj)
+        public void UpdateSystems()
         {
-            using (var ms = new MemoryStream())
-            {
-                var formatter = new BinaryFormatter();
-                formatter.Serialize(ms, obj);
-                ms.Position = 0;
 
-                return (T)formatter.Deserialize(ms);
-            }
+        }
+
+        public void DrawSystems(GraphicsDevice graphicsDevice)
+        {
+            foreach (EntitySystem system in entitySystems)
+                system.Draw(graphicsDevice);
         }
     }
 }

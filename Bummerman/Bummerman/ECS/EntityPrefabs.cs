@@ -12,10 +12,10 @@ namespace Bummerman
         /// <summary>
         /// Solid block prefab
         /// </summary>
-        public static EntityTemplate CreateSolidBlock()
+        public static EntityTemplate CreateSolidBlock(int entityID = -1)
         {
-            return new EntityTemplate(
-                "SolidBlock",
+            EntityTemplate template = new EntityTemplate(
+                "Template",
                 new Components.TilePosition(),
                 new Components.ScreenPosition(),
                 new Components.Sprite()
@@ -28,15 +28,17 @@ namespace Bummerman
                     collisionType = CollisionType.SolidBlock
                 }
             );
+
+            return SetComponentEntityIDs(template, entityID);
         }
 
         /// <summary>
         /// Soft block prefab
         /// </summary>
-        public static EntityTemplate CreateSoftBlock()
+        public static EntityTemplate CreateSoftBlock(int entityID = -1)
         {
-            return new EntityTemplate(
-                "SoftBlock",
+            EntityTemplate template = new EntityTemplate(
+                "Template",
                 new Components.TilePosition(),
                 new Components.ScreenPosition(),
                 new Components.Sprite()
@@ -49,6 +51,19 @@ namespace Bummerman
                     collisionType = CollisionType.SolidBlock
                 }
             );
+
+            return SetComponentEntityIDs(template, entityID);
+        }
+
+        /// <summary>
+        /// Set the entity ID for each component here
+        /// </summary>
+        private static EntityTemplate SetComponentEntityIDs(EntityTemplate template, int ID)
+        {
+            foreach (Component component in template.componentList)
+                component.SetOwnerEntity(ID);
+
+            return template;
         }
     }
 }

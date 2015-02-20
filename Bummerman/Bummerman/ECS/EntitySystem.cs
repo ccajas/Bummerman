@@ -10,7 +10,11 @@ namespace Bummerman
     {
         protected int totalEntities = 0;
 
-        public abstract void Process(TimeSpan frameStepTime, int totalEntities);
+        public virtual void Process(TimeSpan frameStepTime, int totalEntities)
+        {
+            this.totalEntities = totalEntities;
+        }
+
         public virtual void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch) { }
     }
 }

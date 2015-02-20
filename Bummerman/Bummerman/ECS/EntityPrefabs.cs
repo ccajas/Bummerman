@@ -16,8 +16,8 @@ namespace Bummerman
         {
             EntityTemplate template = new EntityTemplate(
                 "Template",
-                new Components.TilePosition(),
                 new Components.ScreenPosition(),
+                new Components.TilePosition(),
                 new Components.Sprite()
                 {
                     spriteTexture = "blocks",
@@ -39,8 +39,8 @@ namespace Bummerman
         {
             EntityTemplate template = new EntityTemplate(
                 "Template",
-                new Components.TilePosition(),
                 new Components.ScreenPosition(),
+                new Components.TilePosition(),
                 new Components.Sprite()
                 {
                     spriteTexture = "blocks",
@@ -49,6 +49,33 @@ namespace Bummerman
                 new Components.Collision()
                 {
                     collisionType = CollisionType.SolidBlock
+                }
+            );
+
+            return SetComponentEntityIDs(template, entityID);
+        }
+
+        /// <summary>
+        /// Player prefab
+        /// </summary>
+        public static EntityTemplate CreatePlayer(int entityID = -1)
+        {
+            EntityTemplate template = new EntityTemplate(
+                "Template",
+                new Components.PlayerInfo()
+                {
+                    playerNumber = 0
+                },
+                new Components.ScreenPosition(),
+                new Components.TilePosition(),
+                new Components.Sprite()
+                {
+                    spriteTexture = "player",
+                    textureArea = new Rectangle(0, 0, 16, 16)
+                },
+                new Components.Collision()
+                {
+                    collisionType = CollisionType.Player
                 }
             );
 

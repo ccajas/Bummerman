@@ -62,6 +62,7 @@ namespace Bummerman
 
             // load your game content here
             textureCollection.Add("blocks", Content.Load<Texture2D>("textures/blocks"));
+            textureCollection.Add("player", Content.Load<Texture2D>("textures/player"));
 
             // Create systems and entity templates
             entityManager.SetupSystems(textureCollection);

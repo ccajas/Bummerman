@@ -50,9 +50,8 @@ namespace Bummerman
                     // Update solid blocks
                     if (solidBlock != null)
                     {
-                        ScreenPosition screenPos = (ScreenPosition)solidBlock.GetComponent(ComponentType.ScreenPosition);
-                        screenPos.position = new Vector2(x, y) * 16f;
-                        screenPos.layer = 1;
+                        TilePosition tilePos = (TilePosition)solidBlock.GetComponent(ComponentType.TilePosition);
+                        tilePos.position = new Point(x, y);
                     }
                     else
                     {
@@ -64,9 +63,8 @@ namespace Bummerman
                             {
                                 EntityTemplate softBlock = entityManager.CreateEntity("SoftBlock");
 
-                                ScreenPosition screenPos = (ScreenPosition)softBlock.GetComponent(ComponentType.ScreenPosition);
-                                screenPos.position = new Vector2(x, y) * 16f;
-                                screenPos.layer = 1;
+                                TilePosition tilePos = (TilePosition)softBlock.GetComponent(ComponentType.TilePosition);
+                                tilePos.position = new Point(x, y);
                             }
                         }
                     }
@@ -81,7 +79,9 @@ namespace Bummerman
         /// </summary>
         private void LoadPlayers(EntityManager entityManager)
         {
-
+            EntityTemplate player1 = entityManager.CreateEntity("Player");
+            TilePosition tilePos = (TilePosition)player1.GetComponent(ComponentType.TilePosition);
+            tilePos.position = new Point(1, 1);
         }
     }
 }

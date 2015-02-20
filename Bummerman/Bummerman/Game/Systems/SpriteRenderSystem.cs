@@ -7,6 +7,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Bummerman
 {
+    /// <summary>
+    /// Renders all entities with a Sprite component.
+    /// </summary>
     class SpriteRenderSystem : EntitySystem
     {
         Dictionary<string, Texture2D> textureCollection;
@@ -15,8 +18,11 @@ namespace Bummerman
         Components.Sprite[] sprites;
         Components.ScreenPosition[] screenPos;
 
+        /// <summary>
+        /// Constructor to add components
+        /// </summary>
         public SpriteRenderSystem(Dictionary<string, Texture2D> textureCollection,
-            Components.Sprite[] spriteComponents, 
+            Components.Sprite[] spriteComponents,
             Components.ScreenPosition[] screenPos)
         {
             // Initialize component lists
@@ -27,7 +33,7 @@ namespace Bummerman
 
         public override void Process(TimeSpan frameStepTime, int totalEntities)
         {
-            this.totalEntities = totalEntities;
+            base.Process(frameStepTime, totalEntities);
         }
 
         public override void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)

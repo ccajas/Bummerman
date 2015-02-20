@@ -54,6 +54,8 @@ namespace Bummerman
         {
             entitySystems.Add(new SpriteRenderSystem(textureCollection,
                 spriteComponents, screenPositionComponents));
+            entitySystems.Add(new TileSystem(tilePositionComponents, 
+                screenPositionComponents));
         }
 
         /// <summary>
@@ -70,6 +72,11 @@ namespace Bummerman
             entityTemplates.Add(
                 "SoftBlock",
                 EntityPrefabs.CreateSoftBlock()
+            );
+
+            entityTemplates.Add(
+                "Player",
+                EntityPrefabs.CreatePlayer()
             );
         }
 
@@ -92,8 +99,7 @@ namespace Bummerman
                 // Call method to create new template
                 newTemplate = (EntityTemplate)theMethod.Invoke(null, new object[] { nextEntity });
 
-                // Do a brute force test for type checking to insert in proper list
-                // (could be improved)
+                // Check every list for proper insertion (could be improved)
                 foreach (Component component in newTemplate.componentList)
                 {                 
                     if (component is Components.Collision)

@@ -7,5 +7,6 @@ namespace Bummerman.Components
 {
     class PlayerInfo : Component
     {
+        public override ComponentType type { get { return ComponentType.PlayerInfo; } }
     }
 }

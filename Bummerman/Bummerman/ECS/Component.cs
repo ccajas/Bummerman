@@ -5,6 +5,17 @@ using System.Text;
 
 namespace Bummerman
 {
+    enum ComponentType
+    {
+        Collision = 1,
+        InputContext,
+        PlayerInfo,
+        PowerUp,
+        ScreenPosition,
+        Sprite,
+        TilePosition
+    }
+
     abstract class Component
     {
         // ID that ties components to an Entity
@@ -12,6 +23,9 @@ namespace Bummerman
 
         // Life of component
         protected bool live = true;
+
+        // Component type ID
+        public abstract ComponentType type { get; }
 
         /// <summary>
         /// Set the entity ID

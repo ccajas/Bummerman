@@ -7,5 +7,6 @@ namespace Bummerman.Components
 {
     class PowerUp : Component
     {
+        public override ComponentType type { get { return ComponentType.PowerUp; } }
     }
 }

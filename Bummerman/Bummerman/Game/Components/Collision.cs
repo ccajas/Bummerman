@@ -20,6 +20,8 @@ namespace Bummerman.Components
 {
     class Collision : Component
     {
+        public override ComponentType type { get { return ComponentType.Collision; } }
+
         public CollisionType collisionType = CollisionType.PassThrough;
         public Rectangle collisionBox = new Rectangle();
     }

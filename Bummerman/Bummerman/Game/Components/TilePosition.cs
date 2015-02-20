@@ -8,6 +8,8 @@ namespace Bummerman.Components
 {
     class TilePosition : Component
     {
+        public override ComponentType type { get { return ComponentType.TilePosition; } }
+
         public Point position = Point.Zero;
     }
 }

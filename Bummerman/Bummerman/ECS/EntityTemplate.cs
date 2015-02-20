@@ -8,6 +8,7 @@ namespace Bummerman
     class EntityTemplate
     {
         public List<Component> componentList { get; private set; }
+        public int componentMask { get; private set; }
         string name;
 
         /// <summary>
@@ -19,7 +20,28 @@ namespace Bummerman
             name = templateName;
 
             foreach (Component component in components)
+            {
                 componentList.Add(component);
+                componentMask |= Convert.ToInt32(component.type);
+            }    
+        }
+
+        /// <summary>
+        /// Get component based on type
+        /// </summary>
+        public Component GetComponent(ComponentType type)
+        {
+            int componentType = Convert.ToInt32(type);
+
+            if ((componentMask & componentType) == componentType)
+            {
+                foreach (Component component in componentList)
+                {
+                    if (component.type == type)
+                        return component;
+                }
+            }
+            return null;
         }
     }
 }

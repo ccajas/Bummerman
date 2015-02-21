@@ -23,11 +23,9 @@ namespace Bummerman
         /// <summary>
         /// Constructor to add component references
         /// </summary>
-        public InputSystem(Components.InputContext[] inputComponents)
+        public InputSystem(ComponentCollection collection) : base(collection)
         {
-            // Initialize component lists
-            this.inputComponents = inputComponents;
-
+            // Initialize worker lists
             actionsWorker = new List<InputActions>();
             statesWorker = new List<InputStates>();
         }

@@ -8,7 +8,13 @@ namespace Bummerman
 {
     abstract class EntitySystem
     {
+        protected ComponentCollection components;
         protected int totalEntities = 0;
+
+        public EntitySystem(ComponentCollection components)
+        {
+            this.components = components;
+        }
 
         public virtual void Process(TimeSpan frameStepTime, int totalEntities)
         {

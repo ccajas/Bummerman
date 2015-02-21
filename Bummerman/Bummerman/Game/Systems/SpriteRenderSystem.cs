@@ -12,23 +12,16 @@ namespace Bummerman
     /// </summary>
     class SpriteRenderSystem : EntitySystem
     {
-        Dictionary<string, Texture2D> textureCollection;
-
-        // Local components
-        Components.Sprite[] sprites;
-        Components.ScreenPosition[] screenPos;
+        Dictionary<string, Texture2D> textureList;
 
         /// <summary>
         /// Constructor to add component references
         /// </summary>
-        public SpriteRenderSystem(Dictionary<string, Texture2D> textureCollection,
-            Components.Sprite[] spriteComponents,
-            Components.ScreenPosition[] screenPos)
+        public SpriteRenderSystem(Dictionary<string, Texture2D> textureList,
+            ComponentCollection collection) : base(collection)
         {
             // Initialize component lists
-            this.textureCollection = textureCollection;
-            this.sprites = spriteComponents;
-            this.screenPos = screenPos;
+            this.textureList = textureList;
         }
 
         /// <summary>
@@ -44,6 +37,9 @@ namespace Bummerman
         /// </summary>
         public override void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
+            Components.Sprite[] sprites = components.sprite;
+            Components.ScreenPosition[] screenPos = components.screenPosition;
+
             spriteBatch.Begin();
 
             for (int i = 0; i < totalEntities; i++)
@@ -52,7 +48,7 @@ namespace Bummerman
                 if (sprites[i] != null)
                 {
                     // Draw the sprite
-                    spriteBatch.Draw(textureCollection[sprites[i].spriteTexture],
+                    spriteBatch.Draw(textureList[sprites[i].spriteTexture],
                         screenPos[i].position, sprites[i].textureArea, Color.White);
                 }
             }

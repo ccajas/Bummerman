@@ -22,7 +22,7 @@ namespace Bummerman
         protected int entityID = -1;
 
         // Life of component
-        protected bool live = true;
+        public bool live = true;
 
         // Component type ID
         public abstract ComponentType type { get; }

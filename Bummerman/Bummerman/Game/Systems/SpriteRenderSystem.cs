@@ -19,7 +19,7 @@ namespace Bummerman
         Components.ScreenPosition[] screenPos;
 
         /// <summary>
-        /// Constructor to add components
+        /// Constructor to add component references
         /// </summary>
         public SpriteRenderSystem(Dictionary<string, Texture2D> textureCollection,
             Components.Sprite[] spriteComponents,
@@ -31,11 +31,17 @@ namespace Bummerman
             this.screenPos = screenPos;
         }
 
+        /// <summary>
+        /// Process entities
+        /// </summary>
         public override void Process(TimeSpan frameStepTime, int totalEntities)
         {
             base.Process(frameStepTime, totalEntities);
         }
 
+        /// <summary>
+        /// Draw entities with Sprite components
+        /// </summary>
         public override void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();

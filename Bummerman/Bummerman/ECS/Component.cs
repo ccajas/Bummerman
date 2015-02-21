@@ -9,6 +9,7 @@ namespace Bummerman
     {
         Collision = 1,
         InputContext,
+        Message,
         PlayerInfo,
         PowerUp,
         ScreenPosition,

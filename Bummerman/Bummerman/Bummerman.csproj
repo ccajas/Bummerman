@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="ECS\Component.cs" />
     <Compile Include="ECS\EntityManager.cs" />
+    <Compile Include="Game\Components\Message.cs" />
     <Compile Include="Game\EntityPrefabs.cs" />
     <Compile Include="ECS\EntitySystem.cs" />
     <Compile Include="ECS\EntityTemplate.cs" />
@@ -122,7 +123,9 @@
     <Compile Include="Game\Input\InputActions.cs" />
     <Compile Include="Game\Input\InputStates.cs" />
     <Compile Include="Game\Level.cs" />
+    <Compile Include="Game\Systems\CollisionSystem.cs" />
     <Compile Include="Game\Systems\InputSystem.cs" />
+    <Compile Include="Game\Systems\MovementSystem.cs" />
     <Compile Include="Game\Systems\TileSystem.cs" />
     <Compile Include="Game\Systems\SpriteRenderSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

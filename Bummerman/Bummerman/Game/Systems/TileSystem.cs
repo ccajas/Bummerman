@@ -28,10 +28,20 @@ namespace Bummerman
 
             for (int i = 0; i < totalEntities; i++)
             {
-                if (components.tilePosition[i] != null)
+                if (tilePos[i] != null)
                 {
-                    screenPos[i].position.X = tilePos[i].position.X * levelTileSize;
-                    screenPos[i].position.Y = tilePos[i].position.Y * levelTileSize;
+                    if (components.playerInfo[i] == null)
+                    {
+                        // Snap tiles to screen position
+                        screenPos[i].position.X = tilePos[i].position.X * levelTileSize;
+                        screenPos[i].position.Y = tilePos[i].position.Y * levelTileSize;
+                    }
+                    else
+                    {
+                        // Player entities can move freely, but still need the closest tile location
+                        tilePos[i].position.X = (int)Math.Round(screenPos[i].position.X / (float)levelTileSize);
+                        tilePos[i].position.Y = (int)Math.Round(screenPos[i].position.Y / (float)levelTileSize);
+                    }
                 }
             }
 

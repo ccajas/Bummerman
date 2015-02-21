@@ -18,6 +18,7 @@ namespace Bummerman
         public Components.PlayerInfo[] playerInfo;
         public Components.PowerUp[] powerUp;
         public Components.InputContext[] inputContext;
+        public Components.Message[] message;
     }
 
     class EntityManager
@@ -43,6 +44,8 @@ namespace Bummerman
             entityTemplates = new Dictionary<string, EntityTemplate>();
             entitySystems = new List<EntitySystem>();
 
+            components = new ComponentCollection();
+
             // Setup component lists
             components.screenPosition = new Components.ScreenPosition[maxEntities];
             components.tilePosition = new Components.TilePosition[maxEntities];
@@ -51,6 +54,7 @@ namespace Bummerman
             components.playerInfo = new Components.PlayerInfo[maxEntities];
             components.powerUp = new Components.PowerUp[maxEntities];
             components.inputContext = new Components.InputContext[maxEntities];
+            components.message = new Components.Message[maxEntities];
         }
 
         /// <summary>
@@ -59,8 +63,12 @@ namespace Bummerman
         public void SetupSystems(Dictionary<string, Texture2D> textureCollection)
         {
             entitySystems.Add(new SpriteRenderSystem(textureCollection, components));
-            entitySystems.Add(new TileSystem(components));
             entitySystems.Add(new InputSystem(components));
+            entitySystems.Add(new TileSystem(components));
+            entitySystems.Add(new MovementSystem(components));
+
+            // Create a special message listener entity
+            components.message[nextEntity++] = new Components.Message();
         }
 
         /// <summary>
@@ -112,6 +120,9 @@ namespace Bummerman
 
                     if (component is Components.InputContext)
                         components.inputContext[nextEntity] = (component as Components.InputContext);
+
+                    if (component is Components.Message)
+                        components.message[nextEntity] = (component as Components.Message);
 
                     if (component is Components.PlayerInfo)
                         components.playerInfo[nextEntity] = (component as Components.PlayerInfo);

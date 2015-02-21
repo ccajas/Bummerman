@@ -80,8 +80,8 @@ namespace Bummerman
         private void LoadPlayers(EntityManager entityManager)
         {
             EntityTemplate player1 = entityManager.CreateEntity("Player");
-            TilePosition tilePos = (TilePosition)player1.GetComponent(ComponentType.TilePosition);
-            tilePos.position = new Point(1, 1);
+            ScreenPosition screenPos = (ScreenPosition)player1.GetComponent(ComponentType.ScreenPosition);
+            screenPos.position = new Vector2(16, 16);
         }
     }
 }

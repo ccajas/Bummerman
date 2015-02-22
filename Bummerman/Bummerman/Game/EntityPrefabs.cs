@@ -67,7 +67,8 @@ namespace Bummerman
                 "Template",
                 new Components.PlayerInfo()
                 {
-                    playerNumber = 0
+                    playerNumber = 0,
+                    speed = 75
                 },
                 new Components.InputContext(
                     new KeyValuePair<Keys, InputActions>[]
@@ -93,12 +94,38 @@ namespace Bummerman
                 new Components.Collision()
                 {
                     collisionType = CollisionType.Player,
+                    bounds = new Rectangle(0, 0, 14, 14),
+                    offset = new Point(1, 1)
+                }
+            );
+
+            return SetComponentEntityIDs(template, entityID);
+        }
+
+        /// <summary>
+        /// Bomb prefab
+        /// </summary>
+        public static EntityTemplate CreateBomb(int entityID = -1)
+        {
+            EntityTemplate template = new EntityTemplate(
+                "Template",
+                new Components.ScreenPosition(),
+                new Components.TilePosition(),
+                new Components.Sprite()
+                {
+                    spriteTexture = "blocks",
+                    textureArea = new Rectangle(0, 16, 16, 16)
+                },
+                new Components.Collision()
+                {
+                    collisionType = CollisionType.SolidBlock,
                     bounds = new Rectangle(0, 0, 16, 16)
                 }
             );
 
             return SetComponentEntityIDs(template, entityID);
         }
+
 
         /// <summary>
         /// Set the entity ID for each component here

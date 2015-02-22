@@ -20,7 +20,7 @@ namespace Bummerman
     abstract class Component
     {
         // ID that ties components to an Entity
-        protected int entityID = -1;
+        public int entityID { get; private set; }
 
         // Life of component
         public bool live = true;

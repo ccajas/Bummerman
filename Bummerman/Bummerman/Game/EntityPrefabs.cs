@@ -27,7 +27,7 @@ namespace Bummerman
                 new Components.Collision()
                 {
                     collisionType = CollisionType.SolidBlock,
-                    collisionBox = new Rectangle(0, 0, 16, 16)
+                    bounds = new Rectangle(0, 0, 16, 16)
                 }
             );
 
@@ -51,7 +51,7 @@ namespace Bummerman
                 new Components.Collision()
                 {
                     collisionType = CollisionType.SolidBlock,
-                    collisionBox = new Rectangle(0, 0, 16, 16)
+                    bounds = new Rectangle(0, 0, 16, 16)
                 }
             );
 
@@ -93,7 +93,7 @@ namespace Bummerman
                 new Components.Collision()
                 {
                     collisionType = CollisionType.Player,
-                    collisionBox = new Rectangle(0, 0, 16, 16)
+                    bounds = new Rectangle(0, 0, 16, 16)
                 }
             );
 

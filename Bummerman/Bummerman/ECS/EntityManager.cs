@@ -66,6 +66,7 @@ namespace Bummerman
             entitySystems.Add(new InputSystem(components));
             entitySystems.Add(new TileSystem(components));
             entitySystems.Add(new MovementSystem(components));
+            entitySystems.Add(new CollisionSystem(components));
 
             // Create a special message listener entity
             components.message[nextEntity++] = new Components.Message();

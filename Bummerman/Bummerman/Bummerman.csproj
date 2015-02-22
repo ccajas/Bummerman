@@ -123,11 +123,13 @@
     <Compile Include="Game\Input\InputActions.cs" />
     <Compile Include="Game\Input\InputStates.cs" />
     <Compile Include="Game\Level.cs" />
+    <Compile Include="Game\Systems\BombSystem.cs" />
     <Compile Include="Game\Systems\CollisionSystem.cs" />
     <Compile Include="Game\Systems\InputSystem.cs" />
     <Compile Include="Game\Systems\MovementSystem.cs" />
     <Compile Include="Game\Systems\TileSystem.cs" />
     <Compile Include="Game\Systems\SpriteRenderSystem.cs" />
+    <Compile Include="Helpers\RectangleExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />

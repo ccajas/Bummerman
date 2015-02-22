@@ -55,9 +55,13 @@ namespace Bummerman
             foreach (Components.Collision playerCollider in playerColliders)
             {
                 Rectangle playerBounds = playerCollider.bounds;
+                playerBounds.X += playerCollider.offset.X;
+                playerBounds.Y += playerCollider.offset.Y;
+
                 foreach (Components.Collision blockCollider in blockColliders)
                 {
                     Rectangle blockBounds = blockCollider.bounds;
+
                     if (playerBounds.Intersects(blockBounds))
                     {
                         Vector2 depth = RectangleExtensions.GetIntersectionDepth(playerBounds, blockBounds);
@@ -82,11 +86,14 @@ namespace Bummerman
                                 newPosition.X += depth.X;
                             }
 
+                            // Round to whole numbers
+                            newPosition.X = (float)Math.Round(newPosition.X);
+                            newPosition.Y = (float)Math.Round(newPosition.Y);
                             components.screenPosition[playerCollider.entityID].position = newPosition;
 
                             // Perform further collisions with the new bounds.
-                            playerBounds.X = (int)Math.Round(newPosition.X);
-                            playerBounds.Y = (int)Math.Round(newPosition.Y);
+                            playerBounds.X = playerCollider.offset.X + (int)newPosition.X;
+                            playerBounds.Y = playerCollider.offset.Y + (int)newPosition.Y;
                         }
                     }                 
                 }

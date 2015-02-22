@@ -24,5 +24,6 @@ namespace Bummerman.Components
 
         public CollisionType collisionType = CollisionType.PassThrough;
         public Rectangle bounds = new Rectangle();
+        public Point offset = Point.Zero;
     }
 }

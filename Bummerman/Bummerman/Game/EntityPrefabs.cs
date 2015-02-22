@@ -113,7 +113,8 @@ namespace Bummerman
         {
             EntityTemplate template = new EntityTemplate(
                 "Template",
-                new Components.Bomb()            { live = false },
+                new Components.Bomb()               { live = false },
+                new Components.TimedEffect()        { elapsed = 5f },
                 new Components.ScreenPosition(),
                 new Components.TilePosition(),
                 new Components.Sprite()

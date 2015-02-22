@@ -19,6 +19,7 @@ namespace Bummerman
         public Components.Bomb[] bomb;
         public Components.PowerUp[] powerUp;
         public Components.InputContext[] inputContext;
+        public Components.TimedEffect[] timedEffect;
     }
 
     class EntityManager
@@ -50,11 +51,12 @@ namespace Bummerman
             components.screenPosition = new Components.ScreenPosition[maxEntities];
             components.tilePosition = new Components.TilePosition[maxEntities];
             components.sprite = new Components.Sprite[maxEntities];
+            components.inputContext = new Components.InputContext[maxEntities];
             components.collision = new Components.Collision[maxEntities];
             components.playerInfo = new Components.PlayerInfo[maxEntities];
             components.bomb = new Components.Bomb[maxEntities];
             components.powerUp = new Components.PowerUp[maxEntities];
-            components.inputContext = new Components.InputContext[maxEntities];
+            components.timedEffect = new Components.TimedEffect[maxEntities];
         }
 
         /// <summary>
@@ -134,6 +136,9 @@ namespace Bummerman
 
                     if (component is Components.TilePosition)
                         components.tilePosition[nextEntity] = (component as Components.TilePosition);
+
+                    if (component is Components.TimedEffect)
+                        components.timedEffect[nextEntity] = (component as Components.TimedEffect);
                 }
             }
 

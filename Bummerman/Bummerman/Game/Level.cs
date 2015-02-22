@@ -9,7 +9,7 @@ namespace Bummerman
 {
     class Level
     {
-        int maxPlayerBombs = 9;
+        int maxPlayerBombs = 2;
         int gridLength = 15;
         int gridHeight = 13;
 

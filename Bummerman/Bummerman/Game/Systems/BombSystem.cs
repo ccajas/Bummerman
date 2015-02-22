@@ -23,11 +23,11 @@ namespace Bummerman
         {
             Message message = GetMessage(MessageType.Player1Action);
 
-            // Handle bomb setting first
-            if (message.messageID == Convert.ToInt16(InputActions.setBomb))
+            int playerEntityID = -1;
+            for (int i = 0; i < totalEntities; i++)
             {
-                int playerEntityID = -1;
-                for (int i = 0; i < totalEntities; i++)
+                // Handle bomb setting first
+                if (message.messageID == Convert.ToInt16(InputActions.setBomb))
                 {
                     // Find entity ID of player
                     Components.PlayerInfo info = components.playerInfo[i];
@@ -45,11 +45,25 @@ namespace Bummerman
                         components.tilePosition[i].position = components.tilePosition[playerEntityID].position;
                         bombLocations.Add(components.tilePosition[i].position);
 
-                        break;
+                        // Bomb placed, we can reset this message now
+                        message.messageID = 0;
                     }
                 }
 
-                message.messageID = 0;
+                // Check if any live bombs have expired
+                if (components.bomb[i] != null && components.bomb[i].live)
+                {
+                    Components.TimedEffect bombTimer = components.timedEffect[i];
+                    bombTimer.elapsed -= (float)frameStepTime.TotalSeconds;
+
+                    // If timer expired, remove this bomb
+                    if (bombTimer.elapsed <= 0f)
+                    {
+                        bombTimer.elapsed = 0f;
+                        components.bomb[i].live = false;
+                        components.sprite[i].live = false;
+                    }
+                }
             }
 
             base.Process(frameStepTime, totalEntities);

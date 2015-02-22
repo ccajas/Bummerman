@@ -15,7 +15,8 @@ namespace Bummerman
         PowerUp,
         ScreenPosition,
         Sprite,
-        TilePosition
+        TilePosition,
+        TimedEffect
     }
 
     abstract class Component

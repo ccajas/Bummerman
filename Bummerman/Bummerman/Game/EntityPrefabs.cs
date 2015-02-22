@@ -74,6 +74,7 @@ namespace Bummerman
                     new KeyValuePair<Keys, InputActions>[]
                     {
                         new KeyValuePair<Keys, InputActions>(Keys.Space, InputActions.setBomb),
+                        new KeyValuePair<Keys, InputActions>(Keys.A, InputActions.setBomb),
                         new KeyValuePair<Keys, InputActions>(Keys.Enter, InputActions.remoteTrigger),
                     },
                     new KeyValuePair<Keys, InputStates>[]
@@ -84,7 +85,10 @@ namespace Bummerman
                         new KeyValuePair<Keys, InputStates>(Keys.Left, InputStates.MoveLeft),
                     }
                 ),
-                new Components.ScreenPosition(),
+                new Components.ScreenPosition()
+                {
+                    layer = 1
+                },
                 new Components.TilePosition(),
                 new Components.Sprite()
                 {
@@ -109,11 +113,12 @@ namespace Bummerman
         {
             EntityTemplate template = new EntityTemplate(
                 "Template",
-                new Components.Bomb(),
+                new Components.Bomb()            { live = false },
                 new Components.ScreenPosition(),
                 new Components.TilePosition(),
                 new Components.Sprite()
                 {
+                    live = false,
                     spriteTexture = "blocks",
                     textureArea = new Rectangle(0, 16, 16, 16)
                 },

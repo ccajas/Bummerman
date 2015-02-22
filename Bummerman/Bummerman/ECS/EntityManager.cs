@@ -64,8 +64,8 @@ namespace Bummerman
         {
             entitySystems.Add(new SpriteRenderSystem(textureCollection, components));
             entitySystems.Add(new InputSystem(components));
-            entitySystems.Add(new TileSystem(components));
             entitySystems.Add(new BombSystem(components));
+            entitySystems.Add(new TileSystem(components));
             entitySystems.Add(new MovementSystem(components));
             entitySystems.Add(new CollisionSystem(components));
         }

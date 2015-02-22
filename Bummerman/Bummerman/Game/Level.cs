@@ -9,6 +9,10 @@ namespace Bummerman
 {
     class Level
     {
+        int maxPlayerBombs = 9;
+        int gridLength = 15;
+        int gridHeight = 13;
+
         /// <summary>
         /// Load all level entities
         /// </summary>
@@ -24,9 +28,6 @@ namespace Bummerman
         private void LoadTiles(EntityManager entityManager)
         {
             // Create a Bomberman-style stage
-            int gridLength = 15;
-            int gridHeight = 13;
-
             Random rnd = new Random(123);
 
             for (int y = 0; y < gridHeight; y++)
@@ -83,7 +84,17 @@ namespace Bummerman
         {
             EntityTemplate player1 = entityManager.CreateEntity("Player");
             ScreenPosition screenPos = (ScreenPosition)player1.GetComponent(ComponentType.ScreenPosition);
+            PlayerInfo player1Info = (PlayerInfo)player1.GetComponent(ComponentType.PlayerInfo);
             screenPos.position = new Vector2(16, 16);
+
+            // Pre-load bomb entities for each player (maximum carrying capacity)
+            for (int i = 0; i < maxPlayerBombs; i++)
+            {
+                EntityTemplate playerBomb = entityManager.CreateEntity("Bomb");
+                Bomb bomb = (Bomb)playerBomb.GetComponent(ComponentType.Bomb);
+                bomb.ownerID = player1Info.playerNumber;
+            }
+            // Finish loading players
         }
     }
 }

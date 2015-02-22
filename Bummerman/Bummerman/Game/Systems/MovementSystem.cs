@@ -15,10 +15,10 @@ namespace Bummerman
             Components.ScreenPosition[] screenPos = components.screenPosition;
             Components.PlayerInfo[] playerInfo = components.playerInfo;
 
-            int messageID = components.message[0].messageID;
+            Message message = GetMessage(MessageType.Player1State);
 
             // Perform actions if message ID isn't 0
-            if (messageID >= 0)
+            if (message.messageID >= 0)
             {
                 for (int i = 0; i < totalEntities; i++)
                 {
@@ -27,21 +27,21 @@ namespace Bummerman
                         float speed = playerInfo[i].speed;
 
                         // Move the position based on input
-                        if (messageID == Convert.ToInt16(InputStates.MoveLeft))
+                        if (message.ValueFound<InputStates>(InputStates.MoveLeft))
                             screenPos[i].position.X -= speed *(float)frameStepTime.TotalSeconds;
 
-                        if (messageID == Convert.ToInt16(InputStates.MoveRight))
+                        if (message.ValueFound<InputStates>(InputStates.MoveRight))
                             screenPos[i].position.X += speed * (float)frameStepTime.TotalSeconds;
 
-                        if (messageID == Convert.ToInt16(InputStates.MoveUp))
+                        if (message.ValueFound<InputStates>(InputStates.MoveUp))
                             screenPos[i].position.Y -= speed * (float)frameStepTime.TotalSeconds;
 
-                        if (messageID == Convert.ToInt16(InputStates.MoveDown))
+                        if (message.ValueFound<InputStates>(InputStates.MoveDown))
                             screenPos[i].position.Y += speed * (float)frameStepTime.TotalSeconds;
                     }
                 }
                 // Reset message ID
-                components.message[0].messageID = -1;
+                GetMessage(MessageType.Player1State).messageID = 0;
             }
 
             base.Process(frameStepTime, totalEntities);

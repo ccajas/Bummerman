@@ -3,13 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Bummerman.Components
+namespace Bummerman
 {
-    class Message : Component
+    enum MessageType
     {
-        public override ComponentType type { get { return ComponentType.Message; } }
+        Player1State = 0,
+        Player1Action
+    }
 
-        public int messageID = -1;
-        public int data = 0;
+    class Message
+    {
+        public uint messageID = 0;
+        public uint data = 0;
+
+        /// <summary>
+        /// Compare Message ID as a bitmask with a generic value
+        /// </summary>
+        public bool ValueFound<T>(T value)
+        {
+            int compareBit = (1 << Convert.ToInt32(value));
+
+            if ((messageID & compareBit) == compareBit)
+                return true;
+
+            return false;
+        }
     }
 }

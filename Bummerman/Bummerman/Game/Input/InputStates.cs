@@ -7,7 +7,7 @@ namespace Bummerman
 {
     enum InputStates
     {
-        MoveUp = 0,
+        MoveUp = 1,
         MoveDown,
         MoveRight,
         MoveLeft

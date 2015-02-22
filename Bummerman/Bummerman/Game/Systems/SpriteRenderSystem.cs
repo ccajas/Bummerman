@@ -45,7 +45,7 @@ namespace Bummerman
             for (int i = 0; i < totalEntities; i++)
             {
                 // Check valid Sprite components
-                if (sprites[i] != null)
+                if (sprites[i] != null && sprites[i].live == true)
                 {
                     // Draw the sprite
                     spriteBatch.Draw(textureList[sprites[i].spriteTexture],

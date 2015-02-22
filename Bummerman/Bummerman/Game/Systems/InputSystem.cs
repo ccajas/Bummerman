@@ -64,11 +64,15 @@ namespace Bummerman
 
             // For now, only the last input state can be stored
             foreach (InputStates state in statesWorker)
-                components.message[0].messageID = Convert.ToInt16(state);
+            {
+                GetMessage(MessageType.Player1State).messageID |= (uint)1 << Convert.ToInt16(state);
+            }
 
             // Store the last input action
             foreach (InputStates action in actionsWorker)
-                components.message[0].messageID = Convert.ToInt16(action);
+            {
+                GetMessage(MessageType.Player1Action).messageID = (uint)Convert.ToInt16(action);
+            }
 
             statesWorker.Clear();
             actionsWorker.Clear();

@@ -19,7 +19,6 @@ namespace Bummerman
         public Components.Bomb[] bomb;
         public Components.PowerUp[] powerUp;
         public Components.InputContext[] inputContext;
-        public Components.Message[] message;
     }
 
     class EntityManager
@@ -56,7 +55,6 @@ namespace Bummerman
             components.bomb = new Components.Bomb[maxEntities];
             components.powerUp = new Components.PowerUp[maxEntities];
             components.inputContext = new Components.InputContext[maxEntities];
-            components.message = new Components.Message[maxEntities];
         }
 
         /// <summary>
@@ -70,9 +68,6 @@ namespace Bummerman
             entitySystems.Add(new BombSystem(components));
             entitySystems.Add(new MovementSystem(components));
             entitySystems.Add(new CollisionSystem(components));
-
-            // Create a special message listener entity
-            components.message[nextEntity++] = new Components.Message();
         }
 
         /// <summary>
@@ -124,9 +119,6 @@ namespace Bummerman
 
                     if (component is Components.InputContext)
                         components.inputContext[nextEntity] = (component as Components.InputContext);
-
-                    if (component is Components.Message)
-                        components.message[nextEntity] = (component as Components.Message);
 
                     if (component is Components.PlayerInfo)
                         components.playerInfo[nextEntity] = (component as Components.PlayerInfo);

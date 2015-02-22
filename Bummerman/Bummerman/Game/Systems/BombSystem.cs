@@ -11,5 +11,15 @@ namespace Bummerman
         /// Constructor to add components
         /// </summary>
         public BombSystem(ComponentCollection components) : base(components) { }
+
+        public override void Process(TimeSpan frameStepTime, int totalEntities)
+        {
+            int messageID = components.message[0].messageID;
+
+            //if (messageID == InputActions.setBomb)
+
+
+            base.Process(frameStepTime, totalEntities);
+        }
     }
 }

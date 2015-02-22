@@ -109,6 +109,7 @@ namespace Bummerman
         {
             EntityTemplate template = new EntityTemplate(
                 "Template",
+                new Components.Bomb(),
                 new Components.ScreenPosition(),
                 new Components.TilePosition(),
                 new Components.Sprite()

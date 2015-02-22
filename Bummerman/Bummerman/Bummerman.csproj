@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="ECS\Component.cs" />
     <Compile Include="ECS\EntityManager.cs" />
+    <Compile Include="Game\Components\Bomb.cs" />
     <Compile Include="Game\Components\Message.cs" />
     <Compile Include="Game\EntityPrefabs.cs" />
     <Compile Include="ECS\EntitySystem.cs" />

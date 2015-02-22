@@ -16,6 +16,7 @@ namespace Bummerman
         public Components.Sprite[] sprite;
         public Components.Collision[] collision;
         public Components.PlayerInfo[] playerInfo;
+        public Components.Bomb[] bomb;
         public Components.PowerUp[] powerUp;
         public Components.InputContext[] inputContext;
         public Components.Message[] message;
@@ -52,6 +53,7 @@ namespace Bummerman
             components.sprite = new Components.Sprite[maxEntities];
             components.collision = new Components.Collision[maxEntities];
             components.playerInfo = new Components.PlayerInfo[maxEntities];
+            components.bomb = new Components.Bomb[maxEntities];
             components.powerUp = new Components.PowerUp[maxEntities];
             components.inputContext = new Components.InputContext[maxEntities];
             components.message = new Components.Message[maxEntities];
@@ -65,6 +67,7 @@ namespace Bummerman
             entitySystems.Add(new SpriteRenderSystem(textureCollection, components));
             entitySystems.Add(new InputSystem(components));
             entitySystems.Add(new TileSystem(components));
+            entitySystems.Add(new BombSystem(components));
             entitySystems.Add(new MovementSystem(components));
             entitySystems.Add(new CollisionSystem(components));
 
@@ -78,20 +81,17 @@ namespace Bummerman
         public void CreateTemplates()
         {
             // Load templates
-            entityTemplates.Add(
-                "SolidBlock", 
-                EntityPrefabs.CreateSolidBlock()
-            );
+            entityTemplates.Add("Player",
+                EntityPrefabs.CreatePlayer());
 
-            entityTemplates.Add(
-                "SoftBlock",
-                EntityPrefabs.CreateSoftBlock()
-            );
+            entityTemplates.Add("Bomb",
+                EntityPrefabs.CreatePlayer());
 
-            entityTemplates.Add(
-                "Player",
-                EntityPrefabs.CreatePlayer()
-            );
+            entityTemplates.Add("SolidBlock",
+                EntityPrefabs.CreateSolidBlock());
+
+            entityTemplates.Add("SoftBlock",
+                EntityPrefabs.CreateSoftBlock());
         }
 
         /// <summary>
@@ -115,7 +115,10 @@ namespace Bummerman
 
                 // Check every list for proper insertion (could be improved)
                 foreach (Component component in newTemplate.componentList)
-                {                 
+                {
+                    if (component is Components.Bomb)
+                        components.bomb[nextEntity] = (component as Components.Bomb);
+
                     if (component is Components.Collision)
                         components.collision[nextEntity] = (component as Components.Collision);
 

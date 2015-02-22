@@ -40,10 +40,9 @@ namespace Bummerman
                             screenPos[i].position.Y += speed * (float)frameStepTime.TotalSeconds;
                     }
                 }
+                // Reset message ID
+                components.message[0].messageID = -1;
             }
-
-            // Reset message ID
-            components.message[0].messageID = -1;
 
             base.Process(frameStepTime, totalEntities);
         }

@@ -22,7 +22,7 @@ namespace Bummerman
             {
                 for (int i = 0; i < totalEntities; i++)
                 {
-                    if (playerInfo[i] != null)
+                    if (playerInfo[i] != null && playerInfo[i].playerNumber == 0)
                     {
                         float speed = playerInfo[i].speed;
 
@@ -41,7 +41,7 @@ namespace Bummerman
                     }
                 }
                 // Reset message ID
-                GetMessage(MessageType.Player1State).messageID = 0;
+                message.messageID = 0;
             }
 
             base.Process(frameStepTime, totalEntities);

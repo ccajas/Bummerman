@@ -56,10 +56,10 @@ namespace Bummerman
                     Components.TimedEffect bombTimer = components.timedEffect[i];
                     bombTimer.elapsed -= (float)frameStepTime.TotalSeconds;
 
-                    // If timer expired, remove this bomb
+                    // If timer expired, remove this bomb and reset timer
                     if (bombTimer.elapsed <= 0f)
                     {
-                        bombTimer.elapsed = 0f;
+                        bombTimer.elapsed = 5f;
                         components.bomb[i].live = false;
                         components.sprite[i].live = false;
                     }
@@ -78,10 +78,9 @@ namespace Bummerman
             if (components.bomb[entity].live || components.bomb[entity].ownerID != 0)
                 return false;
 
-            Point found = bombLocations.Find(item => 
-                item == components.tilePosition[playerEntityID].position);
+            Point playerPosition = components.tilePosition[playerEntityID].position;
 
-            if (found != Point.Zero)
+            if (bombLocations.Find(item => item == playerPosition) != Point.Zero)
                 return false;
 
             return true;

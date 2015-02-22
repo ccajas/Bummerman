@@ -7,7 +7,7 @@ namespace Bummerman
 {
     enum InputActions
     {
-        setBomb = 0,
+        setBomb = 1,
         remoteTrigger,
         restartGame
     }

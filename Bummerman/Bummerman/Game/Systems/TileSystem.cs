@@ -32,7 +32,7 @@ namespace Bummerman
                 {
                     if (components.playerInfo[i] == null)
                     {
-                        // Snap tiles to screen position
+                        // Snap screen position according to their tile location
                         screenPos[i].position.X = tilePos[i].position.X * levelTileSize;
                         screenPos[i].position.Y = tilePos[i].position.Y * levelTileSize;
                     }

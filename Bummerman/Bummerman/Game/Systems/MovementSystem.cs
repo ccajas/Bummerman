@@ -9,7 +9,10 @@ namespace Bummerman.Systems
     {
         public MovementSystem(ComponentCollection components) : base(components) { }
 
-        public override void Process(TimeSpan frameStepTime, int totalEntities)
+        /// <summary>
+        /// Handle player movement
+        /// </summary>
+        public override int Process(TimeSpan frameStepTime, int totalEntities)
         {
             // Setup component lists
             Components.ScreenPosition[] screenPos = components.screenPosition;
@@ -44,7 +47,7 @@ namespace Bummerman.Systems
                 message.messageID = 0;
             }
 
-            base.Process(frameStepTime, totalEntities);
+            return base.Process(frameStepTime, totalEntities);
         }
     }
 }

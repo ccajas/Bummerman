@@ -17,7 +17,7 @@ namespace Bummerman.Systems
         /// <summary>
         /// Dectect and resolve collision from various entity types
         /// </summary>
-        public override void Process(TimeSpan frameStepTime, int totalEntities)
+        public override int Process(TimeSpan frameStepTime, int totalEntities)
         {
             this.totalEntities = totalEntities;
 
@@ -100,7 +100,7 @@ namespace Bummerman.Systems
 
             playerColliders.Clear();
 
-            base.Process(frameStepTime, totalEntities);
+            return base.Process(frameStepTime, totalEntities);
         }
     }
 }

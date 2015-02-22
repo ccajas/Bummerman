@@ -25,9 +25,9 @@ namespace Bummerman.Systems
         /// <summary>
         /// Process entities
         /// </summary>
-        public override void Process(TimeSpan frameStepTime, int totalEntities)
+        public override int Process(TimeSpan frameStepTime, int totalEntities)
         {
-            base.Process(frameStepTime, totalEntities);
+            return base.Process(frameStepTime, totalEntities);
         }
 
         /// <summary>

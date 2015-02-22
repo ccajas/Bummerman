@@ -19,7 +19,7 @@ namespace Bummerman.Systems
         /// <summary>
         /// Align and update screen tiles
         /// </summary>
-        public override void Process(TimeSpan frameStepTime, int totalEntities)
+        public override int Process(TimeSpan frameStepTime, int totalEntities)
         {
             Components.ScreenPosition[] screenPos = components.screenPosition;
             Components.TilePosition[] tilePos = components.tilePosition;
@@ -43,7 +43,7 @@ namespace Bummerman.Systems
                 }
             }
 
-            base.Process(frameStepTime, totalEntities);
+            return base.Process(frameStepTime, totalEntities);
         }
     }
 }

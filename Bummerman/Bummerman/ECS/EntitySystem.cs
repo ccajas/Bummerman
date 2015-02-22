@@ -34,9 +34,10 @@ namespace Bummerman
             return EntitySystem.messages[Convert.ToInt16(type)];
         }
 
-        public virtual void Process(TimeSpan frameStepTime, int totalEntities)
+        public virtual int Process(TimeSpan frameStepTime, int totalEntities)
         {
             this.totalEntities = totalEntities;
+            return this.totalEntities;
         }
 
         public virtual void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch) { }

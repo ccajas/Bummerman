@@ -17,7 +17,7 @@ namespace Bummerman.Systems
         /// <summary>
         /// Update and add/remove bombs as needed
         /// </summary>
-        public override void Process(TimeSpan frameStepTime, int totalEntities)
+        public override int Process(TimeSpan frameStepTime, int totalEntities)
         {
             Message message = GetMessage(MessageType.InputAction1);
 
@@ -27,21 +27,27 @@ namespace Bummerman.Systems
                 // Find entity ID of player
                 Components.PlayerInfo info = components.playerInfo[i];
 
+                // Get bomb data
+                Components.Bomb bomb = components.bomb[i];
+                Components.Sprite sprite = components.sprite[i];
+                Components.TimedEffect bombTimer = components.timedEffect[i];
+                Components.TilePosition tile = components.tilePosition[i];
+
                 if (info != null && info.playerNumber == 0)
                     playerEntityID = i;
 
                 // Handle bomb setting
                 if (message.messageID == Convert.ToInt16(InputActions.setBomb))
                 {
-                    if (components.bomb[i] != null && canPlace(i, playerEntityID))
+                    if (bomb != null && canPlace(bomb, playerEntityID))
                     {
                         // Enable the bomb
-                        components.bomb[i].live = true;
-                        components.sprite[i].live = true;
+                        bomb.live = true;
+                        sprite.live = true;
 
                         // Set its position and add it to list of locations
-                        components.tilePosition[i].position = components.tilePosition[playerEntityID].position;
-                        bombLocations.Add(components.tilePosition[i].position);
+                        tile.position = components.tilePosition[playerEntityID].position;
+                        bombLocations.Add(tile.position);
                     }
                 }
 
@@ -49,38 +55,38 @@ namespace Bummerman.Systems
                 if (message.messageID == Convert.ToInt16(InputActions.remoteTrigger))
                 {
                     // Expire the bomb for this player
-                    if (components.bomb[i] != null && components.bomb[i].live)
-                        components.timedEffect[i].elapsed = 0f;
+                    if (bomb != null && bomb.live)
+                        bombTimer.elapsed = 0f;
                 }
 
                 // Check if any live bombs have expired
-                if (components.bomb[i] != null && components.bomb[i].live)
+                if (bomb != null && bomb.live)
                 {
-                    Components.TimedEffect bombTimer = components.timedEffect[i];
                     bombTimer.elapsed -= (float)frameStepTime.TotalSeconds;
 
                     // If timer expired, remove this bomb and reset timer
                     if (bombTimer.elapsed <= 0f)
                     {
                         bombTimer.elapsed = 5f;
-                        components.bomb[i].live = false;
-                        components.sprite[i].live = false;
+                        bomb.live = false;
+                        sprite.live = false;
 
                         // Place explosion
+                        //components
                     }
                 }
             }
 
-            base.Process(frameStepTime, totalEntities);
+            return base.Process(frameStepTime, totalEntities);
         }
 
         /// <summary>
         /// Check if player can place a bomb
         /// </summary>
         /// <returns></returns>
-        private bool canPlace(int entity, int playerEntityID)
+        private bool canPlace(Components.Bomb bomb, int playerEntityID)
         {
-            if (components.bomb[entity].live || components.bomb[entity].ownerID != 0)
+            if (bomb.live || bomb.ownerID != 0)
                 return false;
 
             Point playerPosition = components.tilePosition[playerEntityID].position;

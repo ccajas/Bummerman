@@ -81,17 +81,10 @@ namespace Bummerman
         public void CreateTemplates()
         {
             // Load templates
-            entityTemplates.Add("Player",
-                EntityPrefabs.CreatePlayer());
-
-            entityTemplates.Add("Bomb",
-                EntityPrefabs.CreatePlayer());
-
-            entityTemplates.Add("SolidBlock",
-                EntityPrefabs.CreateSolidBlock());
-
-            entityTemplates.Add("SoftBlock",
-                EntityPrefabs.CreateSoftBlock());
+            entityTemplates.Add("Player", EntityPrefabs.CreatePlayer());
+            entityTemplates.Add("Bomb", EntityPrefabs.CreatePlayer());
+            entityTemplates.Add("SolidBlock", EntityPrefabs.CreateSolidBlock());
+            entityTemplates.Add("SoftBlock", EntityPrefabs.CreateSoftBlock());
         }
 
         /// <summary>
@@ -157,7 +150,10 @@ namespace Bummerman
         public void ProcessComponents(TimeSpan frameStepTime)
         {
             foreach (EntitySystem system in entitySystems)
-                system.Process(frameStepTime, nextEntity);
+            {
+                // Amount of entities might have changed since this step
+                nextEntity = system.Process(frameStepTime, nextEntity);
+            }
         }
 
         /// <summary>

@@ -28,7 +28,7 @@ namespace Bummerman.Systems
         /// <summary>
         /// Process entities with Input components
         /// </summary>
-        public override void Process(TimeSpan frameStepTime, int totalEntities)
+        public override int Process(TimeSpan frameStepTime, int totalEntities)
         {
             this.totalEntities = totalEntities;
 
@@ -78,7 +78,7 @@ namespace Bummerman.Systems
             previousKeyboardState = currentKeyboardState;
             previousGamePadState = currentGamePadState;
 
-            base.Process(frameStepTime, totalEntities);
+            return base.Process(frameStepTime, totalEntities);
         }
     }
 }

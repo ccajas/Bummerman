@@ -7,8 +7,8 @@ namespace Bummerman
 {
     enum MessageType
     {
-        Player1State = 0,
-        Player1Action
+        InputState1 = 0,
+        InputAction1
     }
 
     class Message

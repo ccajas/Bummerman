@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace Bummerman
+namespace Bummerman.Systems
 {
     class InputSystem : EntitySystem
     {
@@ -38,6 +36,9 @@ namespace Bummerman
             currentKeyboardState = Keyboard.GetState();
             currentGamePadState = GamePad.GetState(PlayerIndex.One);
 
+            // First, reset player input action messages for each frame
+            GetMessage(MessageType.InputAction1).messageID = 0;
+
             Components.InputContext[] inputContext = components.inputContext;
 
             for (int i = 0; i < totalEntities; i++)
@@ -60,15 +61,15 @@ namespace Bummerman
                 }
             }
 
-            // Store input states and actions in a message
+            // Store input states and actions in messages
+            // Input states are cumulative. Actions are handled sequentially
 
-            // For now, only the last input state can be stored
             foreach (InputStates state in statesWorker)
-                GetMessage(MessageType.Player1State).messageID |= (uint)1 << Convert.ToInt16(state);
+                GetMessage(MessageType.InputState1).messageID |= (uint)1 << Convert.ToInt16(state);
 
             // Store the last input action
             foreach (InputStates action in actionsWorker)
-                GetMessage(MessageType.Player1Action).messageID = (uint)Convert.ToInt16(action);
+                GetMessage(MessageType.InputAction1).messageID = (uint)Convert.ToInt16(action);
 
             statesWorker.Clear();
             actionsWorker.Clear();

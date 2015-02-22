@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Bummerman
+namespace Bummerman.Systems
 {
     class MovementSystem : EntitySystem
     {
@@ -15,7 +15,7 @@ namespace Bummerman
             Components.ScreenPosition[] screenPos = components.screenPosition;
             Components.PlayerInfo[] playerInfo = components.playerInfo;
 
-            Message message = GetMessage(MessageType.Player1State);
+            Message message = GetMessage(MessageType.InputState1);
 
             // Perform actions if message ID isn't 0
             if (message.messageID >= 0)

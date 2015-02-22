@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace Bummerman
+namespace Bummerman.Systems
 {
     class CollisionSystem : EntitySystem
     {

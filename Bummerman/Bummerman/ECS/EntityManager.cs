@@ -64,12 +64,15 @@ namespace Bummerman
         /// </summary>
         public void SetupSystems(Dictionary<string, Texture2D> textureCollection)
         {
-            entitySystems.Add(new SpriteRenderSystem(textureCollection, components));
-            entitySystems.Add(new InputSystem(components));
-            entitySystems.Add(new BombSystem(components));
-            entitySystems.Add(new TileSystem(components));
-            entitySystems.Add(new MovementSystem(components));
-            entitySystems.Add(new CollisionSystem(components));
+            // The order in which systems are added makes a difference in 
+            // how components interact. The only exception are systems that mainly use Draw().
+
+            entitySystems.Add(new Systems.SpriteRenderSystem(textureCollection, components));
+            entitySystems.Add(new Systems.InputSystem(components));
+            entitySystems.Add(new Systems.BombSystem(components));
+            entitySystems.Add(new Systems.TileSystem(components));
+            entitySystems.Add(new Systems.MovementSystem(components));
+            entitySystems.Add(new Systems.CollisionSystem(components));
         }
 
         /// <summary>

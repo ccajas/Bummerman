@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace Bummerman
+namespace Bummerman.Systems
 {
     class BombSystem : EntitySystem
     {
@@ -21,20 +19,20 @@ namespace Bummerman
         /// </summary>
         public override void Process(TimeSpan frameStepTime, int totalEntities)
         {
-            Message message = GetMessage(MessageType.Player1Action);
+            Message message = GetMessage(MessageType.InputAction1);
 
             int playerEntityID = -1;
             for (int i = 0; i < totalEntities; i++)
             {
-                // Handle bomb setting first
+                // Find entity ID of player
+                Components.PlayerInfo info = components.playerInfo[i];
+
+                if (info != null && info.playerNumber == 0)
+                    playerEntityID = i;
+
+                // Handle bomb setting
                 if (message.messageID == Convert.ToInt16(InputActions.setBomb))
                 {
-                    // Find entity ID of player
-                    Components.PlayerInfo info = components.playerInfo[i];
-
-                    if (info != null && info.playerNumber == 0)
-                        playerEntityID = i;
-
                     if (components.bomb[i] != null && canPlace(i, playerEntityID))
                     {
                         // Enable the bomb
@@ -44,10 +42,15 @@ namespace Bummerman
                         // Set its position and add it to list of locations
                         components.tilePosition[i].position = components.tilePosition[playerEntityID].position;
                         bombLocations.Add(components.tilePosition[i].position);
-
-                        // Bomb placed, we can reset this message now
-                        message.messageID = 0;
                     }
+                }
+
+                // Handle remote trigger
+                if (message.messageID == Convert.ToInt16(InputActions.remoteTrigger))
+                {
+                    // Expire the bomb for this player
+                    if (components.bomb[i] != null && components.bomb[i].live)
+                        components.timedEffect[i].elapsed = 0f;
                 }
 
                 // Check if any live bombs have expired
@@ -62,6 +65,8 @@ namespace Bummerman
                         bombTimer.elapsed = 5f;
                         components.bomb[i].live = false;
                         components.sprite[i].live = false;
+
+                        // Place explosion
                     }
                 }
             }

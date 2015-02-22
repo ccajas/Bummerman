@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Bummerman
+namespace Bummerman.Systems
 {
     /// <summary>
     /// Keeps track of level objects with Tile components.

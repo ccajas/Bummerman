@@ -21,7 +21,7 @@ namespace Bummerman
         SpriteBatch spriteBatch;
 
         // ECS entity manager
-        EntityManager entityManager;
+        SystemManager entityManager;
 
         // Sprite texture collection
         Dictionary<string, Texture2D> textureCollection;
@@ -45,7 +45,7 @@ namespace Bummerman
         {
             // TODO: Add your initialization logic here
             textureCollection = new Dictionary<string, Texture2D>();
-            entityManager = new EntityManager();
+            entityManager = new SystemManager();
             level = new Level();
 
             base.Initialize();

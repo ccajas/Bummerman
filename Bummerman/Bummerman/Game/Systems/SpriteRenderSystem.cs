@@ -11,15 +11,27 @@ namespace Bummerman.Systems
     class SpriteRenderSystem : EntitySystem
     {
         Dictionary<string, Texture2D> textureList;
+        Components.Sprite[] sprites;
 
         /// <summary>
         /// Constructor to add component references
         /// </summary>
         public SpriteRenderSystem(Dictionary<string, Texture2D> textureList,
-            ComponentCollection collection) : base(collection)
+            ComponentCollection components) : base(components)
         {
             // Initialize component lists
             this.textureList = textureList;
+
+            // Load important components
+            sprites = components.components[ComponentType.Sprite] as Components.Sprite[];
+        }
+
+        /// <summary>
+        /// Get component based on type
+        /// </summary>
+        public Component[] GetAll(ComponentType type)
+        {
+            return components.components[type];
         }
 
         /// <summary>
@@ -35,7 +47,7 @@ namespace Bummerman.Systems
         /// </summary>
         public override void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
-            Components.Sprite[] sprites = components.sprite;
+            //Components.Sprite[] sprites = components.sprite;
             Components.ScreenPosition[] screenPos = components.screenPosition;
 
             spriteBatch.Begin();

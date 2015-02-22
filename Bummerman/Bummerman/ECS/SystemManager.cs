@@ -20,9 +20,11 @@ namespace Bummerman
         public Components.PowerUp[] powerUp;
         public Components.InputContext[] inputContext;
         public Components.TimedEffect[] timedEffect;
+
+        public Dictionary<ComponentType, Component[]> components;
     }
 
-    class EntityManager
+    class SystemManager
     {
         // ECS constants and vars
         int nextEntity = 0;
@@ -40,7 +42,7 @@ namespace Bummerman
         /// <summary>
         /// Setup lists and component groups
         /// </summary>
-        public EntityManager()
+        public SystemManager()
         {
             entityTemplates = new Dictionary<string, EntityTemplate>();
             entitySystems = new List<EntitySystem>();
@@ -57,6 +59,21 @@ namespace Bummerman
             components.bomb = new Components.Bomb[maxEntities];
             components.powerUp = new Components.PowerUp[maxEntities];
             components.timedEffect = new Components.TimedEffect[maxEntities];
+
+            // Add component dictionary and component arrays to it
+            components.components = new Dictionary<ComponentType, Component[]>();
+
+            components.components.Add(ComponentType.Sprite, new Components.Sprite[maxEntities]);
+
+            // Resize all component arrays
+
+            List<ComponentType> keys = new List<ComponentType>(components.components.Keys);
+            foreach (ComponentType key in keys)
+            {
+                Component[] array = components.components[key];
+                Array.Resize<Component>(ref array, maxEntities);
+                components.components[key] = array;
+            }
         }
 
         /// <summary>
@@ -91,7 +108,7 @@ namespace Bummerman
         /// Create an entity from a template
         /// </summary>
         /// <param name="templateName"></param>
-        public EntityTemplate CreateEntity(string templateName)
+        public EntityTemplate CreateEntityFromTemplate(string templateName)
         {
             EntityTemplate template = null;
             EntityTemplate newTemplate = null;
@@ -109,10 +126,13 @@ namespace Bummerman
                 // Check every list for proper insertion (could be improved)
                 foreach (Component component in newTemplate.componentList)
                 {
+                    if (component is Components.Sprite)
+                        components.components[ComponentType.Sprite][nextEntity] = (component as Components.Sprite);
+
                     if (component is Components.Bomb)
                         components.bomb[nextEntity] = (component as Components.Bomb);
 
-                    if (component is Components.Collision)
+                    if (component.type == ComponentType.Collision)
                         components.collision[nextEntity] = (component as Components.Collision);
 
                     if (component is Components.InputContext)
@@ -126,9 +146,6 @@ namespace Bummerman
 
                     if (component is Components.ScreenPosition)
                         components.screenPosition[nextEntity] = (component as Components.ScreenPosition);
-
-                    if (component is Components.Sprite)
-                        components.sprite[nextEntity] = (component as Components.Sprite);
 
                     if (component is Components.TilePosition)
                         components.tilePosition[nextEntity] = (component as Components.TilePosition);

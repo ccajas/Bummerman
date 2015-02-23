@@ -18,7 +18,7 @@ namespace Bummerman.Systems
         GamePadState currentGamePadState;
 
         /// Storage for received input
-        List<InputActions> actionsWorker;
+        Dictionary<InputActions, uint> actionsWorker;
         List<InputStates> statesWorker;
 
         /// Important components
@@ -31,7 +31,7 @@ namespace Bummerman.Systems
             : base(entityManager)
         {
             // Initialize worker lists
-            actionsWorker = new List<InputActions>();
+            actionsWorker = new Dictionary<InputActions, uint>();
             statesWorker = new List<InputStates>();
 
             // Load important components
@@ -61,7 +61,7 @@ namespace Bummerman.Systems
                     foreach (KeyValuePair<Keys, InputActions> pair in context.keyToActions)
                     {
                         if (!previousKeyboardState.IsKeyDown(pair.Key) && currentKeyboardState.IsKeyDown(pair.Key))
-                            actionsWorker.Add(pair.Value);
+                            actionsWorker.Add(pair.Value, (uint)i);
                     }
 
                     foreach (KeyValuePair<Keys, InputStates> pair in context.keyToStates)
@@ -79,8 +79,11 @@ namespace Bummerman.Systems
                 GetMessage(MessageType.InputState1).messageID |= (uint)1 << Convert.ToInt16(state);
 
             // Store the last input action
-            foreach (InputStates action in actionsWorker)
-                GetMessage(MessageType.InputAction1).messageID = (uint)Convert.ToInt16(action);
+            foreach (KeyValuePair<InputActions, uint> action in actionsWorker)
+            {
+                GetMessage(MessageType.InputAction1).messageID = (uint)Convert.ToInt16(action.Key);
+                GetMessage(MessageType.InputAction1).data = (uint)Convert.ToInt16(action.Value);
+            }
 
             statesWorker.Clear();
             actionsWorker.Clear();

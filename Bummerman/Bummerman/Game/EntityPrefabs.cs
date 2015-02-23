@@ -91,19 +91,20 @@ namespace Bummerman
                 ),
                 new Components.ScreenPosition()
                 {
+                    offset = new Point (1, 10),
                     layer = 1
                 },
                 new Components.TilePosition(),
                 new Components.Sprite()
                 {
-                    spriteTexture = "player",
-                    textureArea = new Rectangle(0, 0, 16, 16)
+                    spriteTexture = "player1",
+                    textureArea = new Rectangle(0, 0, 16, 24)
                 },
                 new Components.Collision()
                 {
                     collisionType = CollisionType.Player,
                     bounds = new Rectangle(0, 0, 14, 14),
-                    offset = new Point(1, 1)
+                    offset = new Point(1, 10)
                 }
             );
 
@@ -163,6 +164,31 @@ namespace Bummerman
             return SetComponentEntityIDs(template, entityID);
         }
 
+        /// <summary>
+        /// Power-Ups
+        /// </summary>
+ 
+        /// Extra Bomb prefab
+        public static EntityTemplate CreatePowerUp_ExtraBomb(int entityID = -1)
+        {
+            EntityTemplate template = new EntityTemplate(
+                "Template",
+                new Components.ScreenPosition(),
+                new Components.TilePosition() { tileSize = 16 },
+                new Components.Sprite()
+                {
+                    spriteTexture = "blocks",
+                    textureArea = new Rectangle(32, 16, 16, 16)
+                },
+                new Components.Collision()
+                {
+                    collisionType = CollisionType.PassThrough,
+                    bounds = new Rectangle(0, 0, 16, 16)
+                }
+            );
+
+            return SetComponentEntityIDs(template, entityID);
+        }
 
         /// <summary>
         /// Set the entity ID for each component here

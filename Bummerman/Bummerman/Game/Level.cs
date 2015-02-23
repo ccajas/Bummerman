@@ -9,7 +9,7 @@ namespace Bummerman
 {
     class Level
     {
-        int maxPlayerBombs = 2;
+        int maxPlayerBombs = 9;
         int gridLength = 15;
         int gridHeight = 13;
 
@@ -92,7 +92,7 @@ namespace Bummerman
             {
                 EntityTemplate playerBomb = entityManager.CreateEntityFromTemplate("Bomb");
                 Bomb bomb = (Bomb)playerBomb.GetComponent(ComponentType.Bomb);
-                bomb.ownerID = player1Info.playerNumber;
+                bomb.ownerID = player1Info.entityID;
             }
             // Finish loading players
         }

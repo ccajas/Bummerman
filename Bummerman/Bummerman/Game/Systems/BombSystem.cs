@@ -41,25 +41,23 @@ namespace Bummerman.Systems
         {
             Message message = GetMessage(MessageType.InputAction1);
 
-            int playerEntityID = -1;
             for (int i = 0; i < totalEntities; i++)
             {
-                // Find entity ID of player
-                PlayerInfo info = components[ComponentType.PlayerInfo][i] as PlayerInfo;
-
                 // Get bomb data
                 TimedEffect bombTimer = timedEffect[i];
                 TilePosition tile = tilePosition[i];
                 Bomb bomb = bombs[i];
                 Sprite sprite = sprites[i];
 
-                if (info != null && info.playerNumber == 0)
-                    playerEntityID = i;
-
                 // Handle bomb setting
                 if (message.messageID == Convert.ToInt16(InputActions.setBomb))
                 {
-                    if (bomb != null && canPlace(bomb, playerEntityID))
+                    // Get player data
+                    int playerEntityID = (int)message.data;
+                    PlayerInfo info = components[ComponentType.PlayerInfo][playerEntityID] as PlayerInfo;
+
+                    if (bomb != null && canPlace(bomb, playerEntityID) &&
+                        info.currentBombs < info.maxBombs)
                     {
                         // Enable the bomb
                         bomb.live = true;
@@ -68,6 +66,7 @@ namespace Bummerman.Systems
                         // Set its position and add it to list of locations
                         tile.position = tilePosition[playerEntityID].position;
                         bombLocations.Add(tile.position);
+                        info.currentBombs++;
                     }
                 }
 
@@ -101,6 +100,10 @@ namespace Bummerman.Systems
 
                         explosionTile.position = tile.position;
                         explosionSpread.range = bomb.power;
+
+                        // Give player back an extra bomb
+                        PlayerInfo info = components[ComponentType.PlayerInfo][bomb.ownerID] as PlayerInfo;
+                        info.currentBombs--;
                     }
                 }
             }
@@ -114,7 +117,7 @@ namespace Bummerman.Systems
         /// <returns></returns>
         private bool canPlace(Components.Bomb bomb, int playerEntityID)
         {
-            if (bomb.live || bomb.ownerID != 0)
+            if (bomb.live || bomb.ownerID != playerEntityID)
                 return false;
 
             Point playerPosition = (components[ComponentType.TilePosition][playerEntityID] as TilePosition).position;

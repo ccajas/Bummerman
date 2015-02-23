@@ -150,7 +150,7 @@ namespace Bummerman
                 new Components.Sprite()
                 {
                     spriteTexture = "blocks",
-                    textureArea = new Rectangle(0, 0, 16, 16)
+                    textureArea = new Rectangle(32, 16, 16, 16)
                 },
                 new Components.Collision()
                 {

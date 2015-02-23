@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Bummerman.Components;
 
 namespace Bummerman.Systems
 {
@@ -16,8 +17,8 @@ namespace Bummerman.Systems
         Dictionary<string, Texture2D> textureList;
 
         /// Important components
-        Components.Sprite[] sprites;
-        Components.ScreenPosition[] screenPosition;
+        Sprite[] sprites;
+        ScreenPosition[] screenPosition;
 
         /// <summary>
         /// Constructor to add component references
@@ -29,8 +30,8 @@ namespace Bummerman.Systems
             this.textureList = textureList;
 
             // Load important components
-            sprites = components[ComponentType.Sprite] as Components.Sprite[];
-            screenPosition = components[ComponentType.ScreenPosition] as Components.ScreenPosition[];
+            sprites = components[ComponentType.Sprite] as Sprite[];
+            screenPosition = components[ComponentType.ScreenPosition] as ScreenPosition[];
         }
 
         /// <summary>

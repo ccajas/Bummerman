@@ -91,10 +91,11 @@ namespace Bummerman.Systems
                         bomb.live = false;
                         sprite.live = false;
 
-                        // Place explosion
+                        // Remove bomb location
                         bombLocations.Remove(tile.position);
 
-                        EntityTemplate explosion = entityMgr.CreateEntityFromTemplate("SolidBlock");
+                        // Place explosion
+                        EntityTemplate explosion = entityMgr.CreateEntityFromTemplate("Explosion");
                         TilePosition explisionTile = (TilePosition)explosion.GetComponent(ComponentType.TilePosition);
                         explisionTile.position = tile.position;
                         explisionTile.tileSize = 16;

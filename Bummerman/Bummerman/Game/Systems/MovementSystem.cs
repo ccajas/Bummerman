@@ -53,8 +53,13 @@ namespace Bummerman.Systems
 
                         if (message.ValueFound<InputStates>(InputStates.MoveDown))
                             screenPos[i].position.Y += speed * (float)frameStepTime.TotalSeconds;
+
+                        // Round position to integer values
+                        screenPos[i].position.X = (float)Math.Round(screenPos[i].position.X);
+                        screenPos[i].position.Y = (float)Math.Round(screenPos[i].position.Y);
                     }
                 }
+
                 // Reset message ID
                 message.messageID = 0;
             }

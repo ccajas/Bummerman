@@ -104,7 +104,10 @@ namespace Bummerman.Systems
                     if (explosionsToRemove.Contains(tiles[i].position) ||
                         (components[ComponentType.TimedEffect][i] as TimedEffect).elapsed <= 0f)
                     {
+                        // Set spread to 0 to prevent further explosions
+                        spread[i].range = 0;
                         entityMgr.RemoveEntity(i);
+
                         allExplosions.Remove(tiles[i].position);
                         totalEntities--;
                         i--;

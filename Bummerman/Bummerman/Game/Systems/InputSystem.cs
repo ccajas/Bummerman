@@ -27,7 +27,8 @@ namespace Bummerman.Systems
         /// <summary>
         /// Constructor to add component references
         /// </summary>
-        public InputSystem(ComponentCollection collection) : base(collection)
+        public InputSystem(EntityManager entityManager)
+            : base(entityManager)
         {
             // Initialize worker lists
             actionsWorker = new List<InputActions>();

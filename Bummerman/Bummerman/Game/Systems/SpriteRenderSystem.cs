@@ -22,8 +22,8 @@ namespace Bummerman.Systems
         /// <summary>
         /// Constructor to add component references
         /// </summary>
-        public SpriteRenderSystem(Dictionary<string, Texture2D> textureList,
-            ComponentCollection components) : base(components)
+        public SpriteRenderSystem(Dictionary<string, Texture2D> textureList, EntityManager entityManager)
+            : base(entityManager)
         {
             // Initialize component lists
             this.textureList = textureList;

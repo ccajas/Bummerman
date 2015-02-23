@@ -5,8 +5,6 @@ using System.Text;
 
 namespace Bummerman.Systems
 {
-    using ComponentCollection = Dictionary<ComponentType, Component[]>;
-
     /// <summary>
     /// Control Entity movements
     /// </summary>
@@ -19,7 +17,8 @@ namespace Bummerman.Systems
         /// <summary>
         /// Constructor to add components
         /// </summary>
-        public MovementSystem(ComponentCollection components) : base(components) 
+        public MovementSystem(EntityManager entityManager)
+            : base(entityManager) 
         {
             // Load important components
             screenPos = components[ComponentType.ScreenPosition] as Components.ScreenPosition[];

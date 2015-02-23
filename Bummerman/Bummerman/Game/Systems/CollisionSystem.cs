@@ -4,8 +4,6 @@ using Microsoft.Xna.Framework;
 
 namespace Bummerman.Systems
 {
-    using ComponentCollection = Dictionary<ComponentType, Component[]>;
-
     class CollisionSystem : EntitySystem
     {
         List<Components.Collision> playerColliders = new List<Components.Collision>();
@@ -19,7 +17,8 @@ namespace Bummerman.Systems
         /// <summary>
         /// Constructor to add components
         /// </summary>
-        public CollisionSystem(ComponentCollection components) : base(components) 
+        public CollisionSystem(EntityManager entityManager)
+            : base(entityManager) 
         {
             // Load important components
             collision = components[ComponentType.Collision] as Components.Collision[];

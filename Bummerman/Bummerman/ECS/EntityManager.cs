@@ -84,5 +84,18 @@ namespace Bummerman
 
             return newTemplate;
         }
+
+        public void UpdateEntityCount(int entityCount)
+        {
+            nextEntity = entityCount;
+        }
+
+        /// <summary>
+        /// Remove entity's Components from collection
+        /// </summary>
+        public void RemoveEntity(int entityID)
+        {
+
+        }
     }
 }

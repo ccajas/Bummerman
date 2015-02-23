@@ -14,15 +14,19 @@ namespace Bummerman
     /// </summary>
     abstract class EntitySystem
     {
+        protected EntityManager entityMgr;
         protected ComponentCollection components;
+
+
         protected int totalEntities = 0;
 
         // Messages dispatched for all systems
         protected static Message[] messages;
 
-        public EntitySystem(ComponentCollection components)
+        public EntitySystem(EntityManager entityManager)
         {
-            this.components = components;
+            this.entityMgr = entityManager;
+            this.components = entityManager.components;
 
             var messageTypeCount = Enum.GetNames(typeof(MessageType)).Length;
             messages = new Message[messageTypeCount];

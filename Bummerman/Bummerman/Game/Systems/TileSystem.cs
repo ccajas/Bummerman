@@ -20,7 +20,8 @@ namespace Bummerman.Systems
         /// <summary>
         /// Constructor to add components
         /// </summary>
-        public TileSystem(ComponentCollection components) : base(components) 
+        public TileSystem(EntityManager entityManager)
+            : base(entityManager) 
         {
             // Load important components
             screenPos = components[ComponentType.ScreenPosition] as Components.ScreenPosition[];

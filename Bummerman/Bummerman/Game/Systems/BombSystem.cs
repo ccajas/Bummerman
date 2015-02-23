@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Bummerman.Components;
 
 namespace Bummerman.Systems
 {
@@ -15,21 +16,22 @@ namespace Bummerman.Systems
         private List<Point> bombLocations = new List<Point>();
 
         /// Important components
-        Components.Bomb[] bombs;
-        Components.Sprite[] sprites;
-        Components.TilePosition[] tilePosition;
-        Components.TimedEffect[] timedEffect;
+        Bomb[] bombs;
+        Sprite[] sprites;
+        TilePosition[] tilePosition;
+        TimedEffect[] timedEffect;
 
         /// <summary>
         /// Constructor to add components
         /// </summary>
-        public BombSystem(ComponentCollection components) : base(components) 
+        public BombSystem(EntityManager entityManager)
+            : base(entityManager) 
         {
             // Load important components           
-            bombs = components[ComponentType.Bomb] as Components.Bomb[];
-            sprites = components[ComponentType.Sprite] as Components.Sprite[];
-            tilePosition = components[ComponentType.TilePosition] as Components.TilePosition[];
-            timedEffect = components[ComponentType.TimedEffect] as Components.TimedEffect[];
+            bombs = components[ComponentType.Bomb] as Bomb[];
+            sprites = components[ComponentType.Sprite] as Sprite[];
+            tilePosition = components[ComponentType.TilePosition] as TilePosition[];
+            timedEffect = components[ComponentType.TimedEffect] as TimedEffect[];
         }
 
         /// <summary>
@@ -43,14 +45,13 @@ namespace Bummerman.Systems
             for (int i = 0; i < totalEntities; i++)
             {
                 // Find entity ID of player
-                Components.PlayerInfo info = components[ComponentType.PlayerInfo][i] 
-                    as Components.PlayerInfo;
+                PlayerInfo info = components[ComponentType.PlayerInfo][i] as PlayerInfo;
 
                 // Get bomb data
-                Components.TimedEffect bombTimer = timedEffect[i];
-                Components.TilePosition tile = tilePosition[i];
-                Components.Bomb bomb = bombs[i];
-                Components.Sprite sprite = sprites[i];
+                TimedEffect bombTimer = timedEffect[i];
+                TilePosition tile = tilePosition[i];
+                Bomb bomb = bombs[i];
+                Sprite sprite = sprites[i];
 
                 if (info != null && info.playerNumber == 0)
                     playerEntityID = i;
@@ -92,7 +93,10 @@ namespace Bummerman.Systems
 
                         // Place explosion
                         bombLocations.Remove(tile.position);
-                        //EntityPrefabs.CreatePlayer(++totalEntities);
+
+                        EntityTemplate explosion = EntityPrefabs.CreateExplosion(++totalEntities);
+                        TilePosition explosionPos = (TilePosition)explosion.GetComponent(ComponentType.TilePosition);
+                        explosionPos.position = tile.position;
                     }
                 }
             }
@@ -109,8 +113,7 @@ namespace Bummerman.Systems
             if (bomb.live || bomb.ownerID != 0)
                 return false;
 
-            Point playerPosition = (components[ComponentType.TilePosition][playerEntityID] 
-                as Components.TilePosition).position;
+            Point playerPosition = (components[ComponentType.TilePosition][playerEntityID] as TilePosition).position;
 
             if (bombLocations.Find(item => item == playerPosition) != Point.Zero)
                 return false;

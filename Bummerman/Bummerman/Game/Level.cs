@@ -16,7 +16,7 @@ namespace Bummerman
         /// <summary>
         /// Load all level entities
         /// </summary>
-        public void Load(SystemManager entityManager)
+        public void Load(EntityManager entityManager)
         {
             LoadTiles(entityManager);
             LoadPlayers(entityManager);
@@ -25,7 +25,7 @@ namespace Bummerman
         /// <summary>
         /// Load tile entities
         /// </summary>
-        private void LoadTiles(SystemManager entityManager)
+        private void LoadTiles(EntityManager entityManager)
         {
             // Create a Bomberman-style stage
             Random rnd = new Random(123);
@@ -80,7 +80,7 @@ namespace Bummerman
         /// <summary>
         /// Load player entities
         /// </summary>
-        private void LoadPlayers(SystemManager entityManager)
+        private void LoadPlayers(EntityManager entityManager)
         {
             EntityTemplate player1 = entityManager.CreateEntityFromTemplate("Player");
             ScreenPosition screenPos = (ScreenPosition)player1.GetComponent(ComponentType.ScreenPosition);

@@ -21,7 +21,7 @@ namespace Bummerman
         SpriteBatch spriteBatch;
 
         // ECS entity manager
-        SystemManager entityManager;
+        SystemManager systemManager;
 
         // Sprite texture collection
         Dictionary<string, Texture2D> textureCollection;
@@ -45,7 +45,7 @@ namespace Bummerman
         {
             // TODO: Add your initialization logic here
             textureCollection = new Dictionary<string, Texture2D>();
-            entityManager = new SystemManager();
+            systemManager = new SystemManager();
             level = new Level();
 
             base.Initialize();
@@ -65,11 +65,10 @@ namespace Bummerman
             textureCollection.Add("player", Content.Load<Texture2D>("textures/player"));
 
             // Create systems and entity templates
-            entityManager.SetupSystems(textureCollection);
-            entityManager.CreateTemplates();
+            systemManager.SetupSystems(textureCollection);
 
             // Load level entities
-            level.Load(entityManager);
+            level.Load(systemManager.Entities);
             
             // Finished loading content
         }
@@ -96,7 +95,7 @@ namespace Bummerman
 
 
             TimeSpan frameStepTime = gameTime.ElapsedGameTime;
-            entityManager.ProcessComponents(frameStepTime);
+            systemManager.ProcessComponents(frameStepTime);
 
             base.Update(gameTime);
         }
@@ -110,7 +109,7 @@ namespace Bummerman
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            entityManager.DrawEntities(spriteBatch);
+            systemManager.DrawEntities(spriteBatch);
 
             base.Draw(gameTime);
         }

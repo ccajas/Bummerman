@@ -108,7 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ECS\Component.cs" />
-    <Compile Include="ECS\ComponentManager.cs" />
+    <Compile Include="ECS\EntityManager.cs" />
     <Compile Include="ECS\SystemManager.cs" />
     <Compile Include="Game\Components\Bomb.cs" />
     <Compile Include="ECS\Message.cs" />

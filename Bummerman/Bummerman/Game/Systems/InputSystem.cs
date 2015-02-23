@@ -5,6 +5,11 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Bummerman.Systems
 {
+    using ComponentCollection = Dictionary<ComponentType, Component[]>;
+
+    /// <summary>
+    /// Handle input from players for processing in other systems
+    /// </summary>
     class InputSystem : EntitySystem
     {
         KeyboardState previousKeyboardState;
@@ -12,8 +17,12 @@ namespace Bummerman.Systems
         GamePadState previousGamePadState;
         GamePadState currentGamePadState;
 
+        /// Storage for received input
         List<InputActions> actionsWorker;
         List<InputStates> statesWorker;
+
+        /// Important components
+        Components.InputContext[] inputContext;
 
         /// <summary>
         /// Constructor to add component references
@@ -23,6 +32,9 @@ namespace Bummerman.Systems
             // Initialize worker lists
             actionsWorker = new List<InputActions>();
             statesWorker = new List<InputStates>();
+
+            // Load important components
+            inputContext = components[ComponentType.InputContext] as Components.InputContext[];
         }
 
         /// <summary>
@@ -38,8 +50,6 @@ namespace Bummerman.Systems
 
             // First, reset player input action messages for each frame
             GetMessage(MessageType.InputAction1).messageID = 0;
-
-            Components.InputContext[] inputContext = components.inputContext;
 
             for (int i = 0; i < totalEntities; i++)
             {

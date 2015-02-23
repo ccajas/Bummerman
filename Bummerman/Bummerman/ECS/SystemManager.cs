@@ -8,21 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Bummerman
 {
-    // Component groups
-    class ComponentCollection
-    {
-        public Components.ScreenPosition[] screenPosition;
-        public Components.TilePosition[] tilePosition;
-        public Components.Sprite[] sprite;
-        public Components.Collision[] collision;
-        public Components.PlayerInfo[] playerInfo;
-        public Components.Bomb[] bomb;
-        public Components.PowerUp[] powerUp;
-        public Components.InputContext[] inputContext;
-        public Components.TimedEffect[] timedEffect;
-
-        public Dictionary<ComponentType, Component[]> components;
-    }
+    using ComponentCollection = Dictionary<ComponentType, Component[]>;
 
     class SystemManager
     {
@@ -30,8 +16,11 @@ namespace Bummerman
         int nextEntity = 0;
         const int maxEntities = 1000;
 
-        // Create component collection
-        ComponentCollection components;
+        // Component groups
+        Dictionary<ComponentType, Component[]> components;
+
+        /// Manages Entity Components
+        ComponentManager componentManager;
 
         // Entity template/prefab collection
         Dictionary<string, EntityTemplate> entityTemplates;
@@ -47,33 +36,22 @@ namespace Bummerman
             entityTemplates = new Dictionary<string, EntityTemplate>();
             entitySystems = new List<EntitySystem>();
 
-            components = new ComponentCollection();
-
-            // Setup component lists
-            components.screenPosition = new Components.ScreenPosition[maxEntities];
-            components.tilePosition = new Components.TilePosition[maxEntities];
-            components.sprite = new Components.Sprite[maxEntities];
-            components.inputContext = new Components.InputContext[maxEntities];
-            components.collision = new Components.Collision[maxEntities];
-            components.playerInfo = new Components.PlayerInfo[maxEntities];
-            components.bomb = new Components.Bomb[maxEntities];
-            components.powerUp = new Components.PowerUp[maxEntities];
-            components.timedEffect = new Components.TimedEffect[maxEntities];
+            componentManager = new ComponentManager();
 
             // Add component dictionary and component arrays to it
-            components.components = new Dictionary<ComponentType, Component[]>();
+            components = new Dictionary<ComponentType, Component[]>();
 
-            components.components.Add(ComponentType.Sprite, new Components.Sprite[maxEntities]);
+            // Component arrays get added here
+            components.Add(ComponentType.ScreenPosition, new Components.ScreenPosition[maxEntities]);
+            components.Add(ComponentType.TilePosition, new Components.TilePosition[maxEntities]);
+            components.Add(ComponentType.Sprite, new Components.Sprite[maxEntities]);
+            components.Add(ComponentType.InputContext, new Components.InputContext[maxEntities]);
+            components.Add(ComponentType.Collision, new Components.Collision[maxEntities]);
 
-            // Resize all component arrays
-
-            List<ComponentType> keys = new List<ComponentType>(components.components.Keys);
-            foreach (ComponentType key in keys)
-            {
-                Component[] array = components.components[key];
-                Array.Resize<Component>(ref array, maxEntities);
-                components.components[key] = array;
-            }
+            components.Add(ComponentType.PlayerInfo, new Components.PlayerInfo[maxEntities]);
+            components.Add(ComponentType.Bomb, new Components.Bomb[maxEntities]);
+            components.Add(ComponentType.PowerUp, new Components.PowerUp[maxEntities]);
+            components.Add(ComponentType.TimedEffect, new Components.TimedEffect[maxEntities]);
         }
 
         /// <summary>
@@ -123,36 +101,9 @@ namespace Bummerman
                 // Call method to create new template
                 newTemplate = (EntityTemplate)theMethod.Invoke(null, new object[] { nextEntity });
 
-                // Check every list for proper insertion (could be improved)
+                // Check every list for proper insertion
                 foreach (Component component in newTemplate.componentList)
-                {
-                    if (component is Components.Sprite)
-                        components.components[ComponentType.Sprite][nextEntity] = (component as Components.Sprite);
-
-                    if (component is Components.Bomb)
-                        components.bomb[nextEntity] = (component as Components.Bomb);
-
-                    if (component.type == ComponentType.Collision)
-                        components.collision[nextEntity] = (component as Components.Collision);
-
-                    if (component is Components.InputContext)
-                        components.inputContext[nextEntity] = (component as Components.InputContext);
-
-                    if (component is Components.PlayerInfo)
-                        components.playerInfo[nextEntity] = (component as Components.PlayerInfo);
-
-                    if (component is Components.PowerUp)
-                        components.powerUp[nextEntity] = (component as Components.PowerUp);
-
-                    if (component is Components.ScreenPosition)
-                        components.screenPosition[nextEntity] = (component as Components.ScreenPosition);
-
-                    if (component is Components.TilePosition)
-                        components.tilePosition[nextEntity] = (component as Components.TilePosition);
-
-                    if (component is Components.TimedEffect)
-                        components.timedEffect[nextEntity] = (component as Components.TimedEffect);
-                }
+                    components[component.type][nextEntity] = component;
             }
 
             // Finish adding components for entity

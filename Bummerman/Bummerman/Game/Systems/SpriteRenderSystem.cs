@@ -5,13 +5,19 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Bummerman.Systems
 {
+    using ComponentCollection = Dictionary<ComponentType, Component[]>;
+
     /// <summary>
     /// Renders all entities with a Sprite component.
     /// </summary>
     class SpriteRenderSystem : EntitySystem
     {
+        /// Reference to texture assets
         Dictionary<string, Texture2D> textureList;
+
+        /// Important components
         Components.Sprite[] sprites;
+        Components.ScreenPosition[] screenPosition;
 
         /// <summary>
         /// Constructor to add component references
@@ -23,15 +29,8 @@ namespace Bummerman.Systems
             this.textureList = textureList;
 
             // Load important components
-            sprites = components.components[ComponentType.Sprite] as Components.Sprite[];
-        }
-
-        /// <summary>
-        /// Get component based on type
-        /// </summary>
-        public Component[] GetAll(ComponentType type)
-        {
-            return components.components[type];
+            sprites = components[ComponentType.Sprite] as Components.Sprite[];
+            screenPosition = components[ComponentType.ScreenPosition] as Components.ScreenPosition[];
         }
 
         /// <summary>
@@ -47,9 +46,6 @@ namespace Bummerman.Systems
         /// </summary>
         public override void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
-            //Components.Sprite[] sprites = components.sprite;
-            Components.ScreenPosition[] screenPos = components.screenPosition;
-
             spriteBatch.Begin();
 
             for (int i = 0; i < totalEntities; i++)
@@ -59,7 +55,7 @@ namespace Bummerman.Systems
                 {
                     // Draw the sprite
                     spriteBatch.Draw(textureList[sprites[i].spriteTexture],
-                        screenPos[i].position, sprites[i].textureArea, Color.White);
+                        screenPosition[i].position, sprites[i].textureArea, Color.White);
                 }
             }
             // Finish drawing entities

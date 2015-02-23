@@ -4,15 +4,33 @@ using Microsoft.Xna.Framework;
 
 namespace Bummerman.Systems
 {
+    using ComponentCollection = Dictionary<ComponentType, Component[]>;
+
+    /// <summary>
+    /// Handle placement and update of bombs
+    /// </summary>
     class BombSystem : EntitySystem
     {
         /// List of existing bomb locations
         private List<Point> bombLocations = new List<Point>();
 
+        /// Important components
+        Components.Bomb[] bombs;
+        Components.Sprite[] sprites;
+        Components.TilePosition[] tilePosition;
+        Components.TimedEffect[] timedEffect;
+
         /// <summary>
         /// Constructor to add components
         /// </summary>
-        public BombSystem(ComponentCollection components) : base(components) { }
+        public BombSystem(ComponentCollection components) : base(components) 
+        {
+            // Load important components           
+            bombs = components[ComponentType.Bomb] as Components.Bomb[];
+            sprites = components[ComponentType.Sprite] as Components.Sprite[];
+            tilePosition = components[ComponentType.TilePosition] as Components.TilePosition[];
+            timedEffect = components[ComponentType.TimedEffect] as Components.TimedEffect[];
+        }
 
         /// <summary>
         /// Update and add/remove bombs as needed
@@ -25,13 +43,14 @@ namespace Bummerman.Systems
             for (int i = 0; i < totalEntities; i++)
             {
                 // Find entity ID of player
-                Components.PlayerInfo info = components.playerInfo[i];
+                Components.PlayerInfo info = components[ComponentType.PlayerInfo][i] 
+                    as Components.PlayerInfo;
 
                 // Get bomb data
-                Components.Bomb bomb = components.bomb[i];
-                Components.Sprite sprite = components.sprite[i];
-                Components.TimedEffect bombTimer = components.timedEffect[i];
-                Components.TilePosition tile = components.tilePosition[i];
+                Components.TimedEffect bombTimer = timedEffect[i];
+                Components.TilePosition tile = tilePosition[i];
+                Components.Bomb bomb = bombs[i];
+                Components.Sprite sprite = sprites[i];
 
                 if (info != null && info.playerNumber == 0)
                     playerEntityID = i;
@@ -46,7 +65,7 @@ namespace Bummerman.Systems
                         sprite.live = true;
 
                         // Set its position and add it to list of locations
-                        tile.position = components.tilePosition[playerEntityID].position;
+                        tile.position = tilePosition[playerEntityID].position;
                         bombLocations.Add(tile.position);
                     }
                 }
@@ -72,7 +91,8 @@ namespace Bummerman.Systems
                         sprite.live = false;
 
                         // Place explosion
-                        //components
+                        bombLocations.Remove(tile.position);
+                        //EntityPrefabs.CreatePlayer(++totalEntities);
                     }
                 }
             }
@@ -89,7 +109,8 @@ namespace Bummerman.Systems
             if (bomb.live || bomb.ownerID != 0)
                 return false;
 
-            Point playerPosition = components.tilePosition[playerEntityID].position;
+            Point playerPosition = (components[ComponentType.TilePosition][playerEntityID] 
+                as Components.TilePosition).position;
 
             if (bombLocations.Find(item => item == playerPosition) != Point.Zero)
                 return false;

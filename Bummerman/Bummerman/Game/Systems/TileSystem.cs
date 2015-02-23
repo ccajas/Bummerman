@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 namespace Bummerman.Systems
 {
+    using ComponentCollection = Dictionary<ComponentType, Component[]>;
+
     /// <summary>
     /// Keeps track of level objects with Tile components.
     /// </summary>
@@ -11,24 +13,30 @@ namespace Bummerman.Systems
         // Constants
         readonly int levelTileSize = 16;
 
+        /// Important components
+        Components.ScreenPosition[] screenPos;
+        Components.TilePosition[] tilePos;
+
         /// <summary>
         /// Constructor to add components
         /// </summary>
-        public TileSystem(ComponentCollection components) : base(components) { }
+        public TileSystem(ComponentCollection components) : base(components) 
+        {
+            // Load important components
+            screenPos = components[ComponentType.ScreenPosition] as Components.ScreenPosition[];
+            tilePos = components[ComponentType.TilePosition] as Components.TilePosition[];    
+        }
 
         /// <summary>
         /// Align and update screen tiles
         /// </summary>
         public override int Process(TimeSpan frameStepTime, int totalEntities)
         {
-            Components.ScreenPosition[] screenPos = components.screenPosition;
-            Components.TilePosition[] tilePos = components.tilePosition;
-
             for (int i = 0; i < totalEntities; i++)
             {
                 if (tilePos[i] != null)
                 {
-                    if (components.playerInfo[i] == null)
+                    if (components[ComponentType.PlayerInfo][i] == null)
                     {
                         // Snap screen position according to their tile location
                         screenPos[i].position.X = tilePos[i].position.X * levelTileSize;

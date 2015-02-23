@@ -4,15 +4,28 @@ using Microsoft.Xna.Framework;
 
 namespace Bummerman.Systems
 {
+    using ComponentCollection = Dictionary<ComponentType, Component[]>;
+
     class CollisionSystem : EntitySystem
     {
         List<Components.Collision> playerColliders = new List<Components.Collision>();
         List<Components.Collision> blockColliders = new List<Components.Collision>();
 
+        /// Important components
+        Components.Collision[] collision;
+        Components.ScreenPosition[] screenPosition;
+        Components.TilePosition[] tilePosition;
+
         /// <summary>
         /// Constructor to add components
         /// </summary>
-        public CollisionSystem(ComponentCollection components) : base(components) { }
+        public CollisionSystem(ComponentCollection components) : base(components) 
+        {
+            // Load important components
+            collision = components[ComponentType.Collision] as Components.Collision[];
+            screenPosition = components[ComponentType.ScreenPosition] as Components.ScreenPosition[];      
+            tilePosition = components[ComponentType.TilePosition] as Components.TilePosition[];          
+        }
 
         /// <summary>
         /// Dectect and resolve collision from various entity types
@@ -20,9 +33,6 @@ namespace Bummerman.Systems
         public override int Process(TimeSpan frameStepTime, int totalEntities)
         {
             this.totalEntities = totalEntities;
-
-            Components.Collision[] collision = components.collision;
-            Components.TilePosition[] tilePosition = components.tilePosition;
 
             // Update collision info
             for (int i = 0; i < totalEntities; i++)
@@ -32,8 +42,8 @@ namespace Bummerman.Systems
                     // Add and update player colliders
                     if (collision[i].collisionType == CollisionType.Player)
                     {
-                        collision[i].bounds.X = (int)components.screenPosition[i].position.X;
-                        collision[i].bounds.Y = (int)components.screenPosition[i].position.Y;
+                        collision[i].bounds.X = (int)screenPosition[i].position.X;
+                        collision[i].bounds.Y = (int)screenPosition[i].position.Y;
                         playerColliders.Add(collision[i]);
                     }
 
@@ -70,7 +80,10 @@ namespace Bummerman.Systems
                             float absDepthX = Math.Abs(depth.X);
                             float absDepthY = Math.Abs(depth.Y);
 
-                            Vector2 newPosition = components.screenPosition[playerCollider.entityID].position;
+                            Components.ScreenPosition playerPos =
+                                components[ComponentType.ScreenPosition][playerCollider.entityID] 
+                                as Components.ScreenPosition;
+                            Vector2 newPosition = playerPos.position;
 
                             // Resolve the collision along the shallow axis.
                             if (absDepthY < absDepthX)
@@ -87,7 +100,7 @@ namespace Bummerman.Systems
                             // Round to whole numbers
                             newPosition.X = (float)Math.Round(newPosition.X);
                             newPosition.Y = (float)Math.Round(newPosition.Y);
-                            components.screenPosition[playerCollider.entityID].position = newPosition;
+                            playerPos.position = newPosition;
 
                             // Perform further collisions with the new bounds.
                             playerBounds.X = playerCollider.offset.X + (int)newPosition.X;

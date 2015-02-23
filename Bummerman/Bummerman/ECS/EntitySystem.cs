@@ -6,6 +6,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Bummerman
 {
+    /// Alias type for shorthand dictionary of Components
+    using ComponentCollection = Dictionary<ComponentType, Component[]>;
+
+    /// <summary>
+    /// Base class for all Systems that work on Entities
+    /// </summary>
     abstract class EntitySystem
     {
         protected ComponentCollection components;

@@ -5,19 +5,32 @@ using System.Text;
 
 namespace Bummerman.Systems
 {
+    using ComponentCollection = Dictionary<ComponentType, Component[]>;
+
+    /// <summary>
+    /// Control Entity movements
+    /// </summary>
     class MovementSystem : EntitySystem
     {
-        public MovementSystem(ComponentCollection components) : base(components) { }
+        /// Important components
+        Components.ScreenPosition[] screenPos;
+        Components.PlayerInfo[] playerInfo;
+
+        /// <summary>
+        /// Constructor to add components
+        /// </summary>
+        public MovementSystem(ComponentCollection components) : base(components) 
+        {
+            // Load important components
+            screenPos = components[ComponentType.ScreenPosition] as Components.ScreenPosition[];
+            playerInfo = components[ComponentType.PlayerInfo] as Components.PlayerInfo[];  
+        }
 
         /// <summary>
         /// Handle player movement
         /// </summary>
         public override int Process(TimeSpan frameStepTime, int totalEntities)
         {
-            // Setup component lists
-            Components.ScreenPosition[] screenPos = components.screenPosition;
-            Components.PlayerInfo[] playerInfo = components.playerInfo;
-
             Message message = GetMessage(MessageType.InputState1);
 
             // Perform actions if message ID isn't 0

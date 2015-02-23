@@ -25,6 +25,7 @@ namespace Bummerman
 
         // Sprite textures and other assets
         Dictionary<string, Texture2D> textureCollection;
+        RenderTarget2D screenRT;
         SpriteFont debugFont;
 
         // Game resources
@@ -65,6 +66,10 @@ namespace Bummerman
             textureCollection.Add("blocks", Content.Load<Texture2D>("textures/blocks"));
             textureCollection.Add("player", Content.Load<Texture2D>("textures/player"));
 
+            screenRT = new RenderTarget2D(GraphicsDevice, 
+                GraphicsDevice.Viewport.Width, 
+                GraphicsDevice.Viewport.Height
+            );
             debugFont = Content.Load<SpriteFont>("debug");
 
             // Create systems and entity templates
@@ -109,10 +114,18 @@ namespace Bummerman
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
+            GraphicsDevice.SetRenderTarget(screenRT);
+            GraphicsDevice.Clear(Color.LightSkyBlue);
             systemManager.DrawEntities(spriteBatch);
-            spriteBatch.Begin();
+            GraphicsDevice.SetRenderTarget(null);
+
+            // Draw render target area to window
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, 
+                SamplerState.PointClamp, DepthStencilState.Default, 
+                RasterizerState.CullCounterClockwise
+            );
+            spriteBatch.Draw((Texture2D)screenRT, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0f);
             spriteBatch.DrawString(debugFont, systemManager.totalEntities.ToString(), new Vector2(2, 458), Color.White);
             spriteBatch.End();
 

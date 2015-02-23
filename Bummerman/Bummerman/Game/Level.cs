@@ -59,7 +59,7 @@ namespace Bummerman
                     {
                         // Randomly place soft blocks in empty areas
                         int rndInt = rnd.Next(100);
-                        if (rndInt > 5)
+                        if (rndInt > 55)
                         {
                             if ((x > 2 && x <= gridLength - 4) || (y > 2 && y <= gridHeight - 4))
                             {

@@ -87,11 +87,29 @@ namespace Bummerman
         }
 
         /// <summary>
+        /// Disable an entity
+        /// </summary>
+        public void DisableEntity(int entityID)
+        {
+            // Check every list for proper insertion
+            foreach (Component[] componentArray in components.Values)
+            {
+                if (componentArray[entityID] != null)
+                    componentArray[entityID].live = false;
+            }
+        }
+
+        /// <summary>
         /// Remove entity's Components from collection
         /// </summary>
         public void RemoveEntity(int entityID)
         {
-
+            // Check every list for proper insertion
+            foreach (Component[] componentArray in components.Values)
+            {
+                if (componentArray[entityID] != null)
+                    componentArray[entityID].live = false;
+            }
         }
     }
 }

@@ -50,7 +50,7 @@ namespace Bummerman
                 },
                 new Components.Collision()
                 {
-                    collisionType = CollisionType.SolidBlock,
+                    collisionType = CollisionType.SoftBlock,
                     bounds = new Rectangle(0, 0, 16, 16)
                 }
             );
@@ -144,7 +144,7 @@ namespace Bummerman
         {
             EntityTemplate template = new EntityTemplate(
                 "Template",
-                new Components.TimedEffect()    { elapsed = 5f },
+                new Components.TimedEffect()    { elapsed = 1.25f },
                 new Components.ScreenPosition(),
                 new Components.TilePosition(),
                 new Components.Sprite()

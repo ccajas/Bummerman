@@ -8,14 +8,17 @@ namespace Bummerman
 
     class SystemManager
     {
+        /// System collection
+        List<EntitySystem> entitySystems;
+
         /// Manages Entity Components
         EntityManager entityManager;
 
         /// Public accessor to ComponentManager
         public EntityManager Entities { get { return entityManager; } }
 
-        /// System collection
-        List<EntitySystem> entitySystems;
+        /// Total entities used by all systems
+        public int totalEntities { get { return entityManager.TotalEntities; } }
 
         /// <summary>
         /// Setup lists and component groups

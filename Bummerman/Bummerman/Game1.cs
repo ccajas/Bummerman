@@ -23,8 +23,9 @@ namespace Bummerman
         // ECS entity manager
         SystemManager systemManager;
 
-        // Sprite texture collection
+        // Sprite textures and other assets
         Dictionary<string, Texture2D> textureCollection;
+        SpriteFont debugFont;
 
         // Game resources
         Level level;
@@ -63,6 +64,8 @@ namespace Bummerman
             // load your game content here
             textureCollection.Add("blocks", Content.Load<Texture2D>("textures/blocks"));
             textureCollection.Add("player", Content.Load<Texture2D>("textures/player"));
+
+            debugFont = Content.Load<SpriteFont>("debug");
 
             // Create systems and entity templates
             systemManager.SetupSystems(textureCollection);
@@ -108,8 +111,10 @@ namespace Bummerman
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
             systemManager.DrawEntities(spriteBatch);
+            spriteBatch.Begin();
+            spriteBatch.DrawString(debugFont, systemManager.totalEntities.ToString(), new Vector2(2, 458), Color.White);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

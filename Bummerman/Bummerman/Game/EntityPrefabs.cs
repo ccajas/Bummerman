@@ -126,12 +126,12 @@ namespace Bummerman
                     live = false,
                     spriteTexture = "blocks",
                     textureArea = new Rectangle(0, 16, 16, 16)
-                }
-                /*new Components.Collision()
+                },
+                new Components.Collision()
                 {
-                    collisionType = CollisionType.SolidBlock,
+                    collisionType = CollisionType.PassThrough,
                     bounds = new Rectangle(0, 0, 16, 16)
-                }*/
+                }
             );
 
             return SetComponentEntityIDs(template, entityID);

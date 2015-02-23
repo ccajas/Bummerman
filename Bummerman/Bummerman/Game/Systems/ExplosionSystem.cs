@@ -16,9 +16,10 @@ namespace Bummerman.Systems
         TilePosition[] tiles;
         Collision[] colliders;
         Spreadable[] spread;
+        TimedEffect[] timedEffect;
 
         /// Potential explosion spots
-        Dictionary<Point, int> explosionsToCheck;
+        Dictionary<Point, Spreadable> explosionsToCheck;
         HashSet<Point> allExplosions;
 
         /// <summary>
@@ -31,8 +32,9 @@ namespace Bummerman.Systems
             tiles = components[ComponentType.TilePosition] as TilePosition[];
             colliders = components[ComponentType.Collision] as Collision[];
             spread = components[ComponentType.Spreadable] as Spreadable[];
+            timedEffect = components[ComponentType.TimedEffect] as TimedEffect[];
 
-            explosionsToCheck = new Dictionary<Point, int>();
+            explosionsToCheck = new Dictionary<Point, Spreadable>();
             allExplosions = new HashSet<Point>();
         }
 
@@ -50,24 +52,36 @@ namespace Bummerman.Systems
                     allExplosions.Add(explosionPos);
 
                     // Count down timer
-                    (components[ComponentType.TimedEffect][i] as TimedEffect).elapsed -= (float)frameStepTime.TotalSeconds;
+                    timedEffect[i].elapsed -= (float)frameStepTime.TotalSeconds;
 
+                    // For explosions with spread left, create new explosions
                     if (spread[i].range > 0)
                     {
-                        spread[i].range--;
-                        int newRange = spread[i].range;
+                        int newRange = spread[i].range - 1;
+                        spread[i].range = 0;
 
                         // Try to place new Explosions in all four directions
-                        explosionsToCheck[new Point(explosionPos.X + 1, explosionPos.Y)] = newRange;
-                        explosionsToCheck[new Point(explosionPos.X, explosionPos.Y + 1)] = newRange;
-                        explosionsToCheck[new Point(explosionPos.X - 1, explosionPos.Y)] = newRange;
-                        explosionsToCheck[new Point(explosionPos.X, explosionPos.Y - 1)] = newRange;      
+                        if (spread[i].direction == Direction.None || spread[i].direction == Direction.Left)
+                            explosionsToCheck[new Point(explosionPos.X - 1, explosionPos.Y)] =
+                                new Spreadable { range = newRange, direction = Direction.Left };
+
+                        if (spread[i].direction == Direction.None || spread[i].direction == Direction.Top)
+                            explosionsToCheck[new Point(explosionPos.X, explosionPos.Y - 1)] =
+                                new Spreadable { range = newRange, direction = Direction.Top };
+
+                        if (spread[i].direction == Direction.None || spread[i].direction == Direction.Right)
+                            explosionsToCheck[new Point(explosionPos.X + 1, explosionPos.Y)] = 
+                                new Spreadable { range = newRange, direction = Direction.Right };
+
+                        if (spread[i].direction == Direction.None || spread[i].direction == Direction.Bottom)
+                            explosionsToCheck[new Point(explosionPos.X, explosionPos.Y + 1)] =
+                                new Spreadable { range = newRange, direction = Direction.Bottom };
                     }
                 }
             }
             
             // Create new explosions
-            foreach (KeyValuePair<Point, int> location in explosionsToCheck)
+            foreach (KeyValuePair<Point, Spreadable> location in explosionsToCheck)
             {
                 allExplosions.Add(location.Key);
                 CreateNewExplosion(location);
@@ -91,7 +105,9 @@ namespace Bummerman.Systems
 
                     // Explosions can't pass through solid blocks so remove them
                     if (colliders[i].collisionType == CollisionType.SolidBlock)
+                    {
                         explosionsToRemove.Add(tiles[i].position);
+                    }
                 }
             }
 
@@ -120,14 +136,45 @@ namespace Bummerman.Systems
             return base.Process(frameStepTime, totalEntities);
         }
 
-        private void CreateNewExplosion(KeyValuePair<Point, int> newExplosion)
+        private void CreateNewExplosion(KeyValuePair<Point, Spreadable> newExplosion)
         {
             EntityTemplate explosion = entityMgr.CreateEntityFromTemplate("Explosion");
             TilePosition explosionTile = (TilePosition)explosion.GetComponent(ComponentType.TilePosition);
             Spreadable explosionSpread = (Spreadable)explosion.GetComponent(ComponentType.Spreadable);
 
             explosionTile.position = newExplosion.Key;
-            explosionSpread.range = newExplosion.Value;
+            explosionSpread.range = newExplosion.Value.range;
+            explosionSpread.direction = newExplosion.Value.direction;
+
+            // Loop through all possible collidable entities
+            for (int i = 0; i < totalEntities; i++)
+            {
+                if (colliders[i] != null && tiles[i].position == newExplosion.Key)
+                {
+                    // Weaken explosions when they hit blocks
+                    if (colliders[i].collisionType != CollisionType.PassThrough)
+                        explosionSpread.range = 0;
+
+                    // Bombs hit by explosion should detonate
+                    Bomb bomb = (components[ComponentType.Bomb][i] as Bomb);
+                    if (bomb != null)
+                        timedEffect[i].elapsed = 0f;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Look for explosion at a given tile position
+        /// </summary>
+        private Spreadable GetExplosionAt(Point tilePosition)
+        {
+            for (int i = 0; i < totalEntities; i++)
+            {
+                if (spread[i] != null && tiles[i].position == tilePosition)
+                    return spread[i];
+            }
+
+            return null;
         }
     }
 }

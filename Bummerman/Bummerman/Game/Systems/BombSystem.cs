@@ -49,6 +49,14 @@ namespace Bummerman.Systems
                 Bomb bomb = bombs[i];
                 Sprite sprite = sprites[i];
 
+                // Handle remote trigger
+                if (message.messageID == Convert.ToInt16(InputActions.remoteTrigger))
+                {
+                    // Expire the bomb for this player
+                    if (bomb != null && bomb.live)
+                        bombTimer.elapsed = 0f;
+                }
+
                 // Handle bomb setting
                 if (message.messageID == Convert.ToInt16(InputActions.setBomb))
                 {
@@ -60,6 +68,7 @@ namespace Bummerman.Systems
                         info.currentBombs < info.maxBombs)
                     {
                         // Enable the bomb
+                        bombTimer.elapsed = 5f;
                         bomb.live = true;
                         sprite.live = true;
 
@@ -70,14 +79,6 @@ namespace Bummerman.Systems
                     }
                 }
 
-                // Handle remote trigger
-                if (message.messageID == Convert.ToInt16(InputActions.remoteTrigger))
-                {
-                    // Expire the bomb for this player
-                    if (bomb != null && bomb.live)
-                        bombTimer.elapsed = 0f;
-                }
-
                 // Check if any live bombs have expired
                 if (bomb != null && bomb.live)
                 {
@@ -86,7 +87,6 @@ namespace Bummerman.Systems
                     // If timer expired, remove this bomb and reset timer
                     if (bombTimer.elapsed <= 0f)
                     {
-                        bombTimer.elapsed = 5f;
                         bomb.live = false;
                         sprite.live = false;
 
@@ -103,7 +103,9 @@ namespace Bummerman.Systems
 
                         // Give player back an extra bomb
                         PlayerInfo info = components[ComponentType.PlayerInfo][bomb.ownerID] as PlayerInfo;
-                        info.currentBombs--;
+
+                        if (info.currentBombs > 0)
+                            info.currentBombs--;
                     }
                 }
             }

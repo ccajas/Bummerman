@@ -11,7 +11,7 @@ namespace Bummerman.Components
 
         public int playerNumber = 0;
         public int currentBombs = 0;
-        public int maxBombs = 1;
+        public int maxBombs = 4;
 
         public float speed = 100;
     }

@@ -96,9 +96,11 @@ namespace Bummerman.Systems
 
                         // Place explosion
                         EntityTemplate explosion = entityMgr.CreateEntityFromTemplate("Explosion");
-                        TilePosition explisionTile = (TilePosition)explosion.GetComponent(ComponentType.TilePosition);
-                        explisionTile.position = tile.position;
-                        explisionTile.tileSize = 16;
+                        TilePosition explosionTile = (TilePosition)explosion.GetComponent(ComponentType.TilePosition);
+                        Spreadable explosionSpread = (Spreadable)explosion.GetComponent(ComponentType.Spreadable);
+
+                        explosionTile.position = tile.position;
+                        explosionSpread.range = bomb.power;
                     }
                 }
             }

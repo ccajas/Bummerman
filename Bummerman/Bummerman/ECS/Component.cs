@@ -14,6 +14,7 @@ namespace Bummerman
         PlayerInfo,
         PowerUp,
         ScreenPosition,
+        Spreadable,
         Sprite,
         TilePosition,
         TimedEffect

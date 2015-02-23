@@ -11,5 +11,6 @@ namespace Bummerman.Components
 
         public int ownerID = 0;
         public int bombType = 0;
+        public int power = 2;
     }
 }

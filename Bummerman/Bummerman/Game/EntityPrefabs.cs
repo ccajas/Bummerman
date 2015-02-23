@@ -144,9 +144,10 @@ namespace Bummerman
         {
             EntityTemplate template = new EntityTemplate(
                 "Template",
-                new Components.TimedEffect()    { elapsed = 1.25f },
+                new Components.Spreadable(),
                 new Components.ScreenPosition(),
-                new Components.TilePosition(),
+                new Components.TilePosition()   { tileSize = 16 },
+                new Components.TimedEffect() { elapsed = 1.25f },
                 new Components.Sprite()
                 {
                     spriteTexture = "blocks",

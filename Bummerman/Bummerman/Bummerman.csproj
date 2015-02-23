@@ -129,6 +129,7 @@
     <Compile Include="Game\Level.cs" />
     <Compile Include="Game\Systems\BombSystem.cs" />
     <Compile Include="Game\Systems\CollisionSystem.cs" />
+    <Compile Include="Game\Systems\ExplosionSystem.cs" />
     <Compile Include="Game\Systems\InputSystem.cs" />
     <Compile Include="Game\Systems\MovementSystem.cs" />
     <Compile Include="Game\Systems\TileSystem.cs" />

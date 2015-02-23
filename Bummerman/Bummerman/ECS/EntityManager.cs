@@ -41,6 +41,7 @@ namespace Bummerman
             components.Add(ComponentType.PlayerInfo, new Components.PlayerInfo[maxEntities]);
             components.Add(ComponentType.Bomb, new Components.Bomb[maxEntities]);
             components.Add(ComponentType.PowerUp, new Components.PowerUp[maxEntities]);
+            components.Add(ComponentType.Spreadable, new Components.Spreadable[maxEntities]);
             components.Add(ComponentType.TimedEffect, new Components.TimedEffect[maxEntities]);
         }
 
@@ -104,12 +105,17 @@ namespace Bummerman
         /// </summary>
         public void RemoveEntity(int entityID)
         {
-            // Check every list for proper insertion
-            foreach (Component[] componentArray in components.Values)
+            int lastEntityID = nextEntity - 1;
+
+            if (entityID != lastEntityID)
             {
-                if (componentArray[entityID] != null)
-                    componentArray[entityID].live = false;
+                // Replace Entity to be removed with the last Entity on the list
+                foreach (Component[] componentArray in components.Values)
+                    componentArray[entityID] = componentArray[lastEntityID];
             }
+
+            // Reduce entity count, so we don't go over that removed Entity
+            nextEntity--;
         }
     }
 }

@@ -65,6 +65,7 @@ namespace Bummerman
             // load your game content here
             textureCollection.Add("blocks", Content.Load<Texture2D>("textures/blocks"));
             textureCollection.Add("player", Content.Load<Texture2D>("textures/player"));
+            textureCollection.Add("player1", Content.Load<Texture2D>("textures/bomber1"));
 
             screenRT = new RenderTarget2D(GraphicsDevice, 
                 GraphicsDevice.Viewport.Width, 
@@ -125,7 +126,7 @@ namespace Bummerman
                 SamplerState.PointClamp, DepthStencilState.Default, 
                 RasterizerState.CullCounterClockwise
             );
-            spriteBatch.Draw((Texture2D)screenRT, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0f);
+            spriteBatch.Draw((Texture2D)screenRT, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             spriteBatch.DrawString(debugFont, systemManager.totalEntities.ToString(), new Vector2(2, 458), Color.White);
             spriteBatch.End();
 

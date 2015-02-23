@@ -16,6 +16,9 @@ namespace Bummerman.Systems
         /// Reference to texture assets
         Dictionary<string, Texture2D> textureList;
 
+        /// Offset position
+        Vector2 screenAreaOffset = new Vector2(60, 30);
+
         /// Important components
         Sprite[] sprites;
         ScreenPosition[] screenPosition;
@@ -56,7 +59,7 @@ namespace Bummerman.Systems
                 {
                     // Draw the sprite
                     spriteBatch.Draw(textureList[sprites[i].spriteTexture],
-                        screenPosition[i].position, sprites[i].textureArea, Color.White);
+                        screenPosition[i].position + screenAreaOffset, sprites[i].textureArea, Color.White);
                 }
             }
             // Finish drawing entities

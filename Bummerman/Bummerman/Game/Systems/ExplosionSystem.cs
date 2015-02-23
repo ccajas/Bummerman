@@ -105,9 +105,7 @@ namespace Bummerman.Systems
 
                     // Explosions can't pass through solid blocks so remove them
                     if (colliders[i].collisionType == CollisionType.SolidBlock)
-                    {
                         explosionsToRemove.Add(tiles[i].position);
-                    }
                 }
             }
 
@@ -117,13 +115,9 @@ namespace Bummerman.Systems
                 if (colliders[i] != null && colliders[i].collisionType == CollisionType.Explosion)
                 {
                     // Remove the explosion
-                    if (explosionsToRemove.Contains(tiles[i].position) ||
-                        (components[ComponentType.TimedEffect][i] as TimedEffect).elapsed <= 0f)
+                    if (explosionsToRemove.Contains(tiles[i].position) || timedEffect[i].elapsed <= 0f)
                     {
-                        // Set spread to 0 to prevent further explosions
-                        spread[i].range = 0;
                         entityMgr.RemoveEntity(i);
-
                         allExplosions.Remove(tiles[i].position);
                         totalEntities--;
                         i--;

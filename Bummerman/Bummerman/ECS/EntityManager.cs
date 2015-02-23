@@ -105,6 +105,7 @@ namespace Bummerman
         /// </summary>
         public void RemoveEntity(int entityID)
         {
+            DisableEntity(entityID);
             int lastEntityID = nextEntity - 1;
 
             if (entityID != lastEntityID)

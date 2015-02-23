@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 namespace Bummerman.Systems
 {
@@ -45,9 +46,13 @@ namespace Bummerman.Systems
                     }
                     else
                     {
+                        Vector2 playerPos;
+                        playerPos.X = screenPos[i].position.X + screenPos[i].offset.X;
+                        playerPos.Y = screenPos[i].position.Y + screenPos[i].offset.Y;
+
                         // Player entities can move freely, but still need the closest tile location
-                        tilePos[i].position.X = (int)Math.Round(screenPos[i].position.X / (float)levelTileSize);
-                        tilePos[i].position.Y = (int)Math.Round(screenPos[i].position.Y / (float)levelTileSize);
+                        tilePos[i].position.X = (int)Math.Round(playerPos.X / (float)levelTileSize);
+                        tilePos[i].position.Y = (int)Math.Round(playerPos.Y / (float)levelTileSize);
                     }
                 }
             }

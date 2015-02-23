@@ -126,10 +126,35 @@ namespace Bummerman
                     live = false,
                     spriteTexture = "blocks",
                     textureArea = new Rectangle(0, 16, 16, 16)
+                }
+                /*new Components.Collision()
+                {
+                    collisionType = CollisionType.SolidBlock,
+                    bounds = new Rectangle(0, 0, 16, 16)
+                }*/
+            );
+
+            return SetComponentEntityIDs(template, entityID);
+        }
+
+        /// <summary>
+        /// Explosion prefab
+        /// </summary>
+        public static EntityTemplate CreateExplosion(int entityID = -1)
+        {
+            EntityTemplate template = new EntityTemplate(
+                "Template",
+                new Components.TimedEffect()    { elapsed = 5f },
+                new Components.ScreenPosition(),
+                new Components.TilePosition(),
+                new Components.Sprite()
+                {
+                    spriteTexture = "blocks",
+                    textureArea = new Rectangle(0, 0, 16, 16)
                 },
                 new Components.Collision()
                 {
-                    collisionType = CollisionType.SolidBlock,
+                    collisionType = CollisionType.Explosion,
                     bounds = new Rectangle(0, 0, 16, 16)
                 }
             );

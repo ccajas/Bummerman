@@ -94,9 +94,10 @@ namespace Bummerman.Systems
                         // Place explosion
                         bombLocations.Remove(tile.position);
 
-                        EntityTemplate explosion = EntityPrefabs.CreateExplosion(++totalEntities);
-                        TilePosition explosionPos = (TilePosition)explosion.GetComponent(ComponentType.TilePosition);
-                        explosionPos.position = tile.position;
+                        EntityTemplate explosion = entityMgr.CreateEntityFromTemplate("SolidBlock");
+                        TilePosition explisionTile = (TilePosition)explosion.GetComponent(ComponentType.TilePosition);
+                        explisionTile.position = tile.position;
+                        explisionTile.tileSize = 16;
                     }
                 }
             }

@@ -52,8 +52,8 @@ namespace Bummerman
             foreach (EntitySystem system in entitySystems)
             {
                 // Amount of entities might have changed since this step
-                int totalEntities = system.Process(frameStepTime, entityManager.TotalEntities);
-                entityManager.UpdateEntityCount(totalEntities);
+                system.Process(frameStepTime, entityManager.TotalEntities);
+                system.UpdateEntityCount();
             }
         }
 

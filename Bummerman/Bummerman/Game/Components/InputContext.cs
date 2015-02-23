@@ -28,10 +28,8 @@ namespace Bummerman.Components
         }
 
         /// <summary>
-        /// Quick setup of input mapping
+        /// Helper setup of input mapping
         /// </summary>
-        /// <param name="actions"></param>
-        /// <param name="states"></param>
         public InputContext(
             IEnumerable<KeyValuePair<Keys, InputActions>> actions,
             IEnumerable<KeyValuePair<Keys, InputStates>> states = null) : this()

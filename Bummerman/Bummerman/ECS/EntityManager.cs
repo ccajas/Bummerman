@@ -54,6 +54,7 @@ namespace Bummerman
             entityTemplates.Add("Bomb", EntityPrefabs.CreatePlayer());
             entityTemplates.Add("SolidBlock", EntityPrefabs.CreateSolidBlock());
             entityTemplates.Add("SoftBlock", EntityPrefabs.CreateSoftBlock());
+            entityTemplates.Add("Explosion", EntityPrefabs.CreateExplosion());
         }
 
         /// <summary>
@@ -83,11 +84,6 @@ namespace Bummerman
             nextEntity++;
 
             return newTemplate;
-        }
-
-        public void UpdateEntityCount(int entityCount)
-        {
-            nextEntity = entityCount;
         }
 
         /// <summary>

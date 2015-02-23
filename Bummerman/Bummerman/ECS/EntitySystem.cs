@@ -17,7 +17,6 @@ namespace Bummerman
         protected EntityManager entityMgr;
         protected ComponentCollection components;
 
-
         protected int totalEntities = 0;
 
         // Messages dispatched for all systems
@@ -42,6 +41,11 @@ namespace Bummerman
         protected Message GetMessage(MessageType type)
         {
             return EntitySystem.messages[Convert.ToInt16(type)];
+        }
+
+        public void UpdateEntityCount()
+        {
+            totalEntities = entityMgr.TotalEntities;
         }
 
         public virtual int Process(TimeSpan frameStepTime, int totalEntities)

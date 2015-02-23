@@ -111,6 +111,7 @@ namespace Bummerman.Systems
             }
 
             playerColliders.Clear();
+            blockColliders.Clear();
 
             return base.Process(frameStepTime, totalEntities);
         }

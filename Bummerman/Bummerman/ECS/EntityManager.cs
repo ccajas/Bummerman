@@ -125,13 +125,14 @@ namespace Bummerman
                 {
                     // Overwrite this entity's compnents
                     int lastEntityID = nextEntity - 1;
-                    if (entity != lastEntityID)
+                    //if (entity != lastEntityID)
                     {
-                        var keys = new List<ComponentType>(components.Keys);
                         foreach (Component[] componentArray in components.Values)
                         {
                             // Update entity IDs
                             componentArray[entity] = componentArray[lastEntityID];
+                            componentArray[lastEntityID] = null;
+
                             if (componentArray[entity] != null)
                                 componentArray[entity].SetOwnerEntity(entity);
                         }

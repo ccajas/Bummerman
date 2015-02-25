@@ -19,7 +19,7 @@ namespace Bummerman.Systems
 
         /// Storage for received input
         Dictionary<InputActions, uint> actionsWorker;
-        List<InputStates> statesWorker;
+        Dictionary<InputStates, uint> statesWorker;
 
         /// Important components
         Components.InputContext[] inputContext;
@@ -32,7 +32,7 @@ namespace Bummerman.Systems
         {
             // Initialize worker lists
             actionsWorker = new Dictionary<InputActions, uint>();
-            statesWorker = new List<InputStates>();
+            statesWorker = new Dictionary<InputStates, uint>();
 
             // Load important components
             inputContext = components[ComponentType.InputContext] as Components.InputContext[];
@@ -67,16 +67,18 @@ namespace Bummerman.Systems
                     foreach (KeyValuePair<Keys, InputStates> pair in context.keyToStates)
                     {
                         if (currentKeyboardState.IsKeyDown(pair.Key))
-                            statesWorker.Add(pair.Value);
+                            statesWorker[pair.Value] = (uint)entity;
                     }
                 }
             }
 
             // Store input states and actions in messages
             // Input states are cumulative. Actions are handled sequentially
-
-            foreach (InputStates state in statesWorker)
-                GetMessage(MessageType.InputState1).messageID |= (uint)1 << Convert.ToInt16(state);
+            foreach (KeyValuePair<InputStates, uint> state in statesWorker)
+            {
+                GetMessage(MessageType.InputState1).messageID |= (uint)1 << Convert.ToInt16(state.Key);
+                GetMessage(MessageType.InputState1).data = (uint)Convert.ToInt16(state.Value);
+            }
 
             // Store the last input action
             foreach (KeyValuePair<InputActions, uint> action in actionsWorker)

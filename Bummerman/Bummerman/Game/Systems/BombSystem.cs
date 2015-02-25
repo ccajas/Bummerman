@@ -12,17 +12,17 @@ namespace Bummerman.Systems
     /// </summary>
     class BombSystem : EntitySystem
     {
-        /// Set of existing bomb locations
-        HashSet<Point> bombLocations = new HashSet<Point>();
-
-        /// List of exploded bombs by player number
-        List<int> explodedPlayerBombs = new List<int>();
-
         /// Important components
         Bomb[] bombs;
         Sprite[] sprites;
         TilePosition[] tilePosition;
         TimedEffect[] timedEffect;
+
+        /// Set of existing bomb locations
+        HashSet<Point> bombLocations = new HashSet<Point>();
+
+        /// List of exploded bombs organized by player number
+        List<int> explodedPlayerBombs = new List<int>();
 
         /// <summary>
         /// Constructor to add components

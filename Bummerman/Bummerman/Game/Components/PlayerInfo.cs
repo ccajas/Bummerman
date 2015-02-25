@@ -10,6 +10,7 @@ namespace Bummerman.Components
         public override ComponentType type { get { return ComponentType.PlayerInfo; } }
 
         public int playerNumber = 0;
+        public int bombPower = 0;
         public int currentBombs = 0;
         public int maxBombs = 3;
 

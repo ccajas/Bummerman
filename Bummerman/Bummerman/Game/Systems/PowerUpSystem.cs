@@ -37,10 +37,24 @@ namespace Bummerman.Systems
             // Only check power-ups when player is moving
             if (message.messageID >= Convert.ToInt16(InputStates.MoveUp))
             {
+                int playerEntityID = (int)message.data;
+
                 for (int i = 0; i < totalEntities; i++)
                 {
-                    //if (powerUps[i] != null)
-                    //    powerUpLocations.Add(
+                    // If player collided with a PowerUp, 
+                    // apply it to the player and remove it from the stage.
+
+                    if (powerUps[i] != null &&
+                        tiles[i].position == tiles[playerEntityID].position)
+                    {
+                        if (playerInfo[playerEntityID].maxBombs < 9)
+                            playerInfo[playerEntityID].maxBombs += powerUps[i].bombUprade;
+
+                        if (playerInfo[playerEntityID].bombPower < 9)
+                            playerInfo[playerEntityID].bombPower += powerUps[i].powerUpgrade;
+
+                        entityMgr.DisableEntity(i);
+                    }
                 }
             }
 

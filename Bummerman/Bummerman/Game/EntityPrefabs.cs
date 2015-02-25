@@ -174,8 +174,8 @@ namespace Bummerman
             EntityTemplate template = new EntityTemplate(
                 "Template",
                 new Components.ScreenPosition(),
-                new Components.TilePosition() { tileSize = 16 },
-                new Components.PowerUp(),
+                new Components.TilePosition()   { tileSize = 16 },
+                new Components.PowerUp()        { bombUprade = 1 },
                 new Components.Sprite()
                 {
                     spriteTexture = "blocks",

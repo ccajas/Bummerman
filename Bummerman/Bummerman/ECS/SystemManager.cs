@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Bummerman
 {
-
     class SystemManager
     {
         /// System collection
@@ -68,6 +67,11 @@ namespace Bummerman
         {
             foreach (EntitySystem system in entitySystems)
                 system.Draw(spriteBatch.GraphicsDevice, spriteBatch);
+        }
+
+        public void DebugEntities(SpriteBatch spriteBatch, Game1 game)
+        {
+            entityManager.DebugEntityGraph(spriteBatch, game);
         }
     }
 }

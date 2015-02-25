@@ -92,7 +92,7 @@ namespace Bummerman
             {
                 EntityTemplate playerBomb = entityManager.CreateEntityFromTemplate("Bomb");
                 Bomb bomb = (Bomb)playerBomb.GetComponent(ComponentType.Bomb);
-                bomb.ownerID = player1Info.entityID;
+                bomb.ownerID = 1;
             }
             // Finish loading players
         }

@@ -45,14 +45,12 @@ namespace Bummerman
 
         public void UpdateEntityCount()
         {
-            totalEntities = entityMgr.TotalEntities;
+            entityMgr.RemoveEntities();
+            this.totalEntities = entityMgr.TotalEntities;
         }
 
         public virtual int Process(TimeSpan frameStepTime, int totalEntities)
         {
-            entityMgr.RemoveEntities();
-
-            this.totalEntities = entityMgr.TotalEntities;
             return this.totalEntities;
         }
 

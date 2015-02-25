@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Reflection;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Bummerman
 {
@@ -139,6 +142,38 @@ namespace Bummerman
                 }
             }
             // Finished removing entities
+        }
+
+        [Conditional("DEBUG")]
+        public void DebugEntityGraph(SpriteBatch spriteBatch, Game1 game)
+        {
+            game.ColorRectangle(Color.Black,
+                new Rectangle(0, 380, 860, 80), spriteBatch);
+            game.ColorRectangle(Color.Blue,
+                new Rectangle(4 + (nextEntity * 4), 372, 3, 7), spriteBatch);
+
+            Color[] colors = { new Color(16, 16, 16), Color.White, Color.Blue, Color.Cyan, Color.LightGreen, 
+                                 Color.Yellow, Color.Indigo, Color.Red, Color.Orange, Color.Fuchsia, 
+                                 new Color(0, 255, 0), Color.LightSkyBlue };
+
+            // Debug the first 200 entities
+            for (int i = 0; i < 200; i++)
+            {
+                int j = 0;
+                foreach (Component[] componentArray in components.Values)
+                {
+                    int index = 0;
+                    if (componentArray[i] != null)
+                        index = Convert.ToInt16(componentArray[i].type);
+
+                    game.ColorRectangle(colors[index],
+                        new Rectangle(4 + (i * 4), 380 + (j * 8), 3, 7),
+                        spriteBatch);
+
+                    j++;
+                }
+            }
+            // Finish debugging entities
         }
     }
 }

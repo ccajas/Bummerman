@@ -12,6 +12,7 @@ namespace Bummerman
         Player,
         SolidBlock,
         SoftBlock,
+        SemiSolid,
         Explosion
     }
 }

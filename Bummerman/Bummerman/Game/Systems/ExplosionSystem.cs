@@ -103,7 +103,6 @@ namespace Bummerman.Systems
                     if (colliders[i].collisionType == CollisionType.SoftBlock)
                     {
                         entityMgr.DisableEntity(i);
-                        tiles[i].live = true;
 
                         // Store soft block location for later
                         softBlockLocations.Add(tiles[i].position);
@@ -111,10 +110,7 @@ namespace Bummerman.Systems
 
                     // Remove any other non-solid objects
                     if (colliders[i].collisionType == CollisionType.PassThrough)
-                    {
                         entityMgr.DisableEntity(i);
-                        colliders[i].live = true;
-                    }
 
                     // Explosions can't pass through solid blocks so remove them
                     if (colliders[i].collisionType == CollisionType.SolidBlock)
@@ -141,7 +137,7 @@ namespace Bummerman.Systems
                             Random r = new Random();
 
                             int random = r.Next(100);
-                            if (random < 20)
+                            if (random < 100)
                                 CreateNewPowerUp(tilePosition, random);
                         }
                     }

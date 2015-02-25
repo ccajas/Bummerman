@@ -67,7 +67,7 @@ namespace Bummerman
                 "Template",
                 new Components.PlayerInfo()
                 {
-                    playerNumber = 0,
+                    playerNumber = 1,
                     speed = 75
                 },
                 new Components.InputContext(
@@ -130,7 +130,7 @@ namespace Bummerman
                 },
                 new Components.Collision()
                 {
-                    collisionType = CollisionType.PassThrough,
+                    collisionType = CollisionType.SemiSolid,
                     bounds = new Rectangle(0, 0, 16, 16)
                 }
             );
@@ -175,10 +175,11 @@ namespace Bummerman
                 "Template",
                 new Components.ScreenPosition(),
                 new Components.TilePosition() { tileSize = 16 },
+                new Components.PowerUp(),
                 new Components.Sprite()
                 {
                     spriteTexture = "blocks",
-                    textureArea = new Rectangle(32, 16, 16, 16)
+                    textureArea = new Rectangle(0, 32, 16, 16)
                 },
                 new Components.Collision()
                 {

@@ -109,7 +109,8 @@ namespace Bummerman
         /// </summary>
         public void RemoveEntities()
         {
-            for (int entity = 0; entity < nextEntity; entity++)
+            int totalEntities = nextEntity;
+            for (int entity = totalEntities - 1; entity >= 0; --entity)
             {
                 bool entityToRemove = true;
 
@@ -136,9 +137,8 @@ namespace Bummerman
                         }
                     }
 
-                    // Reduce entity count, and move back one to avoid skipping next entity
+                    // Reduce entity count
                     nextEntity--;
-                    entity--;
                 }
             }
             // Finished removing entities
@@ -147,13 +147,13 @@ namespace Bummerman
         [Conditional("DEBUG")]
         public void DebugEntityGraph(SpriteBatch spriteBatch, Game1 game)
         {
-            game.ColorRectangle(Color.Black,
-                new Rectangle(0, 380, 860, 80), spriteBatch);
+            game.ColorRectangle(new Color(0, 0, 0, 0.8f),
+                new Rectangle(0, 380, 860, 100), spriteBatch);
             game.ColorRectangle(Color.Blue,
                 new Rectangle(4 + (nextEntity * 4), 372, 3, 7), spriteBatch);
 
-            Color[] colors = { new Color(16, 16, 16), Color.White, Color.Blue, Color.Cyan, Color.LightGreen, 
-                                 Color.Yellow, Color.Indigo, Color.Red, Color.Orange, Color.Fuchsia, 
+            Color[] colors = { new Color(32, 32, 32), Color.White, Color.Blue, Color.Cyan, Color.LightGreen, 
+                                 Color.Yellow, Color.Green, Color.Red, Color.Orange, Color.Fuchsia, 
                                  new Color(0, 255, 0), Color.LightSkyBlue };
 
             // Debug the first 200 entities

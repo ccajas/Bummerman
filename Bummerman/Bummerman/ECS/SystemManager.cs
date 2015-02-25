@@ -69,9 +69,9 @@ namespace Bummerman
                 system.Draw(spriteBatch.GraphicsDevice, spriteBatch);
         }
 
-        public void DebugEntities(SpriteBatch spriteBatch, Game1 game)
+        public void DebugEntities(Viewport viewport, SpriteBatch spriteBatch, Texture2D pixel)
         {
-            entityManager.DebugEntityGraph(spriteBatch, game);
+            entityManager.DebugEntityGraph(viewport, spriteBatch, pixel);
         }
     }
 }

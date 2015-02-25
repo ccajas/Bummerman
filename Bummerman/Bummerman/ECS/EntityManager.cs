@@ -145,14 +145,12 @@ namespace Bummerman
         }
 
         [Conditional("DEBUG")]
-        public void DebugEntityGraph(SpriteBatch spriteBatch, Game1 game)
+        public void DebugEntityGraph(Viewport viewport, SpriteBatch spriteBatch, Texture2D pixel)
         {
-            game.ColorRectangle(new Color(0, 0, 0, 0.8f),
-                new Rectangle(0, 380, 860, 100), spriteBatch);
-            game.ColorRectangle(Color.Blue,
-                new Rectangle(4 + (nextEntity * 4), 372, 3, 7), spriteBatch);
+            spriteBatch.Draw(pixel, new Rectangle(0, viewport.Height - 88, viewport.Width, 108), new Color(0, 0, 0, 0.8f));
+            spriteBatch.Draw(pixel, new Rectangle(4 + (nextEntity * 4), viewport.Height - 88, 3, 7), Color.White);
 
-            Color[] colors = { new Color(32, 32, 32), Color.White, Color.Blue, Color.Cyan, Color.LightGreen, 
+            Color[] colors = { new Color(0, 0, 0, 0.5f), Color.White, Color.Blue, Color.Cyan, Color.LightGreen, 
                                  Color.Yellow, Color.Green, Color.Red, Color.Orange, Color.Fuchsia, 
                                  new Color(0, 255, 0), Color.LightSkyBlue };
 
@@ -166,9 +164,7 @@ namespace Bummerman
                     if (componentArray[i] != null)
                         index = Convert.ToInt16(componentArray[i].type);
 
-                    game.ColorRectangle(colors[index],
-                        new Rectangle(4 + (i * 4), 380 + (j * 8), 3, 7),
-                        spriteBatch);
+                    spriteBatch.Draw(pixel, new Rectangle(4 + (i * 4), viewport.Height - 80 + (j * 8), 3, 7), colors[index]);
 
                     j++;
                 }

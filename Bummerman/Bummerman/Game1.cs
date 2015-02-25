@@ -50,6 +50,12 @@ namespace Bummerman
             systemManager = new SystemManager();
             level = new Level();
 
+            // Graphics settings
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferMultiSampling = false;
+            graphics.ApplyChanges();
+
             base.Initialize();
         }
 
@@ -121,7 +127,6 @@ namespace Bummerman
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-
             TimeSpan frameStepTime = gameTime.ElapsedGameTime;
             systemManager.ProcessComponents(frameStepTime);
 
@@ -145,11 +150,12 @@ namespace Bummerman
                 SamplerState.PointClamp, DepthStencilState.Default, 
                 RasterizerState.CullCounterClockwise
             );
-            spriteBatch.Draw((Texture2D)screenRT, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            spriteBatch.DrawString(debugFont, systemManager.totalEntities.ToString(), new Vector2(2, 458), Color.White);         
+            spriteBatch.Draw((Texture2D)screenRT, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0f);    
 
             // Draw debug data
-            systemManager.DebugEntities(spriteBatch, this);
+            systemManager.DebugEntities(GraphicsDevice.Viewport, spriteBatch, pixel);
+            spriteBatch.DrawString(debugFont, systemManager.totalEntities.ToString(),
+                new Vector2(2, GraphicsDevice.Viewport.Height - 24f), Color.White);    
             spriteBatch.End();
 
             base.Draw(gameTime);

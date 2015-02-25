@@ -17,7 +17,7 @@ namespace Bummerman.Systems
         Dictionary<string, Texture2D> textureList;
 
         /// Offset position
-        Vector2 screenAreaOffset = new Vector2(60, 30);
+        Vector2 screenAreaOffset = new Vector2(88, 16);
 
         /// Important components
         Sprite[] sprites;

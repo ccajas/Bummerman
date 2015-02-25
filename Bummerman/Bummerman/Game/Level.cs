@@ -85,7 +85,7 @@ namespace Bummerman
             EntityTemplate player1 = entityManager.CreateEntityFromTemplate("Player");
             ScreenPosition screenPos = (ScreenPosition)player1.GetComponent(ComponentType.ScreenPosition);
             PlayerInfo player1Info = (PlayerInfo)player1.GetComponent(ComponentType.PlayerInfo);
-            screenPos.position = new Vector2(16, 16);
+            screenPos.position = new Vector2(16, 8);
 
             // Pre-load bomb entities for each player (maximum carrying capacity)
             for (int i = 0; i < maxPlayerBombs; i++)

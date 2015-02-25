@@ -32,10 +32,16 @@ namespace Bummerman.Systems
         /// </summary>
         public override int Process(TimeSpan frameStepTime, int totalEntities)
         {
-            for (int i = 0; i < totalEntities; i++)
+            Message message = GetMessage(MessageType.InputState1);
+
+            // Only check power-ups when player is moving
+            if (message.messageID >= Convert.ToInt16(InputStates.MoveUp))
             {
-                //if (powerUps[i] != null)
-                //    powerUpLocations.Add(
+                for (int i = 0; i < totalEntities; i++)
+                {
+                    //if (powerUps[i] != null)
+                    //    powerUpLocations.Add(
+                }
             }
 
             return base.Process(frameStepTime, totalEntities);

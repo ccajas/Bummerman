@@ -37,10 +37,11 @@ namespace Bummerman
             // how components interact. The only exception are systems that mainly use Draw().
 
             entitySystems.Add(new Systems.InputSystem(entityManager));
+            entitySystems.Add(new Systems.MovementSystem(entityManager));
             entitySystems.Add(new Systems.BombSystem(entityManager));
             entitySystems.Add(new Systems.ExplosionSystem(entityManager));
+            entitySystems.Add(new Systems.PowerUpSystem(entityManager));
             entitySystems.Add(new Systems.TileSystem(entityManager));
-            entitySystems.Add(new Systems.MovementSystem(entityManager));
             entitySystems.Add(new Systems.CollisionSystem(entityManager));
             entitySystems.Add(new Systems.SpriteRenderSystem(textureCollection, entityManager));
 
@@ -57,6 +58,7 @@ namespace Bummerman
                 // Amount of entities might have changed since this step
                 system.Process(frameStepTime, entityManager.TotalEntities);
                 system.UpdateEntityCount();
+                entityManager.RemoveEntities();
             }
         }
 

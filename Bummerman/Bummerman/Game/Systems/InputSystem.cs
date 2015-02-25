@@ -51,6 +51,7 @@ namespace Bummerman.Systems
 
             // First, reset player input action messages for each frame
             GetMessage(MessageType.InputAction1).messageID = 0;
+            GetMessage(MessageType.InputState1).messageID = 0;
 
             for (int entity = 0; entity < totalEntities; entity++)
             {

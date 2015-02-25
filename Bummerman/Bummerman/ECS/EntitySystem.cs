@@ -45,7 +45,6 @@ namespace Bummerman
 
         public void UpdateEntityCount()
         {
-            entityMgr.RemoveEntities();
             this.totalEntities = entityMgr.TotalEntities;
         }
 

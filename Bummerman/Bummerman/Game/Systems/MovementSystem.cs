@@ -59,9 +59,6 @@ namespace Bummerman.Systems
                         screenPos[i].position.Y = (float)Math.Round(screenPos[i].position.Y);
                     }
                 }
-
-                // Reset message ID
-                message.messageID = 0;
             }
 
             return base.Process(frameStepTime, totalEntities);

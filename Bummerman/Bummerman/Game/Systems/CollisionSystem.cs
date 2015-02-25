@@ -36,7 +36,7 @@ namespace Bummerman.Systems
             // Update collision info
             for (int i = 0; i < totalEntities; i++)
             {
-                if (collision[i] != null)
+                if (collision[i] != null && collision[i].live)
                 {
                     // Add and update player colliders
                     if (collision[i].collisionType == CollisionType.Player)

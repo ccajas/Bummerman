@@ -56,6 +56,7 @@ namespace Bummerman
             entityTemplates.Add("SolidBlock", EntityPrefabs.CreateSolidBlock());
             entityTemplates.Add("SoftBlock", EntityPrefabs.CreateSoftBlock());
             entityTemplates.Add("Explosion", EntityPrefabs.CreateExplosion());
+            entityTemplates.Add("PowerUp_ExtraBomb", EntityPrefabs.CreatePowerUp_ExtraBomb());
         }
 
         /// <summary>
@@ -101,22 +102,43 @@ namespace Bummerman
         }
 
         /// <summary>
-        /// Remove entity's Components from collection
+        /// Remove entities that are not considered Live anymore
         /// </summary>
-        public void RemoveEntity(int entityID)
+        public void RemoveEntities()
         {
-            DisableEntity(entityID);
-            int lastEntityID = nextEntity - 1;
-
-            if (entityID != lastEntityID)
+            for (int entity = 0; entity < nextEntity; entity++)
             {
-                // Replace Entity to be removed with the last Entity on the list
-                foreach (Component[] componentArray in components.Values)
-                    componentArray[entityID] = componentArray[lastEntityID];
-            }
+                bool entityToRemove = true;
 
-            // Reduce entity count, so we don't go over that removed Entity
-            nextEntity--;
+                // Check every array if all components aren't live
+                foreach (Component[] componentArray in components.Values)
+                {
+                    if (componentArray[entity] != null && componentArray[entity].live)
+                        entityToRemove = false;
+                }
+
+                if (entityToRemove)
+                {
+                    // Overwrite this entity's compnents
+                    int lastEntityID = nextEntity - 1;
+                    if (entity != lastEntityID)
+                    {
+                        var keys = new List<ComponentType>(components.Keys);
+                        foreach (Component[] componentArray in components.Values)
+                        {
+                            // Update entity IDs
+                            componentArray[entity] = componentArray[lastEntityID];
+                            if (componentArray[entity] != null)
+                                componentArray[entity].SetOwnerEntity(entity);
+                        }
+                    }
+
+                    // Reduce entity count, and move back one to avoid skipping next entity
+                    nextEntity--;
+                    entity--;
+                }
+            }
+            // Finished removing entities
         }
     }
 }

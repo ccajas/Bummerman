@@ -12,8 +12,11 @@ namespace Bummerman.Systems
     /// </summary>
     class BombSystem : EntitySystem
     {
-        /// List of existing bomb locations
-        private List<Point> bombLocations = new List<Point>();
+        /// Set of existing bomb locations
+        HashSet<Point> bombLocations = new HashSet<Point>();
+
+        /// List of exploded bombs by player number
+        List<int> explodedPlayerBombs = new List<int>();
 
         /// Important components
         Bomb[] bombs;
@@ -62,12 +65,11 @@ namespace Bummerman.Systems
                 {
                     // Get player data
                     int playerEntityID = (int)message.data;
-                    PlayerInfo info = components[ComponentType.PlayerInfo][playerEntityID] as PlayerInfo;
+                    PlayerInfo playerInfo = components[ComponentType.PlayerInfo][playerEntityID] as PlayerInfo;
 
-                    if (bomb != null && canPlace(bomb, playerEntityID) &&
-                        info.currentBombs < info.maxBombs)
+                    if (bomb != null && canPlace(bomb, playerInfo))
                     {
-                        // Enable the bomb
+                        // Enable the bomb and reset timer
                         bombTimer.elapsed = 5f;
                         bomb.live = true;
                         sprite.live = true;
@@ -75,7 +77,7 @@ namespace Bummerman.Systems
                         // Set its position and add it to list of locations
                         tile.position = tilePosition[playerEntityID].position;
                         bombLocations.Add(tile.position);
-                        info.currentBombs++;
+                        playerInfo.currentBombs++;   
                     }
                 }
 
@@ -84,7 +86,7 @@ namespace Bummerman.Systems
                 {
                     bombTimer.elapsed -= (float)frameStepTime.TotalSeconds;
 
-                    // If timer expired, remove this bomb and reset timer
+                    // If timer expired, remove this bomb
                     if (bombTimer.elapsed <= 0f)
                     {
                         bomb.live = false;
@@ -101,14 +103,29 @@ namespace Bummerman.Systems
                         explosionTile.position = tile.position;
                         explosionSpread.range = bomb.power;
 
-                        // Give player back an extra bomb
-                        PlayerInfo info = components[ComponentType.PlayerInfo][bomb.ownerID] as PlayerInfo;
-
-                        if (info.currentBombs > 0)
-                            info.currentBombs--;
+                        explodedPlayerBombs.Add(bomb.ownerID);
                     }
                 }
             }
+
+            // Check for any exploded bombs
+            for (int i = 0; i < totalEntities; i++)
+            {
+                if (components[ComponentType.PlayerInfo][i] != null)
+                {
+                    PlayerInfo info = components[ComponentType.PlayerInfo][i] as PlayerInfo;
+                    int playerNumber = info.playerNumber;
+
+                    for (int j = 0; j < explodedPlayerBombs.Count; j++)
+                    {
+                        // Give player back an extra bomb
+                        if (explodedPlayerBombs[j] == playerNumber)
+                            if (info.currentBombs > 0) info.currentBombs--;
+                    }
+                }
+            }
+
+            explodedPlayerBombs.Clear();
 
             return base.Process(frameStepTime, totalEntities);
         }
@@ -117,14 +134,19 @@ namespace Bummerman.Systems
         /// Check if player can place a bomb
         /// </summary>
         /// <returns></returns>
-        private bool canPlace(Components.Bomb bomb, int playerEntityID)
+        private bool canPlace(Components.Bomb bomb, Components.PlayerInfo playerInfo)
         {
-            if (bomb.live || bomb.ownerID != playerEntityID)
+            if (bomb.live || bomb.ownerID != playerInfo.playerNumber)
                 return false;
 
-            Point playerPosition = (components[ComponentType.TilePosition][playerEntityID] as TilePosition).position;
+            if (playerInfo.currentBombs >= playerInfo.maxBombs)
+                return false;
 
-            if (bombLocations.Find(item => item == playerPosition) != Point.Zero)
+            Point playerPosition = (components[ComponentType.TilePosition][playerInfo.entityID] 
+                as TilePosition).position;
+
+            // Player is already in front of a bomb
+            if (bombLocations.Contains(playerPosition))
                 return false;
 
             return true;

@@ -21,6 +21,7 @@ namespace Bummerman.Systems
         /// Potential explosion spots
         Dictionary<Point, Spreadable> explosionsToCheck;
         HashSet<Point> allExplosions;
+        HashSet<Point> softBlockLocations;
 
         /// <summary>
         /// Constructor to add component references
@@ -34,8 +35,10 @@ namespace Bummerman.Systems
             spread = components[ComponentType.Spreadable] as Spreadable[];
             timedEffect = components[ComponentType.TimedEffect] as TimedEffect[];
 
+            // Setup location containers
             explosionsToCheck = new Dictionary<Point, Spreadable>();
             allExplosions = new HashSet<Point>();
+            softBlockLocations = new HashSet<Point>();
         }
 
         /// <summary>
@@ -94,13 +97,23 @@ namespace Bummerman.Systems
             // Check for any tiles that would be affected by explosions.
             for (int i = 0; i < totalEntities; i++)
             {
-                if (colliders[i] != null && allExplosions.Contains(tiles[i].position))
+                if (colliders[i] != null && colliders[i].live && allExplosions.Contains(tiles[i].position))
                 {
-                    // Apply explosion impacts to soft blocks by removing it from the stage.
+                    // Apply explosion impacts to soft blocks and power-ups by removing them from the stage.
                     if (colliders[i].collisionType == CollisionType.SoftBlock)
                     {
-                        colliders[i].collisionType = CollisionType.PassThrough;
                         entityMgr.DisableEntity(i);
+                        tiles[i].live = true;
+
+                        // Store soft block location for later
+                        softBlockLocations.Add(tiles[i].position);
+                    }
+
+                    // Remove any other non-solid objects
+                    if (colliders[i].collisionType == CollisionType.PassThrough)
+                    {
+                        entityMgr.DisableEntity(i);
+                        colliders[i].live = true;
                     }
 
                     // Explosions can't pass through solid blocks so remove them
@@ -115,13 +128,24 @@ namespace Bummerman.Systems
                 if (colliders[i] != null && colliders[i].collisionType == CollisionType.Explosion)
                 {
                     // Remove the explosion
-                    if (explosionsToRemove.Contains(tiles[i].position) || timedEffect[i].elapsed <= 0f)
+                    Point tilePosition = tiles[i].position;
+                    if (explosionsToRemove.Contains(tilePosition) || timedEffect[i].elapsed <= 0f)
                     {
-                        entityMgr.RemoveEntity(i);
-                        allExplosions.Remove(tiles[i].position);
-                        totalEntities--;
-                        i--;
+                        entityMgr.DisableEntity(i);
+                        allExplosions.Remove(tilePosition);
+
+                        // If this explosion was on a Soft Block, there is a chance of revealing a powerup
+                        if (softBlockLocations.Contains(tilePosition))
+                        {
+                            softBlockLocations.Remove(tilePosition);
+                            Random r = new Random();
+
+                            int random = r.Next(100);
+                            if (random < 20)
+                                CreateNewPowerUp(tilePosition, random);
+                        }
                     }
+                    // Finished removing explosion
                 }
             }
 
@@ -130,6 +154,9 @@ namespace Bummerman.Systems
             return base.Process(frameStepTime, totalEntities);
         }
 
+        /// <summary>
+        /// Create an explosion at a given location with defined parameters
+        /// </summary>
         private void CreateNewExplosion(KeyValuePair<Point, Spreadable> newExplosion)
         {
             EntityTemplate explosion = entityMgr.CreateEntityFromTemplate("Explosion");
@@ -158,17 +185,14 @@ namespace Bummerman.Systems
         }
 
         /// <summary>
-        /// Look for explosion at a given tile position
+        /// Create a randomized power-up
         /// </summary>
-        private Spreadable GetExplosionAt(Point tilePosition)
+        private void CreateNewPowerUp(Point tileLocation, int randomValue)
         {
-            for (int i = 0; i < totalEntities; i++)
-            {
-                if (spread[i] != null && tiles[i].position == tilePosition)
-                    return spread[i];
-            }
+            EntityTemplate powerUp = entityMgr.CreateEntityFromTemplate("PowerUp_ExtraBomb");
+            TilePosition powerUpTile = (TilePosition)powerUp.GetComponent(ComponentType.TilePosition);
 
-            return null;
+            powerUpTile.position = tileLocation;
         }
     }
 }

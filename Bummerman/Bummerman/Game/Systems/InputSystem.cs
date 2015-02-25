@@ -52,16 +52,16 @@ namespace Bummerman.Systems
             // First, reset player input action messages for each frame
             GetMessage(MessageType.InputAction1).messageID = 0;
 
-            for (int i = 0; i < totalEntities; i++)
+            for (int entity = 0; entity < totalEntities; entity++)
             {
-                if (inputContext[i] != null)
+                if (inputContext[entity] != null)
                 {
-                    Components.InputContext context = inputContext[i];
+                    Components.InputContext context = inputContext[entity];
 
                     foreach (KeyValuePair<Keys, InputActions> pair in context.keyToActions)
                     {
                         if (!previousKeyboardState.IsKeyDown(pair.Key) && currentKeyboardState.IsKeyDown(pair.Key))
-                            actionsWorker.Add(pair.Value, (uint)i);
+                            actionsWorker[pair.Value] = (uint)entity;
                     }
 
                     foreach (KeyValuePair<Keys, InputStates> pair in context.keyToStates)

@@ -50,7 +50,9 @@ namespace Bummerman
 
         public virtual int Process(TimeSpan frameStepTime, int totalEntities)
         {
-            this.totalEntities = totalEntities;
+            entityMgr.RemoveEntities();
+
+            this.totalEntities = entityMgr.TotalEntities;
             return this.totalEntities;
         }
 

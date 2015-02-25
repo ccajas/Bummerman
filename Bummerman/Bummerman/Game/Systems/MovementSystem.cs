@@ -37,7 +37,7 @@ namespace Bummerman.Systems
             {
                 for (int i = 0; i < totalEntities; i++)
                 {
-                    if (playerInfo[i] != null && playerInfo[i].playerNumber == 0)
+                    if (playerInfo[i] != null && playerInfo[i].playerNumber == 1)
                     {
                         float speed = playerInfo[i].speed;
 

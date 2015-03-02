@@ -53,7 +53,6 @@ namespace Bummerman
                     {
                         TilePosition tilePos = (TilePosition)solidBlock.GetComponent(ComponentType.TilePosition);
                         tilePos.position = new Point(x, y);
-                        tilePos.tileSize = 16;
                     }
                     else
                     {
@@ -67,7 +66,6 @@ namespace Bummerman
 
                                 TilePosition tilePos = (TilePosition)softBlock.GetComponent(ComponentType.TilePosition);
                                 tilePos.position = new Point(x, y);
-                                tilePos.tileSize = 16;
                             }
                         }
                     }

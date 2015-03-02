@@ -4,6 +4,16 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
+namespace Bummerman
+{
+    enum Animation
+    {
+        None,
+        Looped,
+        NotLooped
+    }
+}
+
 namespace Bummerman.Components
 {
     class Sprite : Component
@@ -12,5 +22,7 @@ namespace Bummerman.Components
 
         public string spriteTexture;
         public Rectangle textureArea = new Rectangle();
+        public Animation animation = Animation.None;
+        public float frameLength = 1f;
     }
 }

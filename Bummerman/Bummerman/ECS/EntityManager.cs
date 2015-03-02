@@ -125,17 +125,14 @@ namespace Bummerman
                 {
                     // Overwrite this entity's compnents
                     int lastEntityID = nextEntity - 1;
-                    //if (entity != lastEntityID)
+                    foreach (Component[] componentArray in components.Values)
                     {
-                        foreach (Component[] componentArray in components.Values)
-                        {
-                            // Update entity IDs
-                            componentArray[entity] = componentArray[lastEntityID];
-                            componentArray[lastEntityID] = null;
+                        // Update entity IDs
+                        componentArray[entity] = componentArray[lastEntityID];
+                        componentArray[lastEntityID] = null;
 
-                            if (componentArray[entity] != null)
-                                componentArray[entity].SetOwnerEntity(entity);
-                        }
+                        if (componentArray[entity] != null)
+                            componentArray[entity].SetOwnerEntity(entity);
                     }
 
                     // Reduce entity count
@@ -165,7 +162,7 @@ namespace Bummerman
                     if (componentArray[i] != null)
                         index = Convert.ToInt16(componentArray[i].type);
 
-                    spriteBatch.Draw(pixel, new Rectangle(4 + (i * 4), viewport.Height - 80 + (j * 8), 3, 7), colors[index]);
+                    spriteBatch.Draw(pixel, new Rectangle(4 + (i * 4), viewport.Height - 80 + (j * 6), 3, 5), colors[index]);
 
                     j++;
                 }

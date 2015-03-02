@@ -27,6 +27,13 @@ namespace Bummerman
         Dictionary<string, Texture2D> textureCollection;
         RenderTarget2D screenRT;
         SpriteFont debugFont;
+        
+        // Virtual resolution for adaptive resizing
+        int virtualBufferWidth = 1920;
+        int virtualBufferHeight = 1280;
+
+        // Default to virtual res ratio
+        float virtualResolutionRatio = 1f;
 
         // Game resources
         Level level;
@@ -69,15 +76,19 @@ namespace Bummerman
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // load your game content here
-            textureCollection.Add("blocks", Content.Load<Texture2D>("textures/blocks"));
+            textureCollection.Add("stone", Content.Load<Texture2D>("textures/spritesheet_stone"));
+            textureCollection.Add("metal", Content.Load<Texture2D>("textures/spritesheet_metal"));
             textureCollection.Add("player", Content.Load<Texture2D>("textures/player"));
             textureCollection.Add("player1", Content.Load<Texture2D>("textures/bomber1"));
+            textureCollection.Add("round_explosion", Content.Load<Texture2D>("textures/round_explosion"));
 
-            screenRT = new RenderTarget2D(GraphicsDevice, 
-                GraphicsDevice.Viewport.Width, 
-                GraphicsDevice.Viewport.Height
+            // Set render target to virtual resolution
+            screenRT = new RenderTarget2D(GraphicsDevice,
+                virtualBufferWidth,
+                virtualBufferHeight
             );
             debugFont = Content.Load<SpriteFont>("debug");
+            virtualResolutionRatio = (float)GraphicsDevice.Viewport.Width / (float)virtualBufferWidth;
 
             // Create systems and entity templates
             systemManager.SetupSystems(textureCollection);
@@ -140,17 +151,16 @@ namespace Bummerman
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.SetRenderTarget(screenRT);
-            GraphicsDevice.Clear(Color.LightSkyBlue);
+            GraphicsDevice.Clear(new Color(94, 109, 119));
             systemManager.DrawEntities(spriteBatch);
             GraphicsDevice.SetRenderTarget(null);
 
             // Draw render target area to window
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, 
-                SamplerState.PointClamp, DepthStencilState.Default, 
-                RasterizerState.CullCounterClockwise
-            );
-            spriteBatch.Draw((Texture2D)screenRT, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0f);    
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, 
+                DepthStencilState.Default, RasterizerState.CullCounterClockwise);
+            spriteBatch.Draw((Texture2D)screenRT, Vector2.Zero, null, Color.White, 0f, 
+                Vector2.Zero, virtualResolutionRatio, SpriteEffects.None, 0f);    
 
             // Draw debug data
             systemManager.DebugEntities(GraphicsDevice.Viewport, spriteBatch, pixel);

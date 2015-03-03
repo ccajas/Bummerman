@@ -49,28 +49,28 @@ namespace Bummerman.Systems
                         {
                             screenPos[i].position.X -= speed *(float)frameStepTime.TotalSeconds;
                             sprites[i].textureArea.X = 106;
-                            sprites[i].animation = Animation.Looped;
+                            sprites[i].animation = Animation.DualForward;
                         }
 
                         if (message.ValueFound<InputStates>(InputStates.MoveRight))
                         {
                             screenPos[i].position.X += speed * (float)frameStepTime.TotalSeconds;
                             sprites[i].textureArea.X = 161;
-                            sprites[i].animation = Animation.Looped;
+                            sprites[i].animation = Animation.DualForward;
                         }
 
                         if (message.ValueFound<InputStates>(InputStates.MoveUp))
                         {
                             screenPos[i].position.Y -= speed * (float)frameStepTime.TotalSeconds;
                             sprites[i].textureArea.X = 219;
-                            sprites[i].animation = Animation.Looped;
+                            sprites[i].animation = Animation.DualForward;
                         }
 
                         if (message.ValueFound<InputStates>(InputStates.MoveDown))
                         {
                             screenPos[i].position.Y += speed * (float)frameStepTime.TotalSeconds;
                             sprites[i].textureArea.X = 52;
-                            sprites[i].animation = Animation.Looped;
+                            sprites[i].animation = Animation.DualForward;
                         }
 
                         // Round position to whole numbers

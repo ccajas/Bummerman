@@ -9,7 +9,10 @@ namespace Bummerman
     enum Animation
     {
         None,
-        Looped,
+        Forward,
+        Reverse,
+        DualForward,
+        DualReverse,
         NotLooped
     }
 }

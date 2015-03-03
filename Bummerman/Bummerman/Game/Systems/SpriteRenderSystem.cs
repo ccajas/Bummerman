@@ -21,7 +21,7 @@ namespace Bummerman.Systems
         BasicEffect basicEffect;
 
         /// Offset position
-        Vector2 screenAreaOffset = new Vector2(40, 8);
+        Vector2 screenAreaOffset = new Vector2(92, 8);
 
         /// Important components
         Sprite[] sprites;
@@ -76,16 +76,56 @@ namespace Bummerman.Systems
                 // Update sprite animations
                 if (sprites[i] != null && sprites[i].live && sprites[i].animation != Animation.None)
                 {
-                    sprites[i].frameTime += (float)frameStepTime.TotalSeconds;
+                    // Move time forward
+                    if (sprites[i].animation == Animation.Forward ||
+                        sprites[i].animation == Animation.DualForward)
+                        sprites[i].frameTime += (float)frameStepTime.TotalSeconds;
+
+                    // Move time backward
+                    if (sprites[i].animation == Animation.Reverse ||
+                        sprites[i].animation == Animation.DualReverse)
+                        sprites[i].frameTime -= (float)frameStepTime.TotalSeconds;
+
                     if (sprites[i].frameTime > sprites[i].frameLength)
                     {
                         // Move to the next frame
                         sprites[i].frame++;
-                        if (sprites[i].frame >= sprites[i].frameCount)
-                            sprites[i].frame = 0;
 
-                        // Rewind frameTime
+                        if (sprites[i].frame >= sprites[i].frameCount)
+                        {
+                            if (sprites[i].animation == Animation.DualForward)
+                            {
+                                sprites[i].animation = Animation.DualReverse;
+                                sprites[i].frame--;
+                            }
+
+                            if (sprites[i].animation == Animation.Forward)
+                                sprites[i].frame = 0;
+                        }
+
+                        // Rewind frame time
                         sprites[i].frameTime -= sprites[i].frameLength;
+                    }
+
+                    if (sprites[i].frameTime < 0)
+                    {
+                        // Move to the previous frame
+                        sprites[i].frame--;
+
+                        if (sprites[i].frame < 0)
+                        {
+                            if (sprites[i].animation == Animation.DualReverse)
+                            {
+                                sprites[i].animation = Animation.DualForward;
+                                sprites[i].frame++;
+                            }
+
+                            if (sprites[i].animation == Animation.Reverse)
+                                sprites[i].frame = sprites[i].frameCount - 1;
+                        }
+
+                        // Add frame time
+                        sprites[i].frameTime += sprites[i].frameLength;
                     }
                 }
             }

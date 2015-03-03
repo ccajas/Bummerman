@@ -83,7 +83,7 @@ namespace Bummerman
             // load your game content here
             textureCollection.Add("sprites", Content.Load<Texture2D>("textures/sprites"));
 
-            meshCollection.Add("block1", Content.Load<Model>("models/solidblock1"));
+            //meshCollection.Add("block1", Content.Load<Model>("models/solidblock1"));
 
             // Set render target to virtual resolution
             screenRT = new RenderTarget2D(GraphicsDevice,

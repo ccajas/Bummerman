@@ -130,7 +130,7 @@ namespace Bummerman
                     live = false,
                     spriteTexture = "sprites",
                     textureArea = new Rectangle(50, 256, 16, 16),
-                    animation = Animation.Looped,
+                    animation = Animation.DualForward,
                     frameLength = 0.5f,
                     frameCount = 3
                 },

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Bummerman.Components;
 
 namespace Bummerman.Systems
 {
@@ -11,8 +12,9 @@ namespace Bummerman.Systems
     class MovementSystem : EntitySystem
     {
         /// Important components
-        Components.ScreenPosition[] screenPos;
-        Components.PlayerInfo[] playerInfo;
+        ScreenPosition[] screenPos;
+        PlayerInfo[] playerInfo;
+        Sprite[] sprites;
 
         /// <summary>
         /// Constructor to add components
@@ -21,8 +23,9 @@ namespace Bummerman.Systems
             : base(entityManager) 
         {
             // Load important components
-            screenPos = components[ComponentType.ScreenPosition] as Components.ScreenPosition[];
-            playerInfo = components[ComponentType.PlayerInfo] as Components.PlayerInfo[];  
+            screenPos = components[ComponentType.ScreenPosition] as ScreenPosition[];
+            playerInfo = components[ComponentType.PlayerInfo] as PlayerInfo[];
+            sprites = components[ComponentType.Sprite] as Sprite[];  
         }
 
         /// <summary>
@@ -43,16 +46,32 @@ namespace Bummerman.Systems
 
                         // Move the position based on input
                         if (message.ValueFound<InputStates>(InputStates.MoveLeft))
+                        {
                             screenPos[i].position.X -= speed *(float)frameStepTime.TotalSeconds;
+                            sprites[i].textureArea.X = 106;
+                            sprites[i].animation = Animation.Looped;
+                        }
 
                         if (message.ValueFound<InputStates>(InputStates.MoveRight))
+                        {
                             screenPos[i].position.X += speed * (float)frameStepTime.TotalSeconds;
+                            sprites[i].textureArea.X = 161;
+                            sprites[i].animation = Animation.Looped;
+                        }
 
                         if (message.ValueFound<InputStates>(InputStates.MoveUp))
+                        {
                             screenPos[i].position.Y -= speed * (float)frameStepTime.TotalSeconds;
+                            sprites[i].textureArea.X = 219;
+                            sprites[i].animation = Animation.Looped;
+                        }
 
                         if (message.ValueFound<InputStates>(InputStates.MoveDown))
+                        {
                             screenPos[i].position.Y += speed * (float)frameStepTime.TotalSeconds;
+                            sprites[i].textureArea.X = 52;
+                            sprites[i].animation = Animation.Looped;
+                        }
 
                         // Round position to whole numbers
                         screenPos[i].position.X = (float)Math.Round(screenPos[i].position.X);

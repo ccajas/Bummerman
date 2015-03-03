@@ -18,16 +18,16 @@ namespace Bummerman
             EntityTemplate template = new EntityTemplate(
                 "Template",
                 new Components.ScreenPosition(),
-                new Components.TilePosition() { tileSize = 70 },
+                new Components.TilePosition() { tileSize = 16 },
                 new Components.Sprite()
                 {
-                    spriteTexture = "metal",
-                    textureArea = new Rectangle(710, 580, 70, 70)
+                    spriteTexture = "sprites",
+                    textureArea = new Rectangle(33, 290, 16, 16)
                 },
                 new Components.Collision()
                 {
                     collisionType = CollisionType.SolidBlock,
-                    bounds = new Rectangle(0, 0, 70, 70)
+                    bounds = new Rectangle(0, 0, 16, 16)
                 }
             );
 
@@ -42,16 +42,16 @@ namespace Bummerman
             EntityTemplate template = new EntityTemplate(
                 "Template",
                 new Components.ScreenPosition(),
-                new Components.TilePosition() { tileSize = 70 },
+                new Components.TilePosition() { tileSize = 16 },
                 new Components.Sprite()
                 {
-                    spriteTexture = "stone",
-                    textureArea = new Rectangle(570, 920, 70, 70)
+                    spriteTexture = "sprites",
+                    textureArea = new Rectangle(16, 290, 16, 16)
                 },
                 new Components.Collision()
                 {
                     collisionType = CollisionType.SoftBlock,
-                    bounds = new Rectangle(0, 0, 70, 70)
+                    bounds = new Rectangle(0, 0, 16, 16)
                 }
             );
 
@@ -97,8 +97,11 @@ namespace Bummerman
                 new Components.TilePosition(),
                 new Components.Sprite()
                 {
-                    spriteTexture = "player1",
-                    textureArea = new Rectangle(0, 0, 16, 24)
+                    spriteTexture = "sprites",
+                    textureArea = new Rectangle(68, 38, 16, 24),
+                    animation = Animation.None,
+                    frameLength = 0.2f,
+                    frameCount = 3
                 },
                 new Components.Collision()
                 {
@@ -125,8 +128,11 @@ namespace Bummerman
                 new Components.Sprite()
                 {
                     live = false,
-                    spriteTexture = "stone",
-                    textureArea = new Rectangle(0, 24, 16, 16)
+                    spriteTexture = "sprites",
+                    textureArea = new Rectangle(50, 256, 16, 16),
+                    animation = Animation.Looped,
+                    frameLength = 0.5f,
+                    frameCount = 3
                 },
                 new Components.Collision()
                 {
@@ -151,8 +157,8 @@ namespace Bummerman
                 new Components.TimedEffect() { elapsed = 1.25f },
                 new Components.Sprite()
                 {
-                    spriteTexture = "stone",
-                    textureArea = new Rectangle(16, 24, 16, 16)
+                    spriteTexture = "sprites",
+                    textureArea = new Rectangle(518, 290, 16, 16)
                 },
                 new Components.Collision()
                 {
@@ -178,8 +184,8 @@ namespace Bummerman
                 new Components.PowerUp()        { bombUprade = 1 },
                 new Components.Sprite()
                 {
-                    spriteTexture = "stone",
-                    textureArea = new Rectangle(32, 0, 16, 18)
+                    spriteTexture = "sprites",
+                    textureArea = new Rectangle(564, 35, 16, 16)
                 },
                 new Components.Collision()
                 {

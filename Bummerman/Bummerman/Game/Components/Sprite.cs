@@ -24,5 +24,8 @@ namespace Bummerman.Components
         public Rectangle textureArea = new Rectangle();
         public Animation animation = Animation.None;
         public float frameLength = 1f;
+        public float frameTime = 0f;
+        public int frameCount = 1;
+        public int frame = 0;
     }
 }

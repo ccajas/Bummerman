@@ -8,7 +8,6 @@ namespace Bummerman
     {
         public IndexBuffer ib;
         public VertexBuffer vb;
-        public Texture3D aoTexture;
         public BoundingBox bBox;
         public Color bBoxColor;
     }
@@ -197,10 +196,6 @@ namespace Bummerman
                         continue;
 
                     effect.Parameters["World"].SetValue(worldTransform);
-
-                    // Set additional parameters
-                    if (mesh.aoTexture != null)
-                        effect.Parameters["aoTexture"].SetValue(mesh.aoTexture);
 
                     if (camera.frustum.Contains(mesh.bBox) != ContainmentType.Disjoint ||
                         (mesh.bBox.Max == Vector3.Zero && mesh.bBox.Min == Vector3.Zero))

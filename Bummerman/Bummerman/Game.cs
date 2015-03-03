@@ -25,12 +25,15 @@ namespace Bummerman
 
         // Sprite textures and other assets
         Dictionary<string, Texture2D> textureCollection;
+        Dictionary<string, Model> meshCollection;
+
+        BasicEffect basicEffect;
         RenderTarget2D screenRT;
         SpriteFont debugFont;
         
         // Virtual resolution for adaptive resizing
-        int virtualBufferWidth = 1920;
-        int virtualBufferHeight = 1280;
+        int virtualBufferWidth = 428;
+        int virtualBufferHeight = 240;
 
         // Default to virtual res ratio
         float virtualResolutionRatio = 1f;
@@ -52,8 +55,10 @@ namespace Bummerman
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            // Add your initialization logic here
             textureCollection = new Dictionary<string, Texture2D>();
+            meshCollection = new Dictionary<string, Model>();
+
             systemManager = new SystemManager();
             level = new Level();
 
@@ -76,28 +81,62 @@ namespace Bummerman
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // load your game content here
-            textureCollection.Add("stone", Content.Load<Texture2D>("textures/spritesheet_stone"));
-            textureCollection.Add("metal", Content.Load<Texture2D>("textures/spritesheet_metal"));
-            textureCollection.Add("player", Content.Load<Texture2D>("textures/player"));
-            textureCollection.Add("player1", Content.Load<Texture2D>("textures/bomber1"));
-            textureCollection.Add("round_explosion", Content.Load<Texture2D>("textures/round_explosion"));
+            textureCollection.Add("sprites", Content.Load<Texture2D>("textures/sprites"));
+
+            meshCollection.Add("block1", Content.Load<Model>("models/solidblock1"));
 
             // Set render target to virtual resolution
             screenRT = new RenderTarget2D(GraphicsDevice,
                 virtualBufferWidth,
-                virtualBufferHeight
+                virtualBufferHeight,
+                false,
+                SurfaceFormat.Color,
+                DepthFormat.Depth24Stencil8,
+                4,
+                RenderTargetUsage.PlatformContents
             );
             debugFont = Content.Load<SpriteFont>("debug");
             virtualResolutionRatio = (float)GraphicsDevice.Viewport.Width / (float)virtualBufferWidth;
 
+            // Set up BasicEffect
+            basicEffect = new BasicEffect(graphics.GraphicsDevice);
+
+            float tilt = MathHelper.ToRadians(0);  // 0 degree angle
+            // Use the world matrix to tilt the cube along x and y axes.
+            Matrix worldMatrix = Matrix.CreateRotationX(tilt) * Matrix.CreateRotationY(tilt);
+            Matrix viewMatrix = Matrix.CreateLookAt(new Vector3(15, 30, 50), new Vector3(15, 0, 10), Vector3.Up);
+
+            Matrix projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
+                MathHelper.ToRadians(45),  // 45 degree angle
+                (float)GraphicsDevice.Viewport.AspectRatio,
+                1.0f, 1000.0f);
+
+            basicEffect.World = worldMatrix;
+            basicEffect.View = viewMatrix;
+            basicEffect.Projection = projectionMatrix;
+
+            // primitive color
+            basicEffect.AmbientLightColor = new Vector3(0.1f, 0.1f, 0.1f);
+
+            basicEffect.DirectionalLight0.DiffuseColor = new Vector3(0.9f, 0.9f, 0.9f); // a red light
+            basicEffect.DirectionalLight0.Direction = new Vector3(1, -1, 0.4f);  // coming along the x-axis
+            basicEffect.DirectionalLight0.SpecularColor = new Vector3(0, 1, 0); // with green highlights
+            basicEffect.DirectionalLight0.Enabled = true;
+
+            basicEffect.DiffuseColor = Vector3.One;
+            basicEffect.SpecularColor = new Vector3(0.25f, 0.25f, 0.25f);
+            basicEffect.SpecularPower = 1.0f;
+            basicEffect.Alpha = 1.0f;
+
+            basicEffect.LightingEnabled = true;
+
             // Create systems and entity templates
-            systemManager.SetupSystems(textureCollection);
+            systemManager.SetupSystems(basicEffect, textureCollection, meshCollection);
 
             // Load level entities
             level.Load(systemManager.Entities);
-            
+           
             // Finished loading content
-
             // Make a 1x1 texture named pixel.  
             pixel = new Texture2D(GraphicsDevice, 1, 1);
 
@@ -108,15 +147,6 @@ namespace Bummerman
         // Background pixel texture 
         private Texture2D pixel;
         private Color[] colorData = { Color.White };  
-
-        /// <summary>
-        /// Make a solid color rectangle
-        /// </summary>
-        public void ColorRectangle(Color color, Rectangle rect, SpriteBatch spriteBatch)
-        {
-            // Draw a fancy rectangle.  
-            spriteBatch.Draw(pixel, rect, color);
-        }
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
@@ -141,6 +171,11 @@ namespace Bummerman
             TimeSpan frameStepTime = gameTime.ElapsedGameTime;
             systemManager.ProcessComponents(frameStepTime);
 
+            Vector3 direction = basicEffect.DirectionalLight0.Direction;
+            direction.X = (float)Math.Sin(gameTime.TotalGameTime.TotalSeconds);
+            direction.Z = (float)Math.Cos(gameTime.TotalGameTime.TotalSeconds);
+            basicEffect.DirectionalLight0.Direction = direction;
+
             base.Update(gameTime);
         }
 
@@ -149,7 +184,7 @@ namespace Bummerman
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
-        {
+        {           
             GraphicsDevice.SetRenderTarget(screenRT);
             GraphicsDevice.Clear(new Color(94, 109, 119));
             systemManager.DrawEntities(spriteBatch);
@@ -157,7 +192,7 @@ namespace Bummerman
 
             // Draw render target area to window
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, 
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, 
                 DepthStencilState.Default, RasterizerState.CullCounterClockwise);
             spriteBatch.Draw((Texture2D)screenRT, Vector2.Zero, null, Color.White, 0f, 
                 Vector2.Zero, virtualResolutionRatio, SpriteEffects.None, 0f);    

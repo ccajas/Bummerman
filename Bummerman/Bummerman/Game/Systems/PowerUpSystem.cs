@@ -37,7 +37,7 @@ namespace Bummerman.Systems
             // Only check power-ups when player is moving
             if (message.messageID >= Convert.ToInt16(InputStates.MoveUp))
             {
-                int playerEntityID = (int)message.data;
+                int playerEntityID = (int)message.receiver;
 
                 for (int i = 0; i < totalEntities; i++)
                 {

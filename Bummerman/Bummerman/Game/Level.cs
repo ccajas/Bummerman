@@ -80,17 +80,27 @@ namespace Bummerman
         /// </summary>
         private void LoadPlayers(EntityManager entityManager)
         {
-            EntityTemplate player1 = entityManager.CreateEntityFromTemplate("Player");
-            ScreenPosition screenPos = (ScreenPosition)player1.GetComponent(ComponentType.ScreenPosition);
-            PlayerInfo player1Info = (PlayerInfo)player1.GetComponent(ComponentType.PlayerInfo);
-            screenPos.position = new Vector2(16, 8);
+            int numberOfPlayers = 4;
 
-            // Pre-load bomb entities for each player (maximum carrying capacity)
-            for (int i = 0; i < maxPlayerBombs; i++)
+            Vector2[] startingPositions = 
+                { new Vector2(16, 8), new Vector2(208, 8), new Vector2(16, 120), new Vector2(208, 120) };
+
+            for (int i = 0; i < numberOfPlayers; i++)
             {
-                EntityTemplate playerBomb = entityManager.CreateEntityFromTemplate("Bomb");
-                Bomb bomb = (Bomb)playerBomb.GetComponent(ComponentType.Bomb);
-                bomb.ownerID = 1;
+                EntityTemplate player = entityManager.CreateEntityFromTemplate("Player");
+                ScreenPosition screenPos = (ScreenPosition)player.GetComponent(ComponentType.ScreenPosition);
+                PlayerInfo playerInfo = (PlayerInfo)player.GetComponent(ComponentType.PlayerInfo);
+
+                playerInfo.playerNumber = i + 1;
+                screenPos.position = startingPositions[i];
+
+                // Pre-load bomb entities for each player (maximum carrying capacity)
+                for (int j = 0; j < maxPlayerBombs; j++)
+                {
+                    EntityTemplate playerBomb = entityManager.CreateEntityFromTemplate("Bomb");
+                    Bomb bomb = (Bomb)playerBomb.GetComponent(ComponentType.Bomb);
+                    bomb.ownerID = i + 1;
+                }
             }
             // Finish loading players
         }

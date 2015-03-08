@@ -7,14 +7,20 @@ namespace Bummerman
 {
     enum MessageType
     {
-        InputState1 = 0,
-        InputAction1
+        InputState1,
+        InputAction1,
+        InputState2,
+        InputAction2,
+        InputState3,
+        InputAction3,
+        InputState4,
+        InputAction4
     }
 
     class Message
     {
         public uint messageID = 0;
-        public uint data = 0;
+        public uint receiver = 0;
 
         /// <summary>
         /// Compare Message ID as a bitmask with a generic value

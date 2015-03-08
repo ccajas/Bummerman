@@ -5,8 +5,6 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Bummerman.Systems
 {
-    using ComponentCollection = Dictionary<ComponentType, Component[]>;
-
     /// <summary>
     /// Handle input from players for processing in other systems
     /// </summary>
@@ -23,6 +21,7 @@ namespace Bummerman.Systems
 
         /// Important components
         Components.InputContext[] inputContext;
+        Components.PlayerInfo[] playerInfo;
 
         /// <summary>
         /// Constructor to add component references
@@ -36,6 +35,7 @@ namespace Bummerman.Systems
 
             // Load important components
             inputContext = components[ComponentType.InputContext] as Components.InputContext[];
+            playerInfo = components[ComponentType.PlayerInfo] as Components.PlayerInfo[];
         }
 
         /// <summary>
@@ -58,6 +58,7 @@ namespace Bummerman.Systems
                 if (inputContext[entity] != null)
                 {
                     Components.InputContext context = inputContext[entity];
+                    int playerID = playerInfo[entity].playerNumber - 1;
 
                     foreach (KeyValuePair<Keys, InputActions> pair in context.keyToActions)
                     {
@@ -65,27 +66,23 @@ namespace Bummerman.Systems
                             actionsWorker[pair.Value] = (uint)entity;
                     }
 
-                    foreach (KeyValuePair<Keys, InputStates> pair in context.keyToStates)
+                    foreach (KeyValuePair<Keys, InputStates> state in context.keyToStates)
                     {
-                        if (currentKeyboardState.IsKeyDown(pair.Key))
-                            statesWorker[pair.Value] = (uint)entity;
+                        // Store input states in messages. Input states are cumulative
+                        if (currentKeyboardState.IsKeyDown(state.Key))
+                        {
+                            GetMessage(MessageType.InputState1).messageID |= (uint)1 << Convert.ToInt16(state.Value);
+                            GetMessage(MessageType.InputState1).receiver = (uint)Convert.ToInt16(entity);
+                        }
                     }
                 }
-            }
-
-            // Store input states and actions in messages
-            // Input states are cumulative. Actions are handled sequentially
-            foreach (KeyValuePair<InputStates, uint> state in statesWorker)
-            {
-                GetMessage(MessageType.InputState1).messageID |= (uint)1 << Convert.ToInt16(state.Key);
-                GetMessage(MessageType.InputState1).data = (uint)Convert.ToInt16(state.Value);
             }
 
             // Store the last input action
             foreach (KeyValuePair<InputActions, uint> action in actionsWorker)
             {
                 GetMessage(MessageType.InputAction1).messageID = (uint)Convert.ToInt16(action.Key);
-                GetMessage(MessageType.InputAction1).data = (uint)Convert.ToInt16(action.Value);
+                GetMessage(MessageType.InputAction1).receiver = (uint)Convert.ToInt16(action.Value);
             }
 
             statesWorker.Clear();

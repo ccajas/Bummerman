@@ -73,16 +73,11 @@ namespace Bummerman
                 new Components.InputContext(
                     new KeyValuePair<Keys, InputActions>[]
                     {
-                        new KeyValuePair<Keys, InputActions>(Keys.Space, InputActions.setBomb),
                         new KeyValuePair<Keys, InputActions>(Keys.Q, InputActions.setBomb),
-                        new KeyValuePair<Keys, InputActions>(Keys.Enter, InputActions.remoteTrigger),
+                        new KeyValuePair<Keys, InputActions>(Keys.E, InputActions.remoteTrigger),
                     },
                     new KeyValuePair<Keys, InputStates>[]
                     {
-                        new KeyValuePair<Keys, InputStates>(Keys.Left, InputStates.MoveLeft),
-                        new KeyValuePair<Keys, InputStates>(Keys.Right, InputStates.MoveRight),
-                        new KeyValuePair<Keys, InputStates>(Keys.Down, InputStates.MoveDown),
-                        new KeyValuePair<Keys, InputStates>(Keys.Up, InputStates.MoveUp),
                         new KeyValuePair<Keys, InputStates>(Keys.A, InputStates.MoveLeft),
                         new KeyValuePair<Keys, InputStates>(Keys.D, InputStates.MoveRight),
                         new KeyValuePair<Keys, InputStates>(Keys.S, InputStates.MoveDown),

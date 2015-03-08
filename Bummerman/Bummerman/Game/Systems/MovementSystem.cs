@@ -36,47 +36,44 @@ namespace Bummerman.Systems
             Message message = GetMessage(MessageType.InputState1);
 
             // Perform actions if message ID isn't 0
-            if (message.messageID >= 0)
+            if (message.messageID > 0)
             {
-                for (int i = 0; i < totalEntities; i++)
+                int entity = (int)message.receiver;
+
+                if (playerInfo[entity] != null)// && playerInfo[entity].playerNumber == 1)
                 {
-                    if (playerInfo[i] != null && playerInfo[i].playerNumber == 1)
+                    float speed = playerInfo[entity].speed;
+
+                    // Move the position based on input
+                    if (message.ValueFound<InputStates>(InputStates.MoveLeft))
                     {
-                        float speed = playerInfo[i].speed;
-
-                        // Move the position based on input
-                        if (message.ValueFound<InputStates>(InputStates.MoveLeft))
-                        {
-                            screenPos[i].position.X -= speed *(float)frameStepTime.TotalSeconds;
-                            sprites[i].textureArea.X = 106;
-                            sprites[i].animation = Animation.DualForward;
-                        }
-
-                        if (message.ValueFound<InputStates>(InputStates.MoveRight))
-                        {
-                            screenPos[i].position.X += speed * (float)frameStepTime.TotalSeconds;
-                            sprites[i].textureArea.X = 161;
-                            sprites[i].animation = Animation.DualForward;
-                        }
-
-                        if (message.ValueFound<InputStates>(InputStates.MoveUp))
-                        {
-                            screenPos[i].position.Y -= speed * (float)frameStepTime.TotalSeconds;
-                            sprites[i].textureArea.X = 219;
-                            sprites[i].animation = Animation.DualForward;
-                        }
-
-                        if (message.ValueFound<InputStates>(InputStates.MoveDown))
-                        {
-                            screenPos[i].position.Y += speed * (float)frameStepTime.TotalSeconds;
-                            sprites[i].textureArea.X = 52;
-                            sprites[i].animation = Animation.DualForward;
-                        }
-
-                        // Round position to whole numbers
-                        screenPos[i].position.X = (float)Math.Round(screenPos[i].position.X);
-                        screenPos[i].position.Y = (float)Math.Round(screenPos[i].position.Y);
+                        screenPos[entity].position.X -= speed * (float)frameStepTime.TotalSeconds;
+                        sprites[entity].textureArea.X = 106;
                     }
+
+                    if (message.ValueFound<InputStates>(InputStates.MoveRight))
+                    {
+                        screenPos[entity].position.X += speed * (float)frameStepTime.TotalSeconds;
+                        sprites[entity].textureArea.X = 161;
+                    }
+
+                    if (message.ValueFound<InputStates>(InputStates.MoveUp))
+                    {
+                        screenPos[entity].position.Y -= speed * (float)frameStepTime.TotalSeconds;
+                        sprites[entity].textureArea.X = 219;
+                    }
+
+                    if (message.ValueFound<InputStates>(InputStates.MoveDown))
+                    {
+                        screenPos[entity].position.Y += speed * (float)frameStepTime.TotalSeconds;
+                        sprites[entity].textureArea.X = 52;
+                    }
+
+                    // Round position to whole numbers
+                    screenPos[entity].position.X = (float)Math.Round(screenPos[entity].position.X);
+                    screenPos[entity].position.Y = (float)Math.Round(screenPos[entity].position.Y);
+
+                    sprites[entity].animation = Animation.DualForward;
                 }
             }
 

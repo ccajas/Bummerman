@@ -64,7 +64,7 @@ namespace Bummerman.Systems
                 if (message.messageID == Convert.ToInt16(InputActions.setBomb))
                 {
                     // Get player data
-                    int playerEntityID = (int)message.data;
+                    int playerEntityID = (int)message.receiver;
                     PlayerInfo playerInfo = components[ComponentType.PlayerInfo][playerEntityID] as PlayerInfo;
 
                     if (bomb != null && canPlace(bomb, playerInfo))

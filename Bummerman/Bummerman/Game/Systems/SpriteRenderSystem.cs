@@ -77,13 +77,11 @@ namespace Bummerman.Systems
                 if (sprites[i] != null && sprites[i].live && sprites[i].animation != Animation.None)
                 {
                     // Move time forward
-                    if (sprites[i].animation == Animation.Forward ||
-                        sprites[i].animation == Animation.DualForward)
+                    if (sprites[i].animation == Animation.Forward || sprites[i].animation == Animation.DualForward)
                         sprites[i].frameTime += (float)frameStepTime.TotalSeconds;
 
                     // Move time backward
-                    if (sprites[i].animation == Animation.Reverse ||
-                        sprites[i].animation == Animation.DualReverse)
+                    if (sprites[i].animation == Animation.Reverse || sprites[i].animation == Animation.DualReverse)
                         sprites[i].frameTime -= (float)frameStepTime.TotalSeconds;
 
                     if (sprites[i].frameTime > sprites[i].frameLength)

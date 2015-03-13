@@ -82,7 +82,7 @@ namespace Bummerman
             // load your game content here
             textureCollection.Add("sprites", Content.Load<Texture2D>("textures/sprites"));
 
-            //meshCollection.Add("block1", Content.Load<Model>("models/solidblock1"));
+            meshCollection.Add("block1", Content.Load<Model>("models/solidblock1"));
 
             // Set render target to virtual resolution
             screenRT = new RenderTarget2D(GraphicsDevice,
@@ -125,7 +125,7 @@ namespace Bummerman
             basicEffect.LightingEnabled = true;
 
             // Create systems and entity templates
-            systemManager.SetupSystems(basicEffect, textureCollection, meshCollection);
+            SetupSystems();
 
             // Load level entities
             level.Load(systemManager.Entities);
@@ -136,6 +136,23 @@ namespace Bummerman
 
             // Set the texture data with our color information.  
             pixel.SetData<Color>(colorData);
+        }
+
+        // Creates systems and entity templates
+        private void SetupSystems()
+        {
+            systemManager.AddSystems(new EntitySystem[] 
+            {
+                new Systems.InputSystem(),
+                new Systems.MovementSystem(),
+                new Systems.BombSystem(),
+                new Systems.ExplosionSystem(),
+                new Systems.PowerUpSystem(),
+                new Systems.TileSystem(),
+                new Systems.CollisionSystem(),
+                new Systems.SpriteRenderSystem(basicEffect, modelCollection, 
+                    textureCollection, entityManager)
+            });
         }
 
         // Background pixel texture 

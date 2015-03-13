@@ -29,14 +29,22 @@ namespace Bummerman
         }
 
         /// <summary>
-        /// Add systems
+        /// Add systems through an array
         /// </summary>
-        public void SetupSystems(BasicEffect basicEffect, Dictionary<string, Texture2D> textureCollection,
-            Dictionary<string, Model> modelCollection)
+        public void AddSystems(EntitySystem[] systems)
         {
+            
+        //    BasicEffect basicEffect, Dictionary<string, Texture2D> textureCollection,
+        //    Dictionary<string, Model> modelCollection)
+        //{
             // The order in which systems are added makes a difference in 
             // how components interact. The only exception are systems that mainly use Draw().
 
+            foreach (EntitySystem system in systems)
+                entitySystems.Add(system);
+
+            entityManager.CreateTemplates();
+            /*
             entitySystems.Add(new Systems.InputSystem(entityManager));
             entitySystems.Add(new Systems.MovementSystem(entityManager));
             entitySystems.Add(new Systems.BombSystem(entityManager));
@@ -45,7 +53,7 @@ namespace Bummerman
             entitySystems.Add(new Systems.TileSystem(entityManager));
             entitySystems.Add(new Systems.CollisionSystem(entityManager));
             entitySystems.Add(new Systems.SpriteRenderSystem(basicEffect, modelCollection, 
-                textureCollection, entityManager));
+                textureCollection, entityManager)); */
 
             entityManager.CreateTemplates();
         }

@@ -82,7 +82,7 @@ namespace Bummerman
             // load your game content here
             textureCollection.Add("sprites", Content.Load<Texture2D>("textures/sprites"));
 
-            meshCollection.Add("block1", Content.Load<Model>("models/solidblock1"));
+            //meshCollection.Add("block1", Content.Load<Model>("models/solidblock1"));
 
             // Set render target to virtual resolution
             screenRT = new RenderTarget2D(GraphicsDevice,
@@ -143,15 +143,15 @@ namespace Bummerman
         {
             systemManager.AddSystems(new EntitySystem[] 
             {
-                new Systems.InputSystem(),
-                new Systems.MovementSystem(),
-                new Systems.BombSystem(),
-                new Systems.ExplosionSystem(),
-                new Systems.PowerUpSystem(),
-                new Systems.TileSystem(),
-                new Systems.CollisionSystem(),
-                new Systems.SpriteRenderSystem(basicEffect, modelCollection, 
-                    textureCollection, entityManager)
+                new Systems.InputSystem     (systemManager.Entities),
+                new Systems.MovementSystem  (systemManager.Entities),
+                new Systems.BombSystem      (systemManager.Entities),
+                new Systems.ExplosionSystem (systemManager.Entities),
+                new Systems.PowerUpSystem   (systemManager.Entities),
+                new Systems.TileSystem      (systemManager.Entities),
+                new Systems.CollisionSystem (systemManager.Entities),
+                new Systems.SpriteRenderSystem(basicEffect, meshCollection, 
+                    textureCollection, systemManager.Entities)
             });
         }
 

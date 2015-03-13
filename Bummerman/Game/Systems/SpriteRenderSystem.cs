@@ -186,9 +186,9 @@ namespace Bummerman.Systems
                         }
                     }
                 }
-            }
+            } */
             // Finish test draw
-            */
+            
         }
     }
 }

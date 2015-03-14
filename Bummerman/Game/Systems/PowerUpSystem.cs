@@ -32,33 +32,53 @@ namespace Bummerman.Systems
         /// </summary>
         public override int Process(TimeSpan frameStepTime, int totalEntities)
         {
-            Message message = GetMessage(MessageType.InputState1);
-
-            // Only check power-ups when player is moving
-            if (message.messageID >= Convert.ToInt16(InputStates.MoveUp))
+            // Check for any powerups and add them to the positions list
+            for (int i = 0; i < totalEntities; i++)
             {
-                int playerEntityID = (int)message.receiver;
-
-                for (int i = 0; i < totalEntities; i++)
+                if (powerUps[i] != null)
                 {
-                    // If player collided with a PowerUp, 
-                    // apply it to the player and remove it from the stage.
-
-                    if (powerUps[i] != null &&
-                        tiles[i].position == tiles[playerEntityID].position)
-                    {
-                        if (playerInfo[playerEntityID].maxBombs < 9)
-                            playerInfo[playerEntityID].maxBombs += powerUps[i].bombUprade;
-
-                        if (playerInfo[playerEntityID].bombPower < 9)
-                            playerInfo[playerEntityID].bombPower += powerUps[i].powerUpgrade;
-
-                        entityMgr.DisableEntity(i);
-                    }
+                    powerUpLocations.Add(tiles[i].position);
                 }
             }
 
+            // Only check power-ups when player is overlapping one
+            for (int i = 0; i < totalEntities; i++)
+            {
+                if (playerInfo[i] != null && playerInfo[i].live)
+                {
+                    // If player collided with a PowerUp, 
+                    // apply it to the player and remove it from the stage.
+                    if (powerUpLocations.Contains(tiles[i].position))
+                        ApplyPowerUp(playerInfo[i]);            
+                }
+            }
+
+            powerUpLocations.Clear();
+
             return base.Process(frameStepTime, totalEntities);
+        }
+
+        /// <summary>
+        /// Let the player pick this powerup
+        /// </summary>
+        private void ApplyPowerUp(PlayerInfo playerInfo)
+        {
+            // Loop through possible powerups
+            for (int i = 0; i < totalEntities; i++)
+            {
+                if (powerUps[i] != null && tiles[i].position == tiles[playerInfo.entityID].position)
+                {
+                    if (playerInfo.maxBombs < 9)
+                        playerInfo.maxBombs += powerUps[i].bombUprade;
+
+                    if (playerInfo.bombPower < 9)
+                        playerInfo.bombPower += powerUps[i].powerUpgrade;
+
+                    // Remove powerup
+                    entityMgr.DisableEntity(i);
+                }
+            }
+            // Finish applying powerups
         }
     }
 }

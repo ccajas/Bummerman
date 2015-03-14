@@ -210,7 +210,7 @@ namespace Bummerman
                 Vector2.Zero, virtualResolutionRatio, SpriteEffects.None, 0f);    
 
             // Draw debug data
-            //systemManager.DebugEntities(GraphicsDevice.Viewport, spriteBatch, pixel);
+            systemManager.DebugEntities(GraphicsDevice.Viewport, spriteBatch, pixel);
             spriteBatch.DrawString(debugFont, systemManager.totalEntities.ToString(),
                 new Vector2(2, GraphicsDevice.Viewport.Height - 24f), Color.White);    
             spriteBatch.End();

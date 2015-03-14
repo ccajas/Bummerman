@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Bummerman.Components;
 
 namespace Bummerman.Systems
 {
@@ -16,8 +17,8 @@ namespace Bummerman.Systems
         GamePadState currentGamePadState;
 
         /// Important components
-        Components.InputContext[] inputContext;
-        Components.PlayerInfo[] playerInfo;
+        InputContext[] inputContext;
+        PlayerInfo[] playerInfo;
 
         /// <summary>
         /// Constructor to add component references
@@ -26,8 +27,8 @@ namespace Bummerman.Systems
             : base(entityManager)
         {
             // Load important components
-            inputContext = components[ComponentType.InputContext] as Components.InputContext[];
-            playerInfo = components[ComponentType.PlayerInfo] as Components.PlayerInfo[];
+            inputContext = components[ComponentType.InputContext] as InputContext[];
+            playerInfo = components[ComponentType.PlayerInfo] as PlayerInfo[];
         }
 
         /// <summary>
@@ -35,23 +36,16 @@ namespace Bummerman.Systems
         /// </summary>
         public override int Process(TimeSpan frameStepTime, int totalEntities)
         {
-            this.totalEntities = totalEntities;
-
             // Should initialize a selectable PlayerIndex
             currentKeyboardState = Keyboard.GetState();
             currentGamePadState = GamePad.GetState(PlayerIndex.One);
 
-            // First, reset player input action messages for each frame
-            GetMessage(MessageType.InputAction1).messageID = 0;
-            GetMessage(MessageType.InputState1).messageID = 0;
-            GetMessage(MessageType.InputAction2).messageID = 0;
-            GetMessage(MessageType.InputState2).messageID = 0;
-
+            // Check all entities with an InputContext
             for (int entity = 0; entity < totalEntities; entity++)
             {
                 if (inputContext[entity] != null)
                 {
-                    Components.InputContext context = inputContext[entity];
+                    InputContext context = inputContext[entity];
 
                     // Set old inputs to previous one
                     context.previousAction = context.currentAction;
@@ -60,8 +54,6 @@ namespace Bummerman.Systems
                     // Reset inputs
                     context.currentAction = 0;
                     context.currentState = 0;
-
-                    int playerID = playerInfo[entity].playerNumber - 1;
 
                     foreach (KeyValuePair<Keys, InputActions> action in context.keyToActions)
                     {

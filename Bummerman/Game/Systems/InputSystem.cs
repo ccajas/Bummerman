@@ -36,7 +36,7 @@ namespace Bummerman.Systems
         /// </summary>
         public override int Process(TimeSpan frameStepTime, int totalEntities)
         {
-            // Should initialize a selectable PlayerIndex
+            // TODO: Should initialize a selectable PlayerIndex
             currentKeyboardState = Keyboard.GetState();
             currentGamePadState = GamePad.GetState(PlayerIndex.One);
 

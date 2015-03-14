@@ -33,11 +33,28 @@ namespace Bummerman
             this.totalEntities = entityMgr.TotalEntities;
         }
 
+        /// <summary>
+        /// Process entities
+        /// </summary>
         public virtual int Process(TimeSpan frameStepTime, int totalEntities)
         {
             return this.totalEntities;
         }
+    }
 
-        public virtual void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch) { }
+    /// <summary>
+    /// A EntitySystem that supports drawing of Entities
+    /// </summary>
+    abstract class DrawableEntitySystem : EntitySystem
+    {
+        /// <summary>
+        /// Set up the Entity system
+        /// </summary>
+        public DrawableEntitySystem(EntityManager entityManager) : base(entityManager) { }
+
+        /// <summary>
+        /// Draw entities
+        /// </summary>
+        public abstract void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch);
     }
 }

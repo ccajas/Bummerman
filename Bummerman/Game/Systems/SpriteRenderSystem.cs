@@ -11,7 +11,7 @@ namespace Bummerman.Systems
     /// <summary>
     /// Renders all entities with a Sprite component.
     /// </summary>
-    class SpriteRenderSystem : EntitySystem
+    class SpriteRenderSystem : DrawableEntitySystem
     {
         /// Reference to texture and model assets
         Dictionary<string, Texture2D> textureCollection;

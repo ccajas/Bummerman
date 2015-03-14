@@ -7,8 +7,9 @@ namespace Bummerman
 {
     class SystemManager
     {
-        /// System collection
+        /// System collections
         List<EntitySystem> entitySystems;
+        List<DrawableEntitySystem> drawableEntitySystems;
 
         /// Manages Entity Components
         EntityManager entityManager;
@@ -25,6 +26,8 @@ namespace Bummerman
         public SystemManager(Component[] componentList)
         {
             entitySystems = new List<EntitySystem>();
+            drawableEntitySystems = new List<DrawableEntitySystem>();
+
             entityManager = new EntityManager(componentList);
         }
 
@@ -37,7 +40,12 @@ namespace Bummerman
             // The only exception are systems that mainly use Draw().
 
             foreach (EntitySystem system in systems)
+            {
+                if (system is DrawableEntitySystem)
+                    drawableEntitySystems.Add(system as DrawableEntitySystem);
+                
                 entitySystems.Add(system);
+            }
 
             entityManager.CreateTemplates();
         }
@@ -61,10 +69,13 @@ namespace Bummerman
         /// </summary>
         public void DrawEntities(SpriteBatch spriteBatch)
         {
-            foreach (EntitySystem system in entitySystems)
+            foreach (DrawableEntitySystem system in drawableEntitySystems)
                 system.Draw(spriteBatch.GraphicsDevice, spriteBatch);
         }
 
+        /// <summary>
+        /// Debug behavior of entities
+        /// </summary>
         public void DebugEntities(Viewport viewport, SpriteBatch spriteBatch, Texture2D pixel)
         {
             entityManager.DebugEntityGraph(viewport, spriteBatch, pixel);

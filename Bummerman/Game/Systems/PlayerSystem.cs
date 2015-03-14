@@ -11,7 +11,7 @@ namespace Bummerman.Systems
     /// <summary>
     /// Keeps track of players' total scores and how many are remaining
     /// </summary>
-    class PlayerSystem : EntitySystem
+    class PlayerSystem : DrawableEntitySystem
     {
         /// Important components
         PlayerInfo[] playerInfo;
@@ -58,7 +58,7 @@ namespace Bummerman.Systems
         /// </summary>
         public override void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
-            base.Draw(graphicsDevice, spriteBatch);
+
         }
     }
 }

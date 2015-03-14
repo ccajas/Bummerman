@@ -16,6 +16,14 @@ namespace Bummerman.Components
         public Dictionary<Buttons, InputActions> buttonToActions { get; private set; }
         public Dictionary<Buttons, InputStates> buttonToStates { get; private set; }
 
+        /// Current inputs of this context
+        public uint currentAction = 0;
+        public uint currentState = 0;
+
+        /// Previous inputs of this context
+        public uint previousAction = 0;
+        public uint previousState = 0;
+
         /// <summary>
         /// Initialize mapping lists
         /// </summary>
@@ -47,6 +55,16 @@ namespace Bummerman.Components
                 }
             }
             // Finish input mapping
+        }
+
+        /// <summary>
+        /// Compare input ID as a bitmask with a generic value
+        /// </summary>
+        public bool ValueFound<T>(T value)
+        {
+            int compareBit = (1 << Convert.ToInt32(value));
+
+            return ((currentState & compareBit) == compareBit);
         }
     }
 }

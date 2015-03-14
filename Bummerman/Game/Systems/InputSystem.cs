@@ -44,12 +44,23 @@ namespace Bummerman.Systems
             // First, reset player input action messages for each frame
             GetMessage(MessageType.InputAction1).messageID = 0;
             GetMessage(MessageType.InputState1).messageID = 0;
+            GetMessage(MessageType.InputAction2).messageID = 0;
+            GetMessage(MessageType.InputState2).messageID = 0;
 
             for (int entity = 0; entity < totalEntities; entity++)
             {
                 if (inputContext[entity] != null)
                 {
                     Components.InputContext context = inputContext[entity];
+
+                    // Set old inputs to previous one
+                    context.previousAction = context.currentAction;
+                    context.previousState = context.currentState;
+
+                    // Reset inputs
+                    context.currentAction = 0;
+                    context.currentState = 0;
+
                     int playerID = playerInfo[entity].playerNumber - 1;
 
                     foreach (KeyValuePair<Keys, InputActions> action in context.keyToActions)
@@ -57,8 +68,10 @@ namespace Bummerman.Systems
                         // Store the last input action
                         if (!previousKeyboardState.IsKeyDown(action.Key) && currentKeyboardState.IsKeyDown(action.Key))
                         {
-                            GetMessage(MessageType.InputAction1 + playerID).messageID = (uint)Convert.ToInt16(action.Value);
-                            GetMessage(MessageType.InputAction1 + playerID).receiver = (uint)Convert.ToInt16(entity);
+                            context.currentAction = (uint)Convert.ToInt16(action.Value);
+
+                            //GetMessage(MessageType.InputAction1 + playerID).messageID = (uint)Convert.ToInt16(action.Value);
+                            //GetMessage(MessageType.InputAction1 + playerID).receiver = (uint)Convert.ToInt16(entity);
                         }
                     }
 
@@ -67,8 +80,10 @@ namespace Bummerman.Systems
                         // Store input states in messages. Input states are cumulative
                         if (currentKeyboardState.IsKeyDown(state.Key))
                         {
-                            GetMessage(MessageType.InputState1 + playerID).messageID |= (uint)1 << Convert.ToInt16(state.Value);
-                            GetMessage(MessageType.InputState1 + playerID).receiver = (uint)Convert.ToInt16(entity);
+                            context.currentState |= (uint)1 << Convert.ToInt16(state.Value);
+
+                            //GetMessage(MessageType.InputState1 + playerID).messageID |= (uint)1 << Convert.ToInt16(state.Value);
+                            //GetMessage(MessageType.InputState1 + playerID).receiver = (uint)Convert.ToInt16(entity);
                         }
                     }
                 }

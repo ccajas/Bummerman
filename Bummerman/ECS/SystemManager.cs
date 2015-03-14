@@ -22,10 +22,10 @@ namespace Bummerman
         /// <summary>
         /// Setup lists and component groups
         /// </summary>
-        public SystemManager()
+        public SystemManager(Component[] componentList)
         {
             entitySystems = new List<EntitySystem>();
-            entityManager = new EntityManager();
+            entityManager = new EntityManager(componentList);
         }
 
         /// <summary>

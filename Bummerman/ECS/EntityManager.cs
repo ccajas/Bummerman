@@ -28,12 +28,15 @@ namespace Bummerman
         /// <summary>
         /// Setup Component groups
         /// </summary>
-        public EntityManager()
+        public EntityManager(Bummerman.Component[] componentList)
         {
             entityTemplates = new Dictionary<string, EntityTemplate>();
 
             // Add component dictionary and component arrays to it
             components = new Dictionary<ComponentType, Component[]>();
+
+            foreach (Component component in componentList)
+                components.Add(component.type, null);
 
             // Component arrays get added here
             components.Add(ComponentType.ScreenPosition, new Components.ScreenPosition[maxEntities]);

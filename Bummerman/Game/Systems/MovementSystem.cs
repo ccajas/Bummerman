@@ -16,9 +16,6 @@ namespace Bummerman.Systems
         PlayerInfo[] playerInfo;
         Sprite[] sprites;
 
-        /// Total player support
-        int maxPlayers = 4;
-
         /// <summary>
         /// Constructor to add components
         /// </summary>
@@ -37,50 +34,46 @@ namespace Bummerman.Systems
         public override int Process(TimeSpan frameStepTime, int totalEntities)
         {
             // Process input data from all possible players
-            for (int player = 0; player < maxPlayers; player++)
+            for (int i = 0; i < totalEntities; i++)
             {
-                Message message = GetMessage(MessageType.InputState1 + player);
-
-                // Perform actions if message ID isn't 0
-                if (message.messageID > 0)
+                if (playerInfo[i] != null && playerInfo[i].live)
                 {
-                    int entity = (int)message.receiver;
+                    InputContext input = components[ComponentType.InputContext][i] as InputContext;
 
-                    if (playerInfo[entity] != null && playerInfo[entity].playerNumber == player + 1)
+                    float speed = playerInfo[i].speed;
+
+                    // Toggle animation on
+                    if (input.currentState > 0)
+                        sprites[i].animation = Animation.DualForward;
+
+                    // Move the position based on input
+                    if (input.ValueFound<InputStates>(InputStates.MoveLeft))
                     {
-                        float speed = playerInfo[entity].speed;
-
-                        // Move the position based on input
-                        if (message.ValueFound<InputStates>(InputStates.MoveLeft))
-                        {
-                            screenPos[entity].position.X -= speed * (float)frameStepTime.TotalSeconds;
-                            sprites[entity].textureArea.X = 106;
-                        }
-
-                        if (message.ValueFound<InputStates>(InputStates.MoveRight))
-                        {
-                            screenPos[entity].position.X += speed * (float)frameStepTime.TotalSeconds;
-                            sprites[entity].textureArea.X = 161;
-                        }
-
-                        if (message.ValueFound<InputStates>(InputStates.MoveUp))
-                        {
-                            screenPos[entity].position.Y -= speed * (float)frameStepTime.TotalSeconds;
-                            sprites[entity].textureArea.X = 219;
-                        }
-
-                        if (message.ValueFound<InputStates>(InputStates.MoveDown))
-                        {
-                            screenPos[entity].position.Y += speed * (float)frameStepTime.TotalSeconds;
-                            sprites[entity].textureArea.X = 52;
-                        }
-
-                        // Round position to whole numbers
-                        screenPos[entity].position.X = (float)Math.Round(screenPos[entity].position.X);
-                        screenPos[entity].position.Y = (float)Math.Round(screenPos[entity].position.Y);
-
-                        sprites[entity].animation = Animation.DualForward;
+                        screenPos[i].position.X -= speed * (float)frameStepTime.TotalSeconds;
+                        sprites[i].textureArea.X = 106;
                     }
+
+                    if (input.ValueFound<InputStates>(InputStates.MoveRight))
+                    {
+                        screenPos[i].position.X += speed * (float)frameStepTime.TotalSeconds;
+                        sprites[i].textureArea.X = 161;
+                    }
+
+                    if (input.ValueFound<InputStates>(InputStates.MoveUp))
+                    {
+                        screenPos[i].position.Y -= speed * (float)frameStepTime.TotalSeconds;
+                        sprites[i].textureArea.X = 219;
+                    }
+
+                    if (input.ValueFound<InputStates>(InputStates.MoveDown))
+                    {
+                        screenPos[i].position.Y += speed * (float)frameStepTime.TotalSeconds;
+                        sprites[i].textureArea.X = 52;
+                    }
+
+                    // Round position to whole numbers
+                    screenPos[i].position.X = (float)Math.Round(screenPos[i].position.X);
+                    screenPos[i].position.Y = (float)Math.Round(screenPos[i].position.Y);
                 }
             }
 

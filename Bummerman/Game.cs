@@ -58,12 +58,13 @@ namespace Bummerman
             textureCollection = new Dictionary<string, Texture2D>();
             meshCollection = new Dictionary<string, Model>();
 
-            systemManager = new SystemManager();
+            // Add SystemManager and component types to it
+            SetupComponentsAndSystems();
             level = new Level();
 
             // Graphics settings
-            graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferWidth = 854;
+            graphics.PreferredBackBufferHeight = 480;
             graphics.PreferMultiSampling = false;
             graphics.ApplyChanges();
 
@@ -92,6 +93,16 @@ namespace Bummerman
             debugFont = Content.Load<SpriteFont>("debug");
             virtualResolutionRatio = (float)GraphicsDevice.Viewport.Width / (float)virtualBufferWidth;
 
+            // Load level entities
+            level.Load(systemManager.Entities);
+
+            // Finished loading content
+            // Make a 1x1 texture named pixel.  
+            pixel = new Texture2D(GraphicsDevice, 1, 1);
+
+            // Set the texture data with our color information.  
+            pixel.SetData<Color>(colorData);
+            /*
             // Set up BasicEffect
             basicEffect = new BasicEffect(graphics.GraphicsDevice);
 
@@ -123,24 +134,14 @@ namespace Bummerman
             basicEffect.Alpha = 1.0f;
 
             basicEffect.LightingEnabled = true;
-
-            // Create systems and entity templates
-            SetupSystems();
-
-            // Load level entities
-            level.Load(systemManager.Entities);
-           
-            // Finished loading content
-            // Make a 1x1 texture named pixel.  
-            pixel = new Texture2D(GraphicsDevice, 1, 1);
-
-            // Set the texture data with our color information.  
-            pixel.SetData<Color>(colorData);
+            */
         }
 
         // Creates systems and entity templates
-        private void SetupSystems()
+        private void SetupComponentsAndSystems()
         {
+            systemManager = new SystemManager(new Component[] { });
+
             systemManager.AddSystems(new EntitySystem[] 
             {
                 new Systems.InputSystem     (systemManager.Entities),
@@ -181,12 +182,12 @@ namespace Bummerman
 
             TimeSpan frameStepTime = gameTime.ElapsedGameTime;
             systemManager.ProcessComponents(frameStepTime);
-
+            /*
             Vector3 direction = basicEffect.DirectionalLight0.Direction;
             direction.X = (float)Math.Sin(gameTime.TotalGameTime.TotalSeconds);
             direction.Z = (float)Math.Cos(gameTime.TotalGameTime.TotalSeconds);
             basicEffect.DirectionalLight0.Direction = direction;
-
+            */
             base.Update(gameTime);
         }
 

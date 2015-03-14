@@ -12,7 +12,7 @@ namespace Bummerman
     {
         int gridLength = 15;
         int gridHeight = 13;
-        int numberOfPlayers = 4;
+        int numberOfPlayers = 2;
         int maxPlayerBombs = 9;
 
         /// <summary>
@@ -90,8 +90,8 @@ namespace Bummerman
             Keys[][] keyMappings = new Keys[numberOfPlayers][];
             keyMappings[0] = new Keys[] { Keys.Q, Keys.E, Keys.A, Keys.D, Keys.S, Keys.W };
             keyMappings[1] = new Keys[] { Keys.Space, Keys.Enter, Keys.Left, Keys.Right, Keys.Down, Keys.Up };
-            keyMappings[2] = new Keys[] { Keys.Space, Keys.Enter, Keys.Left, Keys.Right, Keys.Down, Keys.Up };
-            keyMappings[3] = new Keys[] { Keys.Space, Keys.Enter, Keys.Left, Keys.Right, Keys.Down, Keys.Up };
+            //keyMappings[2] = new Keys[] { Keys.Space, Keys.Enter, Keys.Left, Keys.Right, Keys.Down, Keys.Up };
+            //keyMappings[3] = new Keys[] { Keys.Space, Keys.Enter, Keys.Left, Keys.Right, Keys.Down, Keys.Up };
 
             int playerNumber = playerInfo.playerNumber - 1;
             int i = 0;

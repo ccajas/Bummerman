@@ -37,10 +37,8 @@ namespace Bummerman.Systems
             // Process input data from all possible players
             for (int player = 0; player < maxPlayers; player++)
             {
-                Message message = GetMessage(MessageType.InputState1 + player);
-
                 // Perform actions if message ID isn't 0
-                if (message.messageID > 0)
+                /*if (message.messageID > 0)
                 {
                     int entity = (int)message.receiver;
 
@@ -49,7 +47,7 @@ namespace Bummerman.Systems
                     {                      
                         // Play knocked out animation
                     }
-                }
+                } */
             }
 
             return base.Process(frameStepTime, totalEntities);

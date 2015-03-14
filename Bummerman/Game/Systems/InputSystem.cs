@@ -64,7 +64,7 @@ namespace Bummerman.Systems
 
                     foreach (KeyValuePair<Keys, InputStates> state in context.keyToStates)
                     {
-                        // Store input states in messages. Input states are cumulative
+                        // Store input states. Input states are cumulative
                         if (currentKeyboardState.IsKeyDown(state.Key))
                             context.currentState |= (uint)1 << Convert.ToInt16(state.Value);
                     }

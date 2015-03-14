@@ -19,9 +19,6 @@ namespace Bummerman
 
         protected int totalEntities = 0;
 
-        // Messages dispatched for all systems
-        protected static Message[] messages;
-
         /// <summary>
         /// Set up the Entity system
         /// </summary>
@@ -29,21 +26,6 @@ namespace Bummerman
         {
             this.entityMgr = entityManager;
             this.components = entityManager.components;
-
-            var messageTypeCount = Enum.GetNames(typeof(MessageType)).Length;
-            messages = new Message[messageTypeCount];
-
-            // Setup default message states
-            for (int i = 0; i < messageTypeCount; i++)
-                messages[i] = new Message();
-        }
-
-        /// <summary>
-        /// Get the message according to Message Type ID
-        /// </summary>
-        protected Message GetMessage(MessageType type)
-        {
-            return EntitySystem.messages[Convert.ToInt16(type)];
         }
 
         public void UpdateEntityCount()

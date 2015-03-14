@@ -39,7 +39,6 @@
     <Compile Include="ECS\EntityManager.cs" />
     <Compile Include="ECS\EntitySystem.cs" />
     <Compile Include="ECS\EntityTemplate.cs" />
-    <Compile Include="ECS\Message.cs" />
     <Compile Include="ECS\SystemManager.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Game\Components\Bomb.cs" />
@@ -52,6 +51,7 @@
     <Compile Include="Game\Components\Sprite.cs" />
     <Compile Include="Game\Components\TilePosition.cs" />
     <Compile Include="Game\Components\TimedEffect.cs" />
+    <Compile Include="Game\Dungeon.cs" />
     <Compile Include="Game\EntityPrefabs.cs" />
     <Compile Include="Game\Helpers\RectangleExtensions.cs" />
     <Compile Include="Game\Input\InputActions.cs" />
@@ -62,6 +62,7 @@
     <Compile Include="Game\Systems\ExplosionSystem.cs" />
     <Compile Include="Game\Systems\InputSystem.cs" />
     <Compile Include="Game\Systems\MovementSystem.cs" />
+    <Compile Include="Game\Systems\PlayerSystem.cs" />
     <Compile Include="Game\Systems\PowerUpSystem.cs" />
     <Compile Include="Game\Systems\SpriteRenderSystem.cs" />
     <Compile Include="Game\Systems\TileSystem.cs" />

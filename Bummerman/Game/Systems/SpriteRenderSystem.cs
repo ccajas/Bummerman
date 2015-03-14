@@ -45,7 +45,7 @@ namespace Bummerman.Systems
 
             // Set the effect
             this.basicEffect = basicEffect;
-            SetupEffect();
+            //SetupEffect();
         }
 
         private void SetupEffect()

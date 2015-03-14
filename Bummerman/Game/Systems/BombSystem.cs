@@ -15,8 +15,8 @@ namespace Bummerman.Systems
         /// Important components
         Bomb[] bombs;
         Sprite[] sprites;
-        TilePosition[] tilePosition;
         TimedEffect[] timedEffect;
+        PlayerInfo[] playerInfo;
 
         /// Set of existing bomb locations
         HashSet<Point> bombLocations = new HashSet<Point>();
@@ -33,8 +33,8 @@ namespace Bummerman.Systems
             // Load important components           
             bombs = components[ComponentType.Bomb] as Bomb[];
             sprites = components[ComponentType.Sprite] as Sprite[];
-            tilePosition = components[ComponentType.TilePosition] as TilePosition[];
             timedEffect = components[ComponentType.TimedEffect] as TimedEffect[];
+            playerInfo = components[ComponentType.PlayerInfo] as PlayerInfo[];
         }
 
         /// <summary>
@@ -42,46 +42,30 @@ namespace Bummerman.Systems
         /// </summary>
         public override int Process(TimeSpan frameStepTime, int totalEntities)
         {
-            Message message = GetMessage(MessageType.InputAction1);
+            // Check for any player bomb actions
+            for (int i = 0; i < totalEntities; i++)
+            {
+                if (playerInfo[i] != null && playerInfo[i].live)
+                {
+                    InputContext input = components[ComponentType.InputContext][i] as InputContext;
 
+                    if (input.currentAction == Convert.ToInt16(InputActions.remoteTrigger))
+                        RemoteTriggerBombs(playerInfo[i].playerNumber);
+
+                    if (input.currentAction == Convert.ToInt16(InputActions.setBomb))
+                        SetBomb(playerInfo[i]);
+                }
+            }
+
+            // Check through all bombs
             for (int i = 0; i < totalEntities; i++)
             {
                 // Get bomb data
                 TimedEffect bombTimer = timedEffect[i];
-                TilePosition tile = tilePosition[i];
                 Bomb bomb = bombs[i];
                 Sprite sprite = sprites[i];
 
-                // Handle remote trigger
-                if (message.messageID == Convert.ToInt16(InputActions.remoteTrigger))
-                {
-                    // Expire the bomb for this player
-                    if (bomb != null && bomb.live)
-                        bombTimer.elapsed = 0f;
-                }
-
-                // Handle bomb setting
-                if (message.messageID == Convert.ToInt16(InputActions.setBomb))
-                {
-                    // Get player data
-                    int playerEntityID = (int)message.receiver;
-                    PlayerInfo playerInfo = components[ComponentType.PlayerInfo][playerEntityID] as PlayerInfo;
-
-                    if (bomb != null && canPlace(bomb, playerInfo))
-                    {
-                        // Enable the bomb and reset timer
-                        bombTimer.elapsed = 5f;
-                        bomb.live = true;
-                        sprite.live = true;
-
-                        // Set its position and add it to list of locations
-                        tile.position = tilePosition[playerEntityID].position;
-                        bombLocations.Add(tile.position);
-                        playerInfo.currentBombs++;   
-                    }
-                }
-
-                // Check if any live bombs have expired
+                // Count down timer for bombs
                 if (bomb != null && bomb.live)
                 {
                     bombTimer.elapsed -= (float)frameStepTime.TotalSeconds;
@@ -93,7 +77,9 @@ namespace Bummerman.Systems
                         sprite.live = false;
 
                         // Remove bomb location
+                        TilePosition tile = components[ComponentType.TilePosition][i] as TilePosition;
                         bombLocations.Remove(tile.position);
+                        explodedPlayerBombs.Add(bomb.ownerID);
 
                         // Place explosion
                         EntityTemplate explosion = entityMgr.CreateEntityFromTemplate("Explosion");
@@ -102,8 +88,6 @@ namespace Bummerman.Systems
 
                         explosionTile.position = tile.position;
                         explosionSpread.range = bomb.power;
-
-                        explodedPlayerBombs.Add(bomb.ownerID);
                     }
                 }
             }
@@ -111,16 +95,15 @@ namespace Bummerman.Systems
             // Check for any exploded bombs
             for (int i = 0; i < totalEntities; i++)
             {
-                if (components[ComponentType.PlayerInfo][i] != null)
+                if (playerInfo[i] != null)
                 {
-                    PlayerInfo info = components[ComponentType.PlayerInfo][i] as PlayerInfo;
-                    int playerNumber = info.playerNumber;
+                    int playerNumber = playerInfo[i].playerNumber;
 
                     for (int j = 0; j < explodedPlayerBombs.Count; j++)
                     {
                         // Give player back an extra bomb
                         if (explodedPlayerBombs[j] == playerNumber)
-                            if (info.currentBombs > 0) info.currentBombs--;
+                            if (playerInfo[i].currentBombs > 0) playerInfo[i].currentBombs--;
                     }
                 }
             }
@@ -131,10 +114,60 @@ namespace Bummerman.Systems
         }
 
         /// <summary>
+        /// Detonate all bombs set by this player
+        /// </summary>
+        private void RemoteTriggerBombs(int playerNumber)
+        {
+            for (int i = 0; i < totalEntities; i++)
+            {
+                // Get bomb data
+                TimedEffect bombTimer = timedEffect[i];
+                Bomb bomb = bombs[i];
+                Sprite sprite = sprites[i];
+
+                // Handle remote trigger
+                if (bomb != null && bomb.ownerID == playerNumber && bomb.live)
+                    bombTimer.elapsed = 0f;
+            }
+        }
+
+        /// <summary>
+        /// Let player set one bomb
+        /// </summary>
+        private void SetBomb(PlayerInfo playerInfo)
+        {
+            for (int i = 0; i < totalEntities; i++)
+            {
+                // Get bomb data
+                TimedEffect bombTimer = timedEffect[i];
+                Bomb bomb = bombs[i];
+                Sprite sprite = sprites[i];
+
+                // Handle bomb setting
+                if (bomb != null && CanPlace(bomb, playerInfo))
+                {
+                    // Enable the bomb and reset timer
+                    bombTimer.elapsed = 5f;
+                    bomb.live = true;
+                    sprite.live = true;
+
+                    // Set its position and add it to list of locations
+                    TilePosition tile = components[ComponentType.TilePosition][i] as TilePosition;
+                    TilePosition playerTile = 
+                        components[ComponentType.TilePosition][playerInfo.entityID] as TilePosition;
+
+                    tile.position = playerTile.position;
+                    bombLocations.Add(tile.position);
+                    playerInfo.currentBombs++;   
+                }
+            }
+        }
+
+        /// <summary>
         /// Check if player can place a bomb
         /// </summary>
         /// <returns></returns>
-        private bool canPlace(Components.Bomb bomb, Components.PlayerInfo playerInfo)
+        private bool CanPlace(Components.Bomb bomb, Components.PlayerInfo playerInfo)
         {
             if (bomb.live || bomb.ownerID != playerInfo.playerNumber)
                 return false;

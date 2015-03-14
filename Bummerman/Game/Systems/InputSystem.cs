@@ -67,24 +67,14 @@ namespace Bummerman.Systems
                     {
                         // Store the last input action
                         if (!previousKeyboardState.IsKeyDown(action.Key) && currentKeyboardState.IsKeyDown(action.Key))
-                        {
                             context.currentAction = (uint)Convert.ToInt16(action.Value);
-
-                            //GetMessage(MessageType.InputAction1 + playerID).messageID = (uint)Convert.ToInt16(action.Value);
-                            //GetMessage(MessageType.InputAction1 + playerID).receiver = (uint)Convert.ToInt16(entity);
-                        }
                     }
 
                     foreach (KeyValuePair<Keys, InputStates> state in context.keyToStates)
                     {
                         // Store input states in messages. Input states are cumulative
                         if (currentKeyboardState.IsKeyDown(state.Key))
-                        {
                             context.currentState |= (uint)1 << Convert.ToInt16(state.Value);
-
-                            //GetMessage(MessageType.InputState1 + playerID).messageID |= (uint)1 << Convert.ToInt16(state.Value);
-                            //GetMessage(MessageType.InputState1 + playerID).receiver = (uint)Convert.ToInt16(entity);
-                        }
                     }
                 }
             }

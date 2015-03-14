@@ -94,12 +94,12 @@ namespace Bummerman.Systems
             explosionsToCheck.Clear();
             HashSet<Point> explosionsToRemove = new HashSet<Point>();
 
-            // Check for any tiles that would be affected by explosions.
+            // Check for any tiles or players that would be affected by explosions
             for (int i = 0; i < totalEntities; i++)
             {
                 if (colliders[i] != null && colliders[i].live && allExplosions.Contains(tiles[i].position))
                 {
-                    // Apply explosion impacts to soft blocks and power-ups by removing them from the stage.
+                    // Apply explosion impacts to soft blocks and power-ups by removing them from the stage
                     if (colliders[i].collisionType == CollisionType.SoftBlock)
                     {
                         entityMgr.DisableEntity(i);
@@ -108,13 +108,16 @@ namespace Bummerman.Systems
                         softBlockLocations.Add(tiles[i].position);
                     }
 
-                    // Remove any other non-solid objects
-                    if (colliders[i].collisionType == CollisionType.PassThrough)
-                        entityMgr.DisableEntity(i);
-
                     // Explosions can't pass through solid blocks so remove them
                     if (colliders[i].collisionType == CollisionType.SolidBlock)
                         explosionsToRemove.Add(tiles[i].position);
+
+                    // Remove any other non-solid objects (that includes players)
+                    if (colliders[i].collisionType == CollisionType.PassThrough)
+                        entityMgr.DisableEntity(i);
+
+                    if (colliders[i].collisionType == CollisionType.Player)
+                        components[ComponentType.PlayerInfo][i].live = false;
                 }
             }
 

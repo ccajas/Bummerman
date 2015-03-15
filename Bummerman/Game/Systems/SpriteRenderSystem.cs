@@ -30,9 +30,10 @@ namespace Bummerman.Systems
         /// <summary>
         /// Constructor to add component references
         /// </summary>
-        public SpriteRenderSystem(BasicEffect basicEffect, 
+        public SpriteRenderSystem(EntityManager entityManager,
+            BasicEffect basicEffect, 
             Dictionary<string, Model> modelCollection,
-            Dictionary<string, Texture2D> textureCollection, EntityManager entityManager)
+            Dictionary<string, Texture2D> textureCollection)
             : base(entityManager)
         {
             // Initialize component lists

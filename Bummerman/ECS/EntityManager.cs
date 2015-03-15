@@ -14,7 +14,6 @@ namespace Bummerman
     {
         /// ECS constants and vars
         int nextEntity = 0;
-        const int maxEntities = 1000;
 
         /// Component groups
         public Dictionary<ComponentType, Component[]> components { get; private set; }
@@ -28,27 +27,15 @@ namespace Bummerman
         /// <summary>
         /// Setup Component groups
         /// </summary>
-        public EntityManager(Bummerman.Component[] componentList)
+        public EntityManager(Dictionary<ComponentType, Component[]> componentLists)
         {
             entityTemplates = new Dictionary<string, EntityTemplate>();
 
             // Add component dictionary and component arrays to it
             components = new Dictionary<ComponentType, Component[]>();
 
-            foreach (Component component in componentList)
-                components.Add(component.type, null);
-
-            // Component arrays get added here
-            components.Add(ComponentType.ScreenPosition, new Components.ScreenPosition[maxEntities]);
-            components.Add(ComponentType.TilePosition, new Components.TilePosition[maxEntities]);
-            components.Add(ComponentType.Sprite, new Components.Sprite[maxEntities]);
-            components.Add(ComponentType.InputContext, new Components.InputContext[maxEntities]);
-            components.Add(ComponentType.Collision, new Components.Collision[maxEntities]);
-            components.Add(ComponentType.PlayerInfo, new Components.PlayerInfo[maxEntities]);
-            components.Add(ComponentType.Bomb, new Components.Bomb[maxEntities]);
-            components.Add(ComponentType.PowerUp, new Components.PowerUp[maxEntities]);
-            components.Add(ComponentType.Spreadable, new Components.Spreadable[maxEntities]);
-            components.Add(ComponentType.TimedEffect, new Components.TimedEffect[maxEntities]);
+            foreach (KeyValuePair<ComponentType, Component[]> componentList in componentLists)
+                components.Add(componentList.Key, componentList.Value);
         }
 
         /// <summary>

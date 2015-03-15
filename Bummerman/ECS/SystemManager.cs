@@ -23,12 +23,12 @@ namespace Bummerman
         /// <summary>
         /// Setup lists and component groups
         /// </summary>
-        public SystemManager(Component[] componentList)
+        public SystemManager(Dictionary<ComponentType, Component[]> componentLists)
         {
             entitySystems = new List<EntitySystem>();
             drawableEntitySystems = new List<DrawableEntitySystem>();
 
-            entityManager = new EntityManager(componentList);
+            entityManager = new EntityManager(componentLists);
         }
 
         /// <summary>

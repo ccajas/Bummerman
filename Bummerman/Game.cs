@@ -140,19 +140,33 @@ namespace Bummerman
         // Creates systems and entity templates
         private void SetupComponentsAndSystems()
         {
-            systemManager = new SystemManager(new Component[] { });
+            int maxEntities = 1000;
+
+            systemManager = new SystemManager(new Dictionary<ComponentType, Component[]>
+            { 
+                { ComponentType.ScreenPosition, new Components.ScreenPosition[maxEntities]},
+                { ComponentType.TilePosition, new Components.TilePosition[maxEntities]},
+                { ComponentType.Sprite, new Components.Sprite[maxEntities]},
+                { ComponentType.InputContext, new Components.InputContext[maxEntities]},
+                { ComponentType.Collision, new Components.Collision[maxEntities]},
+                { ComponentType.PlayerInfo, new Components.PlayerInfo[maxEntities]},
+                { ComponentType.Bomb, new Components.Bomb[maxEntities]},
+                { ComponentType.PowerUp, new Components.PowerUp[maxEntities]},
+                { ComponentType.Spreadable, new Components.Spreadable[maxEntities]},
+                { ComponentType.TimedEffect, new Components.TimedEffect[maxEntities]}
+            });
 
             systemManager.AddSystems(new EntitySystem[] 
             {
-                new Systems.InputSystem     (systemManager.Entities),
-                new Systems.MovementSystem  (systemManager.Entities),
-                new Systems.BombSystem      (systemManager.Entities),
-                new Systems.ExplosionSystem (systemManager.Entities),
-                new Systems.PowerUpSystem   (systemManager.Entities),
-                new Systems.TileSystem      (systemManager.Entities),
-                new Systems.CollisionSystem (systemManager.Entities),
-                new Systems.SpriteRenderSystem(basicEffect, meshCollection, 
-                    textureCollection, systemManager.Entities)
+                new Systems.InputSystem         (systemManager.Entities),
+                new Systems.MovementSystem      (systemManager.Entities),
+                new Systems.BombSystem          (systemManager.Entities),
+                new Systems.ExplosionSystem     (systemManager.Entities),
+                new Systems.PowerUpSystem       (systemManager.Entities),
+                new Systems.TileSystem          (systemManager.Entities),
+                new Systems.CollisionSystem     (systemManager.Entities),
+                new Systems.SpriteRenderSystem  (systemManager.Entities,
+                    basicEffect, meshCollection, textureCollection)
             });
         }
 

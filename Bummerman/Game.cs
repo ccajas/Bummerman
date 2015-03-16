@@ -28,6 +28,9 @@ namespace Bummerman
 
         RenderTarget2D screenRT;
         SpriteFont debugFont;
+
+        // Types of entities for this game
+        Dictionary<string, EntityTemplate> entityPrefabs;
         
         // Virtual resolution for adaptive resizing
         int virtualBufferWidth = 428;
@@ -59,6 +62,8 @@ namespace Bummerman
 
             // Add SystemManager and component types to it
             SetupComponentsAndSystems();
+            SetupEntityPrefabs();
+
             level = new Level();
 
             // Graphics settings
@@ -132,6 +137,16 @@ namespace Bummerman
                 new Systems.SpriteRenderSystem  (systemManager.Entities,
                     meshCollection, textureCollection)
             });
+        }
+
+        private void SetupEntityPrefabs()
+        {
+            systemManager.Entities.AddEntityTemplate("Player", EntityPrefabs.CreatePlayer());
+            systemManager.Entities.AddEntityTemplate("Bomb", EntityPrefabs.CreatePlayer());
+            systemManager.Entities.AddEntityTemplate("SolidBlock", EntityPrefabs.CreateSolidBlock());
+            systemManager.Entities.AddEntityTemplate("SoftBlock", EntityPrefabs.CreateSoftBlock());
+            systemManager.Entities.AddEntityTemplate("Explosion", EntityPrefabs.CreateExplosion());
+            systemManager.Entities.AddEntityTemplate("PowerUp_ExtraBomb", EntityPrefabs.CreatePowerUp_ExtraBomb());
         }
 
         // Background pixel texture 

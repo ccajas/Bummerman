@@ -46,8 +46,6 @@ namespace Bummerman
                 
                 entitySystems.Add(system);
             }
-
-            entityManager.CreateTemplates();
         }
 
         /// <summary>

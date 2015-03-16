@@ -13,7 +13,7 @@ namespace Bummerman
         /// <summary>
         /// Solid block prefab
         /// </summary>
-        public static EntityTemplate CreateSolidBlock(int entityID = -1)
+        public static EntityTemplate CreateSolidBlock()
         {
             EntityTemplate template = new EntityTemplate(
                 "Template",
@@ -31,13 +31,13 @@ namespace Bummerman
                 }
             );
 
-            return SetComponentEntityIDs(template, entityID);
+            return template;
         }
 
         /// <summary>
         /// Soft block prefab
         /// </summary>
-        public static EntityTemplate CreateSoftBlock(int entityID = -1)
+        public static EntityTemplate CreateSoftBlock()
         {
             EntityTemplate template = new EntityTemplate(
                 "Template",
@@ -55,13 +55,13 @@ namespace Bummerman
                 }
             );
 
-            return SetComponentEntityIDs(template, entityID);
+            return template;
         }
 
         /// <summary>
         /// Player prefab
         /// </summary>
-        public static EntityTemplate CreatePlayer(int entityID = -1)
+        public static EntityTemplate CreatePlayer()
         {
             EntityTemplate template = new EntityTemplate(
                 "Template",
@@ -94,13 +94,13 @@ namespace Bummerman
                 }
             );
 
-            return SetComponentEntityIDs(template, entityID);
+            return template;
         }
 
         /// <summary>
         /// Bomb prefab
         /// </summary>
-        public static EntityTemplate CreateBomb(int entityID = -1)
+        public static EntityTemplate CreateBomb()
         {
             EntityTemplate template = new EntityTemplate(
                 "Template",
@@ -124,13 +124,13 @@ namespace Bummerman
                 }
             );
 
-            return SetComponentEntityIDs(template, entityID);
+            return template;
         }
 
         /// <summary>
         /// Explosion prefab
         /// </summary>
-        public static EntityTemplate CreateExplosion(int entityID = -1)
+        public static EntityTemplate CreateExplosion()
         {
             EntityTemplate template = new EntityTemplate(
                 "Template",
@@ -150,7 +150,7 @@ namespace Bummerman
                 }
             );
 
-            return SetComponentEntityIDs(template, entityID);
+            return template;
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace Bummerman
         /// </summary>
  
         /// Extra Bomb prefab
-        public static EntityTemplate CreatePowerUp_ExtraBomb(int entityID = -1)
+        public static EntityTemplate CreatePowerUp_ExtraBomb()
         {
             EntityTemplate template = new EntityTemplate(
                 "Template",
@@ -176,17 +176,6 @@ namespace Bummerman
                     bounds = new Rectangle(0, 0, 16, 16)
                 }
             );
-
-            return SetComponentEntityIDs(template, entityID);
-        }
-
-        /// <summary>
-        /// Set the entity ID for each component here
-        /// </summary>
-        private static EntityTemplate SetComponentEntityIDs(EntityTemplate template, int ID)
-        {
-            foreach (Component component in template.componentList)
-                component.SetOwnerEntity(ID);
 
             return template;
         }

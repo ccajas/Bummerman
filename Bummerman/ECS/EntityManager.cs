@@ -39,17 +39,11 @@ namespace Bummerman
         }
 
         /// <summary>
-        /// Create entity templates
+        /// Wrapper to add Entity templates
         /// </summary>
-        public void CreateTemplates()
+        public void AddEntityTemplate(string templateName, EntityTemplate template)
         {
-            // Load templates
-            entityTemplates.Add("Player", EntityPrefabs.CreatePlayer());
-            entityTemplates.Add("Bomb", EntityPrefabs.CreatePlayer());
-            entityTemplates.Add("SolidBlock", EntityPrefabs.CreateSolidBlock());
-            entityTemplates.Add("SoftBlock", EntityPrefabs.CreateSoftBlock());
-            entityTemplates.Add("Explosion", EntityPrefabs.CreateExplosion());
-            entityTemplates.Add("PowerUp_ExtraBomb", EntityPrefabs.CreatePowerUp_ExtraBomb());
+            entityTemplates.Add(templateName, template);
         }
 
         /// <summary>
@@ -67,10 +61,11 @@ namespace Bummerman
                 Type prefabsType = typeof(EntityPrefabs);
                 MethodInfo theMethod = prefabsType.GetMethod("Create" + templateName);
 
-                // Call method to create new template
-                newTemplate = (EntityTemplate)theMethod.Invoke(null, new object[] { nextEntity });
+                // Call method to create new template using the next available ID
+                newTemplate = (EntityTemplate)theMethod.Invoke(null, new object[] { });
+                newTemplate = SetComponentEntityIDs(newTemplate, nextEntity);
 
-                // Check every list for proper insertion
+                // Add each component
                 foreach (Component component in newTemplate.componentList)
                     components[component.type][nextEntity] = component;
             }
@@ -79,6 +74,17 @@ namespace Bummerman
             nextEntity++;
 
             return newTemplate;
+        }
+
+        /// <summary>
+        /// Set the entity ID for each component here
+        /// </summary>
+        private EntityTemplate SetComponentEntityIDs(EntityTemplate template, int ID)
+        {
+            foreach (Component component in template.componentList)
+                component.SetOwnerEntity(ID);
+
+            return template;
         }
 
         /// <summary>

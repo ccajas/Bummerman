@@ -20,7 +20,7 @@ namespace Bummerman
         TimedEffect
     }
 
-    abstract class Component
+    abstract class Component : IDeepCloneable<Component>
     {
         // ID that ties components to an Entity
         public int entityID { get; private set; }
@@ -37,6 +37,15 @@ namespace Bummerman
         public void SetOwnerEntity(int ID)
         {
             entityID = ID;
+        }
+
+        /// <summary>
+        /// Simply clone component properties
+        /// </summary>
+        public Component DeepClone(int ID)
+        {
+            SetOwnerEntity(ID);
+            return (Component)this.MemberwiseClone();
         }
     }
 }

@@ -57,13 +57,9 @@ namespace Bummerman
             // Check if a valid template exists first
             if (entityTemplates.TryGetValue(templateName, out template))
             {
-                // Get proper EntityPrefab method
-                //Type prefabsType = typeof(EntityPrefabs);
-                //MethodInfo theMethod = prefabsType.GetMethod("Create" + templateName);
-
                 // Call method to create new template using the next available ID
                 EntityTemplate copyTemplate = entityTemplates[templateName];
-                newTemplate = copyTemplate.DeepClone();
+                newTemplate = copyTemplate.DeepClone(nextEntity);
 
                 // Add each component
                 foreach (Component component in newTemplate.componentList)

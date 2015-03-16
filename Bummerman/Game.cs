@@ -14,7 +14,7 @@ namespace Bummerman
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class BummermanGame : Game
+    public partial class BummermanGame : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -28,9 +28,6 @@ namespace Bummerman
 
         RenderTarget2D screenRT;
         SpriteFont debugFont;
-
-        // Types of entities for this game
-        Dictionary<string, EntityTemplate> entityPrefabs;
         
         // Virtual resolution for adaptive resizing
         int virtualBufferWidth = 428;
@@ -141,12 +138,8 @@ namespace Bummerman
 
         private void SetupEntityPrefabs()
         {
-            systemManager.Entities.AddEntityTemplate("Player", EntityPrefabs.CreatePlayer());
-            systemManager.Entities.AddEntityTemplate("Bomb", EntityPrefabs.CreatePlayer());
-            systemManager.Entities.AddEntityTemplate("SolidBlock", EntityPrefabs.CreateSolidBlock());
-            systemManager.Entities.AddEntityTemplate("SoftBlock", EntityPrefabs.CreateSoftBlock());
-            systemManager.Entities.AddEntityTemplate("Explosion", EntityPrefabs.CreateExplosion());
-            systemManager.Entities.AddEntityTemplate("PowerUp_ExtraBomb", EntityPrefabs.CreatePowerUp_ExtraBomb());
+            foreach (KeyValuePair<string, EntityTemplate> entityPrefab in entityPrefabs)
+                systemManager.Entities.AddEntityTemplate(entityPrefab.Key, entityPrefab.Value);
         }
 
         // Background pixel texture 

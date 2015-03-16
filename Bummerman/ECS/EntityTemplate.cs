@@ -7,7 +7,7 @@ namespace Bummerman
 {
     interface IDeepCloneable<T>
     {
-        T DeepClone();
+        T DeepClone(int entityID);
     }
 
     class EntityTemplate : IDeepCloneable<EntityTemplate>
@@ -50,18 +50,14 @@ namespace Bummerman
         }
 
         /// <summary>
-        /// Make a deep copy of the template
+        /// Make a deep copy of the template, with entity ID
         /// </summary>
-        public EntityTemplate DeepClone()
+        public EntityTemplate DeepClone(int entityID = -1)
         {
             var clone = (EntityTemplate)this.MemberwiseClone();
 
-            // This makes sure that deeper references are also cloned.
-            //clone._foo = _foo.DeepClone();
-
-            // Though you still need to manually clone types that you do not own like
-            // lists but you can also turn this into an extension method if you want.
-            //clone._lists = _lists.Select(f => f.DeepClone()).ToList();
+            // Clone list of components
+            clone.componentList = clone.componentList.Select(f => f.DeepClone(entityID)).ToList();
 
             // And you can simply call the ToList/ToArray method for lists/arrays
             // of value type entities.

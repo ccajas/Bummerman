@@ -58,12 +58,12 @@ namespace Bummerman
             if (entityTemplates.TryGetValue(templateName, out template))
             {
                 // Get proper EntityPrefab method
-                Type prefabsType = typeof(EntityPrefabs);
-                MethodInfo theMethod = prefabsType.GetMethod("Create" + templateName);
+                //Type prefabsType = typeof(EntityPrefabs);
+                //MethodInfo theMethod = prefabsType.GetMethod("Create" + templateName);
 
                 // Call method to create new template using the next available ID
-                newTemplate = (EntityTemplate)theMethod.Invoke(null, new object[] { });
-                newTemplate = SetComponentEntityIDs(newTemplate, nextEntity);
+                EntityTemplate copyTemplate = entityTemplates[templateName];
+                newTemplate = copyTemplate.DeepClone();
 
                 // Add each component
                 foreach (Component component in newTemplate.componentList)

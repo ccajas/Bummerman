@@ -26,7 +26,6 @@ namespace Bummerman
         Dictionary<string, Texture2D> textureCollection;
         Dictionary<string, Model> meshCollection;
 
-        BasicEffect basicEffect;
         RenderTarget2D screenRT;
         SpriteFont debugFont;
         
@@ -83,8 +82,6 @@ namespace Bummerman
             // load your game content here
             textureCollection.Add("sprites", Content.Load<Texture2D>("textures/sprites"));
 
-            //meshCollection.Add("block1", Content.Load<Model>("models/solidblock1"));
-
             // Set render target to virtual resolution
             screenRT = new RenderTarget2D(GraphicsDevice,
                 virtualBufferWidth,
@@ -102,39 +99,6 @@ namespace Bummerman
 
             // Set the texture data with our color information.  
             pixel.SetData<Color>(colorData);
-            /*
-            // Set up BasicEffect
-            basicEffect = new BasicEffect(graphics.GraphicsDevice);
-
-            float tilt = MathHelper.ToRadians(0);  // 0 degree angle
-            // Use the world matrix to tilt the cube along x and y axes.
-            Matrix worldMatrix = Matrix.CreateRotationX(tilt) * Matrix.CreateRotationY(tilt);
-            Matrix viewMatrix = Matrix.CreateLookAt(new Vector3(15, 30, 50), new Vector3(15, 0, 10), Vector3.Up);
-
-            Matrix projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
-                MathHelper.ToRadians(45),  // 45 degree angle
-                (float)GraphicsDevice.Viewport.AspectRatio,
-                1.0f, 1000.0f);
-
-            basicEffect.World = worldMatrix;
-            basicEffect.View = viewMatrix;
-            basicEffect.Projection = projectionMatrix;
-
-            // primitive color
-            basicEffect.AmbientLightColor = new Vector3(0.1f, 0.1f, 0.1f);
-
-            basicEffect.DirectionalLight0.DiffuseColor = new Vector3(0.9f, 0.9f, 0.9f); // a red light
-            basicEffect.DirectionalLight0.Direction = new Vector3(1, -1, 0.4f);  // coming along the x-axis
-            basicEffect.DirectionalLight0.SpecularColor = new Vector3(0, 1, 0); // with green highlights
-            basicEffect.DirectionalLight0.Enabled = true;
-
-            basicEffect.DiffuseColor = Vector3.One;
-            basicEffect.SpecularColor = new Vector3(0.25f, 0.25f, 0.25f);
-            basicEffect.SpecularPower = 1.0f;
-            basicEffect.Alpha = 1.0f;
-
-            basicEffect.LightingEnabled = true;
-            */
         }
 
         // Creates systems and entity templates
@@ -166,7 +130,7 @@ namespace Bummerman
                 new Systems.TileSystem          (systemManager.Entities),
                 new Systems.CollisionSystem     (systemManager.Entities),
                 new Systems.SpriteRenderSystem  (systemManager.Entities,
-                    basicEffect, meshCollection, textureCollection)
+                    meshCollection, textureCollection)
             });
         }
 

@@ -144,8 +144,8 @@ namespace Bummerman
                                  Color.Yellow, Color.Green, Color.Red, Color.Orange, Color.Fuchsia, 
                                  new Color(0, 255, 0), Color.LightSkyBlue };
 
-            // Debug the first 200 entities
-            for (int i = 0; i < 200; i++)
+            // Debug the entities
+            for (int i = 0; i < nextEntity; i++)
             {
                 int j = 0;
                 foreach (Component[] componentArray in components.Values)

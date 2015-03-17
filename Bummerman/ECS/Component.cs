@@ -7,7 +7,7 @@ namespace Bummerman
 {
     enum ComponentType
     {
-        Bomb = 1,
+        Bomb = 0,
         Collision,
         InputContext,
         Message,

@@ -74,9 +74,9 @@ namespace Bummerman
         /// <summary>
         /// Debug behavior of entities
         /// </summary>
-        public void DebugEntities(Viewport viewport, SpriteBatch spriteBatch, Texture2D pixel)
+        public void DebugEntities(ref int[] entityInfo)
         {
-            entityManager.DebugEntityGraph(viewport, spriteBatch, pixel);
+            entityManager.DebugEntityGraph(ref entityInfo);
         }
     }
 }

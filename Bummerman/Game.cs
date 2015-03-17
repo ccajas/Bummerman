@@ -1,5 +1,6 @@
 ﻿#region Using Statements
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -193,15 +194,54 @@ namespace Bummerman
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, 
                 DepthStencilState.Default, RasterizerState.CullCounterClockwise);
             spriteBatch.Draw((Texture2D)screenRT, Vector2.Zero, null, Color.White, 0f, 
-                Vector2.Zero, virtualResolutionRatio, SpriteEffects.None, 0f);    
-
-            // Draw debug data
-            systemManager.DebugEntities(GraphicsDevice.Viewport, spriteBatch, pixel);
-            spriteBatch.DrawString(debugFont, systemManager.totalEntities.ToString(),
-                new Vector2(2, GraphicsDevice.Viewport.Height - 24f), Color.White);    
+                Vector2.Zero, virtualResolutionRatio, SpriteEffects.None, 0f);
             spriteBatch.End();
 
+            // Draw ECS debug data
+            DrawDebugData();
+
             base.Draw(gameTime);
+        }
+
+        /// <summary>
+        /// Display debug data from ECS
+        /// </summary>
+        [Conditional("DEBUG")]
+        private void DrawDebugData()
+        {
+            int[] entityInfo = new int[1];
+            systemManager.DebugEntities(ref entityInfo);
+
+            spriteBatch.Begin();
+            spriteBatch.Draw(pixel, new Rectangle(0, GraphicsDevice.Viewport.Height - 88, 
+                GraphicsDevice.Viewport.Width, 108), new Color(0, 0, 0, 0.8f));
+            spriteBatch.Draw(pixel, new Rectangle(4 + (200 * 4), GraphicsDevice.Viewport.Height - 88, 3, 7), Color.White);
+
+            // Default component colors
+            Color[] colors = { new Color(0, 0, 0, 0.5f), Color.White, Color.Blue, Color.Cyan, Color.LightGreen, 
+                                 Color.Yellow, Color.Green, Color.Red, Color.Orange, Color.Fuchsia, 
+                                 new Color(0, 255, 0), Color.LightSkyBlue };
+
+            // Display component info for each entity
+            for (int i = 0; i < entityInfo.Length; i++)
+            {
+                int j = 1;
+                int component = 0;
+                while (j < (1 << 10))
+                {
+                    j = 1 << component;
+                    int c = ((int)(entityInfo[i] & j) == j) ? component + 1 : 0;
+
+                    spriteBatch.Draw(pixel, new Rectangle(4 + (i * 4),
+                        GraphicsDevice.Viewport.Height - 80 + (component * 6), 3, 5), colors[c]);
+
+                    component++;
+                }
+            }
+
+            spriteBatch.DrawString(debugFont, systemManager.totalEntities.ToString(),
+                new Vector2(2, GraphicsDevice.Viewport.Height - 24f), Color.White);
+            spriteBatch.End();
         }
     }
 }

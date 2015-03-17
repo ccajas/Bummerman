@@ -13,7 +13,7 @@ namespace Bummerman
     class EntityTemplate : IDeepCloneable<EntityTemplate>
     {
         public List<Component> componentList { get; set; }
-        public int componentMask { get; private set; }
+        public int entityBitmask { get; private set; }
         string name;
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Bummerman
             foreach (Component component in components)
             {
                 componentList.Add(component);
-                componentMask |= Convert.ToInt32(component.type);
+                entityBitmask |= Convert.ToInt32(component.type);
             }    
         }
 
@@ -38,7 +38,7 @@ namespace Bummerman
         {
             int componentType = Convert.ToInt32(type);
 
-            if ((componentMask & componentType) == componentType)
+            if ((entityBitmask & componentType) == componentType)
             {
                 foreach (Component component in componentList)
                 {

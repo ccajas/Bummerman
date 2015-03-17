@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Bummerman
+namespace Meteor.ECS
 {
     /// <summary>
     /// Base class for all Systems that work on Entities

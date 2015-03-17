@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Bummerman.Components;
+using Meteor.ECS;
 
-namespace Bummerman.Systems
+namespace Bummerman
 {
     /// <summary>
     /// Handle input from players for processing in other systems

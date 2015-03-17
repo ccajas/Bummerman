@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
+using Meteor.ECS;
 #endregion
 
 namespace Bummerman
@@ -125,14 +126,14 @@ namespace Bummerman
 
             systemManager.AddSystems(new EntitySystem[] 
             {
-                new Systems.InputSystem         (systemManager.Entities),
-                new Systems.MovementSystem      (systemManager.Entities),
-                new Systems.BombSystem          (systemManager.Entities),
-                new Systems.ExplosionSystem     (systemManager.Entities),
-                new Systems.PowerUpSystem       (systemManager.Entities),
-                new Systems.TileSystem          (systemManager.Entities),
-                new Systems.CollisionSystem     (systemManager.Entities),
-                new Systems.SpriteRenderSystem  (systemManager.Entities,
+                new InputSystem         (systemManager.Entities),
+                new MovementSystem      (systemManager.Entities),
+                new BombSystem          (systemManager.Entities),
+                new ExplosionSystem     (systemManager.Entities),
+                new PowerUpSystem       (systemManager.Entities),
+                new TileSystem          (systemManager.Entities),
+                new CollisionSystem     (systemManager.Entities),
+                new SpriteRenderSystem  (systemManager.Entities,
                     meshCollection, textureCollection)
             });
         }

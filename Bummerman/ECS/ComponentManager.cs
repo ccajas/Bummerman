@@ -5,7 +5,7 @@ using System.Reflection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Bummerman
+namespace Meteor.ECS
 {
     /// <summary>
     /// Setup, update, create and delete Component groups as entities.
@@ -135,31 +135,20 @@ namespace Bummerman
         }
 
         [Conditional("DEBUG")]
-        public void DebugEntityGraph(ref int[] entityInfo)
+        public void OutputEntityGraph(ref int[] entityInfo)
         {
-            /*spriteBatch.Draw(pixel, new Rectangle(0, viewport.Height - 88, viewport.Width, 108), new Color(0, 0, 0, 0.8f));
-            spriteBatch.Draw(pixel, new Rectangle(4 + (nextEntity * 4), viewport.Height - 88, 3, 7), Color.White);
-
-            Color[] colors = { new Color(0, 0, 0, 0.5f), Color.White, Color.Blue, Color.Cyan, Color.LightGreen, 
-                                 Color.Yellow, Color.Green, Color.Red, Color.Orange, Color.Fuchsia, 
-                                 new Color(0, 255, 0), Color.LightSkyBlue };*/
-
             Array.Resize<int>(ref entityInfo, nextEntity);
 
             // Debug the entities
             for (int i = 0; i < nextEntity; i++)
             {
-                int j = 0;
                 foreach (Component[] componentArray in components.Values)
                 {
                     if (componentArray[i] != null)
                         entityInfo[i] |= 1 << Convert.ToInt16(componentArray[i].type);
-
-                    //spriteBatch.Draw(pixel, new Rectangle(4 + (i * 4), viewport.Height - 80 + (j * 6), 3, 5), colors[entityBitmask]);
-                    j++;
                 }
             }
-            // Finish debugging entities
+            // Finish outputting entities
         }
     }
 }

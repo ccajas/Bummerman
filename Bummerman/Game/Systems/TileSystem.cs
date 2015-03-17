@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Bummerman.Components;
+using Meteor.ECS;
 
-namespace Bummerman.Systems
+namespace Bummerman
 {
     using ComponentCollection = Dictionary<ComponentType, Component[]>;
 
@@ -15,8 +17,8 @@ namespace Bummerman.Systems
         readonly int levelTileSize = 16;
 
         /// Important components
-        Components.ScreenPosition[] screenPos;
-        Components.TilePosition[] tilePos;
+        ScreenPosition[] screenPos;
+        TilePosition[] tilePos;
 
         /// <summary>
         /// Constructor to add components
@@ -25,8 +27,8 @@ namespace Bummerman.Systems
             : base(entityManager) 
         {
             // Load important components
-            screenPos = components[ComponentType.ScreenPosition] as Components.ScreenPosition[];
-            tilePos = components[ComponentType.TilePosition] as Components.TilePosition[];    
+            screenPos = components[ComponentType.ScreenPosition] as ScreenPosition[];
+            tilePos = components[ComponentType.TilePosition] as TilePosition[];    
         }
 
         /// <summary>

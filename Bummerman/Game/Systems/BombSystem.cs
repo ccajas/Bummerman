@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Bummerman.Components;
+using Meteor.ECS;
 
-namespace Bummerman.Systems
+namespace Bummerman
 {
     using ComponentCollection = Dictionary<ComponentType, Component[]>;
 

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Bummerman.Components;
+using Meteor.ECS;
 
-namespace Bummerman.Systems
+namespace Bummerman
 {
     class CollisionSystem : EntitySystem
     {
@@ -10,9 +12,9 @@ namespace Bummerman.Systems
         List<Components.Collision> blockColliders = new List<Components.Collision>();
 
         /// Important components
-        Components.Collision[] collision;
-        Components.ScreenPosition[] screenPosition;
-        Components.TilePosition[] tilePosition;
+        Collision[] collision;
+        ScreenPosition[] screenPosition;
+        TilePosition[] tilePosition;
 
         /// <summary>
         /// Constructor to add components
@@ -21,9 +23,9 @@ namespace Bummerman.Systems
             : base(entityManager) 
         {
             // Load important components
-            collision = components[ComponentType.Collision] as Components.Collision[];
-            screenPosition = components[ComponentType.ScreenPosition] as Components.ScreenPosition[];      
-            tilePosition = components[ComponentType.TilePosition] as Components.TilePosition[];          
+            collision = components[ComponentType.Collision] as Collision[];
+            screenPosition = components[ComponentType.ScreenPosition] as ScreenPosition[];      
+            tilePosition = components[ComponentType.TilePosition] as TilePosition[];          
         }
 
         /// <summary>

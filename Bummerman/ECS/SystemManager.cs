@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Bummerman
+namespace Meteor.ECS
 {
     class SystemManager
     {
@@ -76,7 +76,7 @@ namespace Bummerman
         /// </summary>
         public void DebugEntities(ref int[] entityInfo)
         {
-            entityManager.DebugEntityGraph(ref entityInfo);
+            entityManager.OutputEntityGraph(ref entityInfo);
         }
     }
 }

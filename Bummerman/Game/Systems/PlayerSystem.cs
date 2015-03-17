@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Graphics;
 using Bummerman.Components;
+using Meteor.ECS;
 
-namespace Bummerman.Systems
+namespace Bummerman
 {
     /// <summary>
     /// Keeps track of players' total scores and how many are remaining

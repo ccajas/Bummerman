@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Bummerman.Components;
+using Meteor.ECS;
 
 namespace Bummerman
 {

@@ -1,7 +1,8 @@
 ﻿using System;
 using Bummerman.Components;
+using Meteor.ECS;
 
-namespace Bummerman.Systems
+namespace Bummerman
 {
     /// <summary>
     /// Control Entity movements

@@ -16,7 +16,7 @@ namespace Bummerman
     {
         /// Reference to texture and model assets
         Dictionary<string, Texture2D> textureCollection;
-        Dictionary<string, Model> modelCollection;
+        //Dictionary<string, Model> modelCollection;
 
         /// Graphics resources
         SpriteBatch spriteBatch;
@@ -32,14 +32,12 @@ namespace Bummerman
         /// Constructor to add component references
         /// </summary>
         public SpriteRenderSystem(ComponentManager componentManager,
-            Dictionary<string, Model> modelCollection,
             Dictionary<string, Texture2D> textureCollection,
             SpriteBatch spriteBatch)
             : base(componentManager)
         {
-            // Initialize component lists
+            // Initialize asset collections
             this.textureCollection = textureCollection;
-            this.modelCollection = modelCollection;
 
             // Load important components
             sprites = components[ComponentType.Sprite] as Sprite[];
@@ -60,11 +58,11 @@ namespace Bummerman
                 // Update sprite animations
                 if (sprites[i] != null && sprites[i].live && sprites[i].animation != Animation.None)
                 {
-                    // Move time forward
+                    // Update time for Forward animations
                     if (sprites[i].animation == Animation.Forward || sprites[i].animation == Animation.DualForward)
                         sprites[i].frameTime += (float)frameStepTime.TotalSeconds;
 
-                    // Move time backward
+                    // Update time for Reverse animations
                     if (sprites[i].animation == Animation.Reverse || sprites[i].animation == Animation.DualReverse)
                         sprites[i].frameTime -= (float)frameStepTime.TotalSeconds;
 

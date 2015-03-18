@@ -26,7 +26,7 @@ namespace Bummerman
 
         // Sprite textures and other assets
         Dictionary<string, Texture2D> textureCollection;
-        Dictionary<string, Model> meshCollection;
+        //Dictionary<string, Model> meshCollection;
 
         RenderTarget2D screenRT;
         SpriteFont debugFont;
@@ -113,15 +113,15 @@ namespace Bummerman
             systemManager = new SystemManager(new Dictionary<ComponentType, Component[]>
             { 
                 { ComponentType.ScreenPosition, new Components.ScreenPosition[maxEntities]},
-                { ComponentType.TilePosition, new Components.TilePosition[maxEntities]},
-                { ComponentType.Sprite, new Components.Sprite[maxEntities]},
-                { ComponentType.InputContext, new Components.InputContext[maxEntities]},
-                { ComponentType.Collision, new Components.Collision[maxEntities]},
-                { ComponentType.PlayerInfo, new Components.PlayerInfo[maxEntities]},
-                { ComponentType.Bomb, new Components.Bomb[maxEntities]},
-                { ComponentType.PowerUp, new Components.PowerUp[maxEntities]},
-                { ComponentType.Spreadable, new Components.Spreadable[maxEntities]},
-                { ComponentType.TimedEffect, new Components.TimedEffect[maxEntities]}
+                { ComponentType.TilePosition,   new Components.TilePosition[maxEntities]},
+                { ComponentType.Sprite,         new Components.Sprite[maxEntities]},
+                { ComponentType.InputContext,   new Components.InputContext[maxEntities]},
+                { ComponentType.Collision,      new Components.Collision[maxEntities]},
+                { ComponentType.PlayerInfo,     new Components.PlayerInfo[maxEntities]},
+                { ComponentType.Bomb,           new Components.Bomb[maxEntities]},
+                { ComponentType.PowerUp,        new Components.PowerUp[maxEntities]},
+                { ComponentType.Spreadable,     new Components.Spreadable[maxEntities]},
+                { ComponentType.TimedEffect,    new Components.TimedEffect[maxEntities]}
             });
 
             systemManager.AddSystems(new EntitySystem[] 
@@ -134,7 +134,7 @@ namespace Bummerman
                 new TileSystem          (systemManager.Entities),
                 new CollisionSystem     (systemManager.Entities),
                 new SpriteRenderSystem  (systemManager.Entities,
-                    meshCollection, textureCollection, spriteBatch)
+                    textureCollection, spriteBatch)
             });
         }
 

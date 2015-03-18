@@ -10,7 +10,7 @@ namespace Meteor.ECS
         T DeepClone(int entityID);
     }
 
-    class EntityTemplate : IDeepCloneable<EntityTemplate>
+    public class EntityTemplate : IDeepCloneable<EntityTemplate>
     {
         public List<Component> componentList { get; set; }
         public int entityBitmask { get; private set; }

@@ -18,6 +18,9 @@ namespace Bummerman
         Dictionary<string, Texture2D> textureCollection;
         Dictionary<string, Model> modelCollection;
 
+        /// Graphics resources
+        SpriteBatch spriteBatch;
+
         /// Offset position
         Vector2 screenAreaOffset = new Vector2(92, 8);
 
@@ -30,7 +33,8 @@ namespace Bummerman
         /// </summary>
         public SpriteRenderSystem(EntityManager entityManager,
             Dictionary<string, Model> modelCollection,
-            Dictionary<string, Texture2D> textureCollection)
+            Dictionary<string, Texture2D> textureCollection,
+            SpriteBatch spriteBatch)
             : base(entityManager)
         {
             // Initialize component lists
@@ -42,6 +46,7 @@ namespace Bummerman
             screenPosition = components[ComponentType.ScreenPosition] as ScreenPosition[];
 
             // Set the effect
+            this.spriteBatch = spriteBatch;
             //SetupEffect();
         }
 
@@ -113,7 +118,8 @@ namespace Bummerman
         /// <summary>
         /// Draw entities with Sprite components
         /// </summary>
-        public override void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
+        
+        public override void Draw()
         {
             spriteBatch.Begin();
 

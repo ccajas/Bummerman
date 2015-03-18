@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Meteor.ECS
 {
-    enum ComponentType
+    public enum ComponentType
     {
         Bomb = 0,
         Collision,
@@ -20,7 +20,7 @@ namespace Meteor.ECS
         TimedEffect
     }
 
-    abstract class Component : IDeepCloneable<Component>
+    public abstract class Component : IDeepCloneable<Component>
     {
         // ID that ties components to an Entity
         public int entityID { get; private set; }

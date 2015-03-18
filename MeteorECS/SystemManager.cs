@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace Meteor.ECS
 {
-    class SystemManager
+    public class SystemManager
     {
         /// System collections
         List<EntitySystem> entitySystems;
@@ -65,10 +64,10 @@ namespace Meteor.ECS
         /// <summary>
         /// Draw entities with each system
         /// </summary>
-        public void DrawEntities(SpriteBatch spriteBatch)
+        public void DrawEntities()
         {
             foreach (DrawableEntitySystem system in drawableEntitySystems)
-                system.Draw(spriteBatch.GraphicsDevice, spriteBatch);
+                system.Draw();
         }
 
         /// <summary>

@@ -8,7 +8,7 @@ namespace Bummerman
     /// <summary>
     /// Keeps track of players' total scores and how many are remaining
     /// </summary>
-    class PlayerSystem : DrawableEntitySystem
+    class PlayerSystem : EntitySystem
     {
         /// Important components
         PlayerInfo[] playerInfo;
@@ -53,9 +53,9 @@ namespace Bummerman
         /// <summary>
         /// Draw player stats HUD on the screen
         /// </summary>
-        public override void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
-        {
+        //public override void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
+        //{
 
-        }
+        //}
     }
 }

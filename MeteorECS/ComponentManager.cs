@@ -2,15 +2,13 @@
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Reflection;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace Meteor.ECS
 {
     /// <summary>
     /// Setup, update, create and delete Component groups as entities.
     /// </summary>
-    class EntityManager
+    public class EntityManager
     {
         /// ECS constants and vars
         int nextEntity = 0;

@@ -59,6 +59,9 @@ namespace Bummerman
             textureCollection = new Dictionary<string, Texture2D>();
             meshCollection = new Dictionary<string, Model>();
 
+            // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+
             // Add SystemManager and component types to it
             SetupComponentsAndSystems();
             SetupEntityPrefabs();
@@ -80,9 +83,6 @@ namespace Bummerman
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
             // load your game content here
             textureCollection.Add("sprites", Content.Load<Texture2D>("textures/sprites"));
 
@@ -134,7 +134,7 @@ namespace Bummerman
                 new TileSystem          (systemManager.Entities),
                 new CollisionSystem     (systemManager.Entities),
                 new SpriteRenderSystem  (systemManager.Entities,
-                    meshCollection, textureCollection)
+                    meshCollection, textureCollection, spriteBatch)
             });
         }
 
@@ -187,7 +187,7 @@ namespace Bummerman
         {           
             GraphicsDevice.SetRenderTarget(screenRT);
             GraphicsDevice.Clear(new Color(94, 109, 119));
-            systemManager.DrawEntities(spriteBatch);
+            systemManager.DrawEntities();
             GraphicsDevice.SetRenderTarget(null);
 
             // Draw render target area to window

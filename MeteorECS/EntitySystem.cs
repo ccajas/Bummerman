@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework.Graphics;
+//using Microsoft.Xna.Framework.Graphics;
 
 namespace Meteor.ECS
 {
     /// <summary>
     /// Base class for all Systems that work on Entities
     /// </summary>
-    abstract class EntitySystem
+    public abstract class EntitySystem
     {
         protected EntityManager entityMgr;
         protected Dictionary<ComponentType, Component[]> components;
@@ -40,7 +40,7 @@ namespace Meteor.ECS
     /// <summary>
     /// A EntitySystem that supports drawing of Entities
     /// </summary>
-    abstract class DrawableEntitySystem : EntitySystem
+    public abstract class DrawableEntitySystem : EntitySystem
     {
         /// <summary>
         /// Set up the Entity system
@@ -50,6 +50,6 @@ namespace Meteor.ECS
         /// <summary>
         /// Draw entities
         /// </summary>
-        public abstract void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch);
+        public abstract void Draw();
     }
 }

@@ -5,7 +5,7 @@ using Meteor.ECS;
 namespace Bummerman
 {
     /// <summary>
-    /// Control Entity movements
+    /// Control Player Entity movements
     /// </summary>
     class MovementSystem : EntitySystem
     {
@@ -39,34 +39,42 @@ namespace Bummerman
                     InputContext input = components[ComponentType.InputContext][i] as InputContext;
 
                     float speed = playerInfo[i].speed;
-
-                    // Toggle animation on
-                    if (input.currentState > 0)
-                        sprites[i].animation = Animation.DualForward;
+                    int spriteTextureX = -1;
 
                     // Move the position based on input
                     if (input.ValueFound<InputStates>(InputStates.MoveLeft))
                     {
                         screenPos[i].position.X -= speed * (float)frameStepTime.TotalSeconds;
-                        sprites[i].textureArea.X = 106;
+                        spriteTextureX = 106;
                     }
 
                     if (input.ValueFound<InputStates>(InputStates.MoveRight))
                     {
                         screenPos[i].position.X += speed * (float)frameStepTime.TotalSeconds;
-                        sprites[i].textureArea.X = 161;
+                        spriteTextureX = 161;
                     }
 
                     if (input.ValueFound<InputStates>(InputStates.MoveUp))
                     {
                         screenPos[i].position.Y -= speed * (float)frameStepTime.TotalSeconds;
-                        sprites[i].textureArea.X = 219;
+                        spriteTextureX = 219;
                     }
 
                     if (input.ValueFound<InputStates>(InputStates.MoveDown))
                     {
                         screenPos[i].position.Y += speed * (float)frameStepTime.TotalSeconds;
-                        sprites[i].textureArea.X = 52;
+                        spriteTextureX = 52;
+                    }
+
+                    if (input.currentState != input.previousState)
+                    {
+                        // Set proper animation
+                        sprites[i].animation = (input.currentState > 0) ? 
+                            Animation.DualForward : Animation.None;
+
+                        // Check if sprite animation needs updating
+                        if (spriteTextureX >= 0)
+                            sprites[i].textureArea.X = spriteTextureX;
                     }
 
                     // Round position to whole numbers

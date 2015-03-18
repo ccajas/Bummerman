@@ -44,16 +44,12 @@ namespace Bummerman.Components
             IEnumerable<KeyValuePair<Keys, InputStates>> states = null)
         {
             foreach (KeyValuePair<Keys, InputActions> pair in actions)
-            {
                 keyToActions[pair.Key] = pair.Value;
-            }
 
             if (states != null)
             {
                 foreach (KeyValuePair<Keys, InputStates> pair in states)
-                {
                     keyToStates[pair.Key] = pair.Value;
-                }
             }
             // Finish input mapping
         }

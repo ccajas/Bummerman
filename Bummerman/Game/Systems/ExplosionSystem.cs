@@ -27,8 +27,8 @@ namespace Bummerman
         /// <summary>
         /// Constructor to add component references
         /// </summary>
-        public ExplosionSystem(EntityManager entityManager)
-            : base(entityManager)
+        public ExplosionSystem(ComponentManager componentManager)
+            : base(componentManager)
         {
             // Load important components
             tiles = components[ComponentType.TilePosition] as TilePosition[];

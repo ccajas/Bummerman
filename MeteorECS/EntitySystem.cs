@@ -8,7 +8,7 @@ namespace Meteor.ECS
     /// </summary>
     public abstract class EntitySystem
     {
-        protected EntityManager entityMgr;
+        protected ComponentManager entityMgr;
         protected Dictionary<ComponentType, Component[]> components;
 
         protected int totalEntities = 0;
@@ -16,10 +16,10 @@ namespace Meteor.ECS
         /// <summary>
         /// Set up the Entity system
         /// </summary>
-        public EntitySystem(EntityManager entityManager)
+        public EntitySystem(ComponentManager componentManager)
         {
-            this.entityMgr = entityManager;
-            this.components = entityManager.components;
+            this.entityMgr = componentManager;
+            this.components = componentManager.components;
         }
 
         public void UpdateEntityCount()
@@ -44,7 +44,7 @@ namespace Meteor.ECS
         /// <summary>
         /// Overloaded constructor
         /// </summary>
-        public DrawableEntitySystem(EntityManager entityManager) : base(entityManager) { }
+        public DrawableEntitySystem(ComponentManager componentManager) : base(componentManager) { }
 
         /// <summary>
         /// Draw entities

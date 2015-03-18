@@ -19,8 +19,8 @@ namespace Bummerman
         /// <summary>
         /// Constructor to add components
         /// </summary>
-        public PlayerSystem(EntityManager entityManager)
-            : base(entityManager) 
+        public PlayerSystem(ComponentManager componentManager)
+            : base(componentManager) 
         {
             // Load important components
             playerInfo = components[ComponentType.PlayerInfo] as PlayerInfo[];

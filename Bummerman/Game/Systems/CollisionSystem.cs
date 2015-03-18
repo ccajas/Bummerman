@@ -19,8 +19,8 @@ namespace Bummerman
         /// <summary>
         /// Constructor to add components
         /// </summary>
-        public CollisionSystem(EntityManager entityManager)
-            : base(entityManager) 
+        public CollisionSystem(ComponentManager componentManager)
+            : base(componentManager) 
         {
             // Load important components
             collision = components[ComponentType.Collision] as Collision[];

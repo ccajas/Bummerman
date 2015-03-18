@@ -19,16 +19,16 @@ namespace Bummerman
         /// <summary>
         /// Load all level entities
         /// </summary>
-        public void Load(EntityManager entityManager)
+        public void Load(ComponentManager componentManager)
         {
-            LoadTiles(entityManager);
-            LoadPlayers(entityManager);
+            LoadTiles(componentManager);
+            LoadPlayers(componentManager);
         }
 
         /// <summary>
         /// Load tile entities
         /// </summary>
-        private void LoadTiles(EntityManager entityManager)
+        private void LoadTiles(ComponentManager componentManager)
         {
             // Create a Bomberman-style stage
             Random rnd = new Random(123);
@@ -42,13 +42,13 @@ namespace Bummerman
                     if (x == 0 || x == gridLength - 1 || y == 0 || y == gridHeight - 1)
                     {
                         // Add border blocks
-                        solidBlock = entityManager.CreateEntityFromTemplate("SolidBlock");
+                        solidBlock = componentManager.CreateEntityFromTemplate("SolidBlock");
                     }
                     else
                     {
                         // Add inner blocks
                         if (x % 2 == 0 && y % 2 == 0)
-                            solidBlock = entityManager.CreateEntityFromTemplate("SolidBlock");
+                            solidBlock = componentManager.CreateEntityFromTemplate("SolidBlock");
                     }
 
                     // Update solid blocks
@@ -65,7 +65,7 @@ namespace Bummerman
                         {
                             if ((x > 2 && x <= gridLength - 4) || (y > 2 && y <= gridHeight - 4))
                             {
-                                EntityTemplate softBlock = entityManager.CreateEntityFromTemplate("SoftBlock");
+                                EntityTemplate softBlock = componentManager.CreateEntityFromTemplate("SoftBlock");
 
                                 TilePosition tilePos = (TilePosition)softBlock.GetComponent(ComponentType.TilePosition);
                                 tilePos.position = new Point(x, y);
@@ -117,14 +117,14 @@ namespace Bummerman
         /// <summary>
         /// Load player entities
         /// </summary>
-        private void LoadPlayers(EntityManager entityManager)
+        private void LoadPlayers(ComponentManager componentManager)
         {
             Vector2[] startingPositions = 
                 { new Vector2(16, 8), new Vector2(208, 8), new Vector2(16, 120), new Vector2(208, 120) };
 
             for (int i = 0; i < numberOfPlayers; i++)
             {
-                EntityTemplate player = entityManager.CreateEntityFromTemplate("Player");
+                EntityTemplate player = componentManager.CreateEntityFromTemplate("Player");
                 ScreenPosition screenPos = (ScreenPosition)player.GetComponent(ComponentType.ScreenPosition);
                 PlayerInfo playerInfo = (PlayerInfo)player.GetComponent(ComponentType.PlayerInfo);
                 
@@ -136,7 +136,7 @@ namespace Bummerman
                 // Pre-load bomb entities for each player (maximum carrying capacity)
                 for (int j = 0; j < maxPlayerBombs; j++)
                 {
-                    EntityTemplate playerBomb = entityManager.CreateEntityFromTemplate("Bomb");
+                    EntityTemplate playerBomb = componentManager.CreateEntityFromTemplate("Bomb");
                     Bomb bomb = (Bomb)playerBomb.GetComponent(ComponentType.Bomb);
                     bomb.ownerID = i + 1;
                 }

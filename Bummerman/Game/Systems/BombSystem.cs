@@ -28,8 +28,8 @@ namespace Bummerman
         /// <summary>
         /// Constructor to add components
         /// </summary>
-        public BombSystem(EntityManager entityManager)
-            : base(entityManager) 
+        public BombSystem(ComponentManager componentManager)
+            : base(componentManager) 
         {
             // Load important components           
             bombs = components[ComponentType.Bomb] as Bomb[];

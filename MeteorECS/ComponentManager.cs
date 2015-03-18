@@ -8,7 +8,7 @@ namespace Meteor.ECS
     /// <summary>
     /// Setup, update, create and delete Component groups as entities.
     /// </summary>
-    public class EntityManager
+    public class ComponentManager
     {
         /// ECS constants and vars
         int nextEntity = 0;
@@ -25,7 +25,7 @@ namespace Meteor.ECS
         /// <summary>
         /// Setup Component groups
         /// </summary>
-        public EntityManager(Dictionary<ComponentType, Component[]> componentLists)
+        public ComponentManager(Dictionary<ComponentType, Component[]> componentLists)
         {
             entityTemplates = new Dictionary<string, EntityTemplate>();
 

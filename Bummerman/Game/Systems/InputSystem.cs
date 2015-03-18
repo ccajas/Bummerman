@@ -24,8 +24,8 @@ namespace Bummerman
         /// <summary>
         /// Constructor to add component references
         /// </summary>
-        public InputSystem(EntityManager entityManager)
-            : base(entityManager)
+        public InputSystem(ComponentManager componentManager)
+            : base(componentManager)
         {
             // Load important components
             inputContext = components[ComponentType.InputContext] as InputContext[];

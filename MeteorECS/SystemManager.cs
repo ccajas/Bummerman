@@ -11,13 +11,13 @@ namespace Meteor.ECS
         List<DrawableEntitySystem> drawableEntitySystems;
 
         /// Manages Entity Components
-        EntityManager entityManager;
+        ComponentManager componentManager;
 
         /// Public accessor to ComponentManager
-        public EntityManager Entities { get { return entityManager; } }
+        public ComponentManager Entities { get { return componentManager; } }
 
         /// Total entities used by all systems
-        public int totalEntities { get { return entityManager.TotalEntities; } }
+        public int totalEntities { get { return componentManager.TotalEntities; } }
 
         /// <summary>
         /// Setup lists and component groups
@@ -27,7 +27,7 @@ namespace Meteor.ECS
             entitySystems = new List<EntitySystem>();
             drawableEntitySystems = new List<DrawableEntitySystem>();
 
-            entityManager = new EntityManager(componentLists);
+            componentManager = new ComponentManager(componentLists);
         }
 
         /// <summary>
@@ -55,9 +55,9 @@ namespace Meteor.ECS
             foreach (EntitySystem system in entitySystems)
             {
                 // Amount of entities might have changed since this step
-                system.Process(frameStepTime, entityManager.TotalEntities);
+                system.Process(frameStepTime, componentManager.TotalEntities);
                 system.UpdateEntityCount();
-                entityManager.RemoveEntities();
+                componentManager.RemoveEntities();
             }
         }
 
@@ -75,7 +75,7 @@ namespace Meteor.ECS
         /// </summary>
         public void DebugEntities(ref int[] entityInfo)
         {
-            entityManager.OutputEntityGraph(ref entityInfo);
+            componentManager.OutputEntityGraph(ref entityInfo);
         }
     }
 }

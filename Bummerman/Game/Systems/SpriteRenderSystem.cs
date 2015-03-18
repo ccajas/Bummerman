@@ -31,11 +31,11 @@ namespace Bummerman
         /// <summary>
         /// Constructor to add component references
         /// </summary>
-        public SpriteRenderSystem(EntityManager entityManager,
+        public SpriteRenderSystem(ComponentManager componentManager,
             Dictionary<string, Model> modelCollection,
             Dictionary<string, Texture2D> textureCollection,
             SpriteBatch spriteBatch)
-            : base(entityManager)
+            : base(componentManager)
         {
             // Initialize component lists
             this.textureCollection = textureCollection;

@@ -17,8 +17,8 @@ namespace Bummerman
         /// <summary>
         /// Constructor to add components
         /// </summary>
-        public MovementSystem(EntityManager entityManager)
-            : base(entityManager) 
+        public MovementSystem(ComponentManager componentManager)
+            : base(componentManager) 
         {
             // Load important components
             screenPos = components[ComponentType.ScreenPosition] as ScreenPosition[];

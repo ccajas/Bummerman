@@ -19,8 +19,8 @@ namespace Bummerman
         /// <summary>
         /// Constructor to add component references
         /// </summary>
-        public PowerUpSystem(EntityManager entityManager)
-            : base(entityManager)
+        public PowerUpSystem(ComponentManager componentManager)
+            : base(componentManager)
         {
             // Load important components
             powerUps = components[ComponentType.PowerUp] as PowerUp[];

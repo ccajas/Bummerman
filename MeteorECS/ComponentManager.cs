@@ -132,12 +132,17 @@ namespace Meteor.ECS
             // Finished removing entities
         }
 
+        /// <summary>
+        /// Produce bitmask component for all Entities
+        /// </summary>
         [Conditional("DEBUG")]
         public void OutputEntityGraph(ref int[] entityInfo)
         {
-            Array.Resize<int>(ref entityInfo, nextEntity);
+            // Resize info when needed
+            if (nextEntity != entityInfo.Length)
+                Array.Resize<int>(ref entityInfo, nextEntity);
 
-            // Debug the entities
+            // Debug the active entities
             for (int i = 0; i < nextEntity; i++)
             {
                 foreach (Component[] componentArray in components.Values)

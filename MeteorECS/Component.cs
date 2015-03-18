@@ -44,6 +44,7 @@ namespace Meteor.ECS
         /// </summary>
         public Component DeepClone(int ID)
         {
+            // Deep clone works for value types only
             SetOwnerEntity(ID);
             return (Component)this.MemberwiseClone();
         }

@@ -1,4 +1,4 @@
-﻿#region Using Statements
+﻿
 using System;
 using System.Diagnostics;
 using System.Collections.Generic;
@@ -8,8 +8,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
+using Lidgren.Network;
 using Meteor.ECS;
-#endregion
 
 namespace Bummerman
 {
@@ -41,10 +41,50 @@ namespace Bummerman
         // Game resources
         Level level;
 
+        // Networking resources
+        readonly NetClient networkClient;
+        readonly NetServer networkServer;
+
+        /// <summary>
+        /// Game constructor
+        /// </summary>
         public BummermanGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            // Setup server
+
+            // Set server port
+            NetPeerConfiguration Config = new NetPeerConfiguration("game");
+            Config.Port = 14242;
+
+            // Max client amount
+            Config.MaximumConnections = 200;
+            Config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
+
+            // Set up and start server
+            networkServer = new NetServer(Config);
+            networkServer.Start();
+
+            Console.WriteLine("Server Started");
+
+            // Setup client
+
+            // Create new instance of configs. Parameter is "application Id". It has to be same on client and server.
+            NetPeerConfiguration Config2 = new NetPeerConfiguration("game");
+
+            networkClient = new NetClient(Config2);
+            networkClient.Start();
+
+            // Write byte
+            NetOutgoingMessage outmsg = networkClient.CreateMessage();
+            outmsg.Write((byte)1);
+            outmsg.Write("MyName");
+
+            // Connect client, to ip previously requested from user 
+            networkClient.Connect("localhost", 14242, outmsg);
+            Console.WriteLine("Client Started");
         }
 
         /// <summary>
@@ -57,7 +97,7 @@ namespace Bummerman
         {
             // Add your initialization logic here
             textureCollection = new Dictionary<string, Texture2D>();
-            meshCollection = new Dictionary<string, Model>();
+            //meshCollection = new Dictionary<string, Model>();
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -66,6 +106,7 @@ namespace Bummerman
             SetupComponentsAndSystems();
             SetupEntityPrefabs();
 
+            // Setup level
             level = new Level();
 
             // Graphics settings
@@ -104,8 +145,9 @@ namespace Bummerman
             // Set the texture data with our color information.  
             pixel.SetData<Color>(colorData);
         }
-
-        // Creates systems and entity templates
+        /// <summary>
+        /// Creates systems and entity templates
+        /// </summary>
         private void SetupComponentsAndSystems()
         {
             int maxEntities = 1000;
@@ -168,14 +210,62 @@ namespace Bummerman
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+            NetIncomingMessage im;
+
+            while ((im = this.networkServer.ReadMessage()) != null)
+            {
+                switch (im.MessageType)
+                {
+                    // If incoming message is Request for connection approval
+                    // This is the very first packet/message that is sent from client
+                    // Here you can do new player initialisation stuff
+                    case NetIncomingMessageType.ConnectionApproval:
+
+                        // Read the first byte of the packet
+                        // ( Enums can be casted to bytes, so it be used to make bytes human readable )
+                        Console.WriteLine("Incoming LOGIN");
+                        im.SenderConnection.Approve();
+
+                        // Create test message to send
+                        NetOutgoingMessage outmsg = networkServer.CreateMessage();
+                        outmsg.Write("Test message");
+                        networkServer.SendMessage(outmsg, im.SenderConnection, NetDeliveryMethod.ReliableOrdered, 0);
+
+                        // Debug
+                        Console.WriteLine("Approved new connection and updated the world status");
+
+                        break;
+                    // Data type is all messages manually sent from client
+                    // ( Approval is automated process )
+                    case NetIncomingMessageType.Data:
+
+                        // Read first byte
+                        byte firstByte = im.ReadByte();
+
+                        Console.WriteLine(firstByte);
+                        break;
+
+                    default:
+
+                        Console.WriteLine("No message");
+                        break;
+                }
+
+                this.networkServer.Recycle(im);
+            }
+
+            // Handle the component and entity updates
             TimeSpan frameStepTime = gameTime.ElapsedGameTime;
             systemManager.ProcessComponents(frameStepTime);
-            /*
-            Vector3 direction = basicEffect.DirectionalLight0.Direction;
-            direction.X = (float)Math.Sin(gameTime.TotalGameTime.TotalSeconds);
-            direction.Z = (float)Math.Cos(gameTime.TotalGameTime.TotalSeconds);
-            basicEffect.DirectionalLight0.Direction = direction;
-            */
+
+            // Create a test message to send to the server
+            NetOutgoingMessage outmsg2 = networkClient.CreateMessage();
+            outmsg2.Write((byte)gameTime.TotalGameTime.TotalSeconds);
+            outmsg2.Write("Test");
+
+            // Send it to server
+            networkClient.SendMessage(outmsg2, NetDeliveryMethod.ReliableOrdered);
+
             base.Update(gameTime);
         }
 

@@ -7,6 +7,11 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Bummerman.ScreenElements
 {
+    /// <summary>
+    /// Game selection screen. Lets the player choose to host a new game
+    /// or join another game already in progress
+    /// </summary>
+
     class GameSelectionScreen : DrawableScreenElement
     {
         /// last frame's keyboard state
@@ -19,6 +24,9 @@ namespace Bummerman.ScreenElements
             this.game = game;
         }
 
+        /// <summary>
+        /// Await input to select which setup to use (Not completed)
+        /// </summary>
         public override ScreenElement Update(TimeSpan frameStepTime)
         {
             if (Keyboard.GetState().IsKeyDown(Keys.A) && !previousKeyboardState.IsKeyDown(Keys.A))

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Meteor.ECS;
 
-namespace Bummerman
+namespace Bummerman.ScreenElements
 {
     /// <summary>
     /// This defines the Entity prefabs available for the game
     /// </summary>
-    public partial class BummermanGame
+    partial class GameScreen
     {
         // Types of entities for this game
         Dictionary<string, EntityTemplate> entityPrefabs = 

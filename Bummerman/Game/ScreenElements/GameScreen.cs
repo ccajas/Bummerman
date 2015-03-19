@@ -54,7 +54,7 @@ namespace Bummerman.ScreenElements
             virtualResolutionRatio = (float)graphicsDevice.Viewport.Width / (float)virtualBufferWidth;
 
             // Setup server
-
+            
             // Set server port
             NetPeerConfiguration Config = new NetPeerConfiguration("game");
             Config.Port = 14242;
@@ -147,7 +147,7 @@ namespace Bummerman.ScreenElements
         public override ScreenElement Update(TimeSpan frameStepTime)
         {
             NetIncomingMessage im;
-
+            
             while ((im = this.networkServer.ReadMessage()) != null)
             {
                 switch (im.MessageType)
@@ -197,7 +197,7 @@ namespace Bummerman.ScreenElements
 
             // Send it to server
             networkClient.SendMessage(outmsg2, NetDeliveryMethod.ReliableOrdered);
-
+            
             // Handle the component and entity updates
             systemManager.ProcessComponents(frameStepTime);
 

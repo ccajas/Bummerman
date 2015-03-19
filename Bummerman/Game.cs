@@ -67,7 +67,7 @@ namespace Bummerman
         protected override void LoadContent()
         {
             // Launch the first screen.
-            currentScreen = new ScreenElements.GameScreen(this, null);
+            currentScreen = new ScreenElements.GameSelectionScreen(this, null);
         }
 
         /// <summary>
@@ -109,11 +109,14 @@ namespace Bummerman
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            // Start drawing the ScreenElements
-            base.Draw(gameTime);
-
             // Draw the current screen
             (currentScreen as DrawableScreenElement).Draw(gameTime.ElapsedGameTime);
+
+            // Swap screen for the next frame
+            if (nextScreen != currentScreen)
+                currentScreen = nextScreen;
+
+            base.Draw(gameTime);
         }
     }
 }

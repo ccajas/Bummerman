@@ -9,16 +9,22 @@ namespace Bummerman.ScreenElements
 {
     class GameSelectionScreen : DrawableScreenElement
     {
+        /// last frame's keyboard state
+        KeyboardState previousKeyboardState;
+
         public GameSelectionScreen(Game game, ScreenElement previousScreenElement)
             : base(previousScreenElement, game.GraphicsDevice)
         {
-
+            previousKeyboardState = Keyboard.GetState();
+            this.game = game;
         }
 
         public override ScreenElement Update(TimeSpan frameStepTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            if (Keyboard.GetState().IsKeyDown(Keys.A) && !previousKeyboardState.IsKeyDown(Keys.A))
                 return new GameScreen(this.game, this);
+
+            previousKeyboardState = Keyboard.GetState();
 
             return base.Update(frameStepTime);
         }

@@ -7,8 +7,6 @@ using Meteor.ECS;
 
 namespace Bummerman
 {
-    using ComponentCollection = Dictionary<ComponentType, Component[]>;
-
     /// <summary>
     /// Renders all entities with a Sprite component.
     /// </summary>

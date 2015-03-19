@@ -7,7 +7,7 @@ using Meteor.ECS;
 
 namespace Bummerman.ScreenElements
 {
-    partial class GameScreen : InteractiveScreenElement
+    partial class GameScreen : DrawableScreenElement
     {
         // ECS entity manager
         SystemManager systemManager;
@@ -113,8 +113,6 @@ namespace Bummerman.ScreenElements
 
             return this;
         }
-
-        public override void HandleInput(TimeSpan frameStepTime) { }
 
         /// <summary>
         /// Draw the gameplay screen

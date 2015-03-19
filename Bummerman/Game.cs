@@ -19,11 +19,6 @@ namespace Bummerman
     public partial class BummermanGame : Game
     {
         GraphicsDeviceManager graphics;
-        //SpriteBatch spriteBatch;
-
-        // Networking resources
-        readonly NetClient networkClient;
-        readonly NetServer networkServer;
 
         /// Screens to update and set
         ScreenElement currentScreen, nextScreen;
@@ -45,39 +40,6 @@ namespace Bummerman
             graphics.PreferredBackBufferHeight = 480;
             graphics.PreferMultiSampling = false;
             graphics.ApplyChanges();
-
-            // Setup server
-
-            // Set server port
-            NetPeerConfiguration Config = new NetPeerConfiguration("game");
-            Config.Port = 14242;
-
-            // Max client amount
-            Config.MaximumConnections = 200;
-            Config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
-
-            // Set up and start server
-            networkServer = new NetServer(Config);
-            networkServer.Start();
-
-            Console.WriteLine("Server Started");
-
-            // Setup client
-
-            // Create new instance of configs. Parameter is "application Id". It has to be same on client and server.
-            NetPeerConfiguration Config2 = new NetPeerConfiguration("game");
-
-            networkClient = new NetClient(Config2);
-            networkClient.Start();
-
-            // Write byte
-            NetOutgoingMessage outmsg = networkClient.CreateMessage();
-            outmsg.Write((byte)1);
-            outmsg.Write("MyName");
-
-            // Connect client, to ip previously requested from user 
-            networkClient.Connect("localhost", 14242, outmsg);
-            Console.WriteLine("Client Started");
         }
 
         /// <summary>
@@ -124,58 +86,6 @@ namespace Bummerman
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            NetIncomingMessage im;
-
-            while ((im = this.networkServer.ReadMessage()) != null)
-            {
-                switch (im.MessageType)
-                {
-                    // If incoming message is Request for connection approval
-                    // This is the very first packet/message that is sent from client
-                    // Here you can do new player initialisation stuff
-                    case NetIncomingMessageType.ConnectionApproval:
-
-                        // Read the first byte of the packet
-                        // ( Enums can be casted to bytes, so it be used to make bytes human readable )
-                        Console.WriteLine("Incoming LOGIN");
-                        im.SenderConnection.Approve();
-
-                        // Create test message to send
-                        NetOutgoingMessage outmsg = networkServer.CreateMessage();
-                        outmsg.Write("Test message");
-                        networkServer.SendMessage(outmsg, im.SenderConnection, NetDeliveryMethod.ReliableOrdered, 0);
-
-                        // Debug
-                        Console.WriteLine("Approved new connection and updated the world status");
-
-                        break;
-                    // Data type is all messages manually sent from client
-                    // ( Approval is automated process )
-                    case NetIncomingMessageType.Data:
-
-                        // Read first byte
-                        byte firstByte = im.ReadByte();
-
-                        Console.WriteLine(firstByte);
-                        break;
-
-                    default:
-
-                        Console.WriteLine("No message");
-                        break;
-                }
-
-                this.networkServer.Recycle(im);
-            }
-
-            // Create a test message to send to the server
-            NetOutgoingMessage outmsg2 = networkClient.CreateMessage();
-            outmsg2.Write((byte)gameTime.TotalGameTime.TotalSeconds);
-            outmsg2.Write("Test");
-
-            // Send it to server
-            networkClient.SendMessage(outmsg2, NetDeliveryMethod.ReliableOrdered);
-
             // Reset the timer
             stopWatch.Restart();
 

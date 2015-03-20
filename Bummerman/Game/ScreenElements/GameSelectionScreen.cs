@@ -28,8 +28,13 @@ namespace Bummerman.ScreenElements
 
         public override ScreenElement Update(TimeSpan frameStepTime)
         {
+            // Choose to host a game server
             if (Keyboard.GetState().IsKeyDown(Keys.A) && !previousKeyboardState.IsKeyDown(Keys.A))
-                return new GameScreen(this.game, this);
+                return new ServerGameScreen(this.game, this);
+
+            // Choose to connect to a game
+            if (Keyboard.GetState().IsKeyDown(Keys.S) && !previousKeyboardState.IsKeyDown(Keys.S))
+                return new ClientGameScreen(this.game, this);
 
             previousKeyboardState = Keyboard.GetState();
 
@@ -42,7 +47,7 @@ namespace Bummerman.ScreenElements
         public override void Draw(TimeSpan frameStepTime)
         {
             spriteBatch.Begin();
-            spriteBatch.DrawString(debugFont, "Press 'A' to host a game, or 'S' to join an existing one",
+            spriteBatch.DrawString(debugFont, "Press 'A' to host a game, or 'S' to join an existing one.",
                 new Vector2(2, 20), Color.White);
             spriteBatch.End();
 

@@ -46,6 +46,8 @@ namespace Bummerman.ScreenElements
         /// </summary>
         public override void Draw(TimeSpan frameStepTime)
         {
+            graphicsDevice.Clear(Color.DodgerBlue);
+
             spriteBatch.Begin();
             spriteBatch.DrawString(debugFont, "Press 'A' to host a game, or 'S' to join an existing one.",
                 new Vector2(2, 20), Color.White);

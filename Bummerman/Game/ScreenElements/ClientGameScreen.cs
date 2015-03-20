@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Lidgren.Network;
 
 namespace Bummerman.ScreenElements
@@ -35,6 +36,9 @@ namespace Bummerman.ScreenElements
             // Connect client, to ip previously requested from user 
             networkClient.Connect("localhost", 14242, outmsg);
             Console.WriteLine("Client Started");
+
+            // Default message
+            networkMessage = "Waiting to connect...";
         }
 
         /// <summary>
@@ -49,6 +53,22 @@ namespace Bummerman.ScreenElements
 
             // Send it to server
             networkClient.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
+
+            // Create new incoming message holder
+            NetIncomingMessage im;
+
+            while ((im = networkClient.ReadMessage()) != null)
+            {
+                if (im.MessageType == NetIncomingMessageType.Data)
+                    networkMessage = im.ReadString();
+            }
+
+            // Quit the game
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                networkClient.Disconnect("Good bye");
+                this.Exit();
+            }
 
             // Update Game Screen
             return base.Update(frameStepTime);

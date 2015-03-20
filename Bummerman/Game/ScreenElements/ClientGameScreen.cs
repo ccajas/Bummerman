@@ -3,19 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using Lidgren.Network;
+using Meteor.ECS;
 
 namespace Bummerman.ScreenElements
 {
     /// <summary>
-    /// Game mode that sets up a client to connect to a game server
+    /// Wrapper for Game Screen that sets up a client to connect to a game server
     /// </summary>
     class ClientGameScreen : GameScreen
     {
-        /// Networking resources
-        readonly NetClient networkClient;
-
         /// <summary>
         /// Setup game client
         /// </summary>
@@ -25,56 +21,14 @@ namespace Bummerman.ScreenElements
             // Set player ID
             activePlayer = 1;
 
-            // Create new instance of configs. Parameter is "application Id". It has to be same on client and server.
-            NetPeerConfiguration Config = new NetPeerConfiguration("game");
-
-            networkClient = new NetClient(Config);
-            networkClient.Start();
-
-            // Write byte
-            NetOutgoingMessage outmsg = networkClient.CreateMessage();
-            outmsg.Write((byte)1);
-            outmsg.Write("MyName");
-
-            // Connect client, to ip previously requested from user 
-            networkClient.Connect("localhost", 14242, outmsg);
-            Console.WriteLine("Client Started");
-
             // Default message
-            networkMessage = "Waiting to connect...";
-        }
+            networkMessage = "";
 
-        /// <summary>
-        /// Send outgoing messages to server
-        /// </summary>
-        public override ScreenElement Update(TimeSpan frameStepTime)
-        {
-            // Create a test message to send to the server
-            NetOutgoingMessage outmsg = networkClient.CreateMessage();
-            outmsg.Write((byte)frameStepTime.TotalMilliseconds);
-            outmsg.Write("Test");
-
-            // Send it to server
-            networkClient.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
-
-            // Create new incoming message holder
-            NetIncomingMessage im;
-
-            while ((im = networkClient.ReadMessage()) != null)
-            {
-                if (im.MessageType == NetIncomingMessageType.Data)
-                    networkMessage = im.ReadString();
-            }
-
-            // Quit the game
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
-                networkClient.Disconnect("Good bye");
-                this.Exit();
-            }
-
-            // Update Game Screen
-            return base.Update(frameStepTime);
+            // Add a GameClient System to the ECS
+            systemManager.AddSystems(new EntitySystem[] 
+            { 
+                new Systems.GameClientSystem(systemManager.Entities, spriteBatch, debugFont) 
+            });
         }
     }
 }

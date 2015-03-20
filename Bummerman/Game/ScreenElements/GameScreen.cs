@@ -55,7 +55,7 @@ namespace Bummerman.ScreenElements
             );
             virtualResolutionRatio = (float)graphicsDevice.Viewport.Width / (float)virtualBufferWidth;
 
-            /// Setup server
+            // Setup server
             
             // Set server port
             NetPeerConfiguration Config = new NetPeerConfiguration("game");
@@ -71,7 +71,7 @@ namespace Bummerman.ScreenElements
 
             Console.WriteLine("Server Started");
 
-            /// Setup client
+            // Setup client
 
             // Create new instance of configs. Parameter is "application Id". It has to be same on client and server.
             NetPeerConfiguration Config2 = new NetPeerConfiguration("game");
@@ -87,8 +87,6 @@ namespace Bummerman.ScreenElements
             // Connect client, to ip previously requested from user 
             networkClient.Connect("localhost", 14242, outmsg);
             Console.WriteLine("Client Started");
-
-            /// Game entities
 
             // Add SystemManager and component types to it
             SetupComponentsAndSystems();
@@ -150,8 +148,6 @@ namespace Bummerman.ScreenElements
         /// </summary>
         public override ScreenElement Update(TimeSpan frameStepTime)
         {
-            /// Test server reading messages
-
             NetIncomingMessage im;
             
             while ((im = this.networkServer.ReadMessage()) != null)
@@ -177,7 +173,6 @@ namespace Bummerman.ScreenElements
                         Console.WriteLine("Approved new connection and updated the world status");
 
                         break;
-                        
                     // Data type is all messages manually sent from client
                     // ( Approval is automated process )
                     case NetIncomingMessageType.Data:
@@ -196,8 +191,6 @@ namespace Bummerman.ScreenElements
 
                 this.networkServer.Recycle(im);
             }
-
-            /// Test client messages
 
             // Create a test message to send to the server
             NetOutgoingMessage outmsg2 = networkClient.CreateMessage();

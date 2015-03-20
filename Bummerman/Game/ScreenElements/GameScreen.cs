@@ -15,6 +15,7 @@ namespace Bummerman.ScreenElements
 
         // Sprite textures and other assets
         Dictionary<string, Texture2D> textureCollection;
+        SpriteFont debugFont;
         RenderTarget2D screenRT;
 
         // Game resources
@@ -40,6 +41,7 @@ namespace Bummerman.ScreenElements
             // Setup game assets
             textureCollection = new Dictionary<string, Texture2D>();
             textureCollection.Add("sprites", game.Content.Load<Texture2D>("textures/sprites"));
+            debugFont = game.Content.Load<SpriteFont>("debug");
 
             this.game = game;
 
@@ -264,8 +266,8 @@ namespace Bummerman.ScreenElements
                 }
             }
 
-            //spriteBatch.DrawString(debugFont, systemManager.totalEntities.ToString(),
-            //    new Vector2(2, graphicsDevice.Viewport.Height - 24f), Color.White);
+            spriteBatch.DrawString(debugFont, systemManager.totalEntities.ToString() + " entities",
+                new Vector2(2, 2), Color.White);
             spriteBatch.End();
         }
     }

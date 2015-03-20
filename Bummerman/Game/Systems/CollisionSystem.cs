@@ -99,8 +99,8 @@ namespace Bummerman
                             }
 
                             // Round to whole numbers
-                            newPosition.X = (float)Math.Round(newPosition.X);
-                            newPosition.Y = (float)Math.Round(newPosition.Y);
+                            //newPosition.X = (float)Math.Round(newPosition.X);
+                            //newPosition.Y = (float)Math.Round(newPosition.Y);
                             playerPos.position = newPosition;
 
                             // Perform further collisions with the new bounds.

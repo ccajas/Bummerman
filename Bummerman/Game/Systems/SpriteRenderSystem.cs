@@ -119,7 +119,8 @@ namespace Bummerman
         
         public override void Draw()
         {
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp,
+                DepthStencilState.Default, RasterizerState.CullCounterClockwise);
 
             for (int i = 0; i < totalEntities; i++)
             {

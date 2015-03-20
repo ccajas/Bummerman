@@ -4,17 +4,24 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Bummerman.ScreenElements
 {
     class GameSelectionScreen : DrawableScreenElement
     {
+        // Sprite textures and other assets
+        SpriteFont debugFont;
+
         /// last frame's keyboard state
         KeyboardState previousKeyboardState;
 
         public GameSelectionScreen(Game game, ScreenElement previousScreenElement)
             : base(previousScreenElement, game.GraphicsDevice)
         {
+            // Load assets
+            debugFont = game.Content.Load<SpriteFont>("debug");
+
             previousKeyboardState = Keyboard.GetState();
             this.game = game;
         }
@@ -34,6 +41,11 @@ namespace Bummerman.ScreenElements
         /// </summary>
         public override void Draw(TimeSpan frameStepTime)
         {
+            spriteBatch.Begin();
+            spriteBatch.DrawString(debugFont, "Press 'A' to host a game, or 'S' to join an existing one",
+                new Vector2(2, 20), Color.White);
+            spriteBatch.End();
+
             base.Draw(frameStepTime);
         }
     }

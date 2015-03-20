@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Lidgren.Network;
 using Meteor.ECS;
 
@@ -14,8 +15,8 @@ namespace Bummerman.ScreenElements
         protected SystemManager systemManager;
 
         // Sprite textures and other assets
+        protected SpriteFont debugFont;
         Dictionary<string, Texture2D> textureCollection;
-        SpriteFont debugFont;
         RenderTarget2D screenRT;
 
         // Game resources
@@ -114,7 +115,14 @@ namespace Bummerman.ScreenElements
         /// Update the game Entities
         /// </summary>
         public override ScreenElement Update(TimeSpan frameStepTime)
-        {         
+        {
+            // Quit the game
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                //networkClient.Disconnect("Good bye");
+                this.Exit();
+            }
+
             // Handle the component and entity updates
             systemManager.ProcessComponents(frameStepTime);
 

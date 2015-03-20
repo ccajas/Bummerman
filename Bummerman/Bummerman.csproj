@@ -49,9 +49,11 @@
     <Compile Include="Game\Components\Sprite.cs" />
     <Compile Include="Game\Components\TilePosition.cs" />
     <Compile Include="Game\Components\TimedEffect.cs" />
+    <Compile Include="Game\ScreenElements\ClientGameScreen.cs" />
     <Compile Include="Game\ScreenElements\EntityPrefabs.cs" />
     <Compile Include="Game\ScreenElements\GameScreen.cs" />
     <Compile Include="Game\ScreenElements\GameSelectionScreen.cs" />
+    <Compile Include="Game\ScreenElements\ServerGameScreen.cs" />
     <Compile Include="Helpers\RectangleExtensions.cs" />
     <Compile Include="Game\Input\InputActions.cs" />
     <Compile Include="Game\Input\InputStates.cs" />

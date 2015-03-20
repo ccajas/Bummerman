@@ -21,6 +21,9 @@ namespace Bummerman.ScreenElements
         // Game resources
         Level level;
 
+        // Debugging network status
+        protected String networkMessage;
+
         // Virtual resolution for adaptive resizing
         int virtualBufferWidth = 428;
         int virtualBufferHeight = 240;
@@ -114,7 +117,7 @@ namespace Bummerman.ScreenElements
             // Handle the component and entity updates
             systemManager.ProcessComponents(frameStepTime);
 
-            return this;
+            return base.Update(frameStepTime);
         }
 
         /// <summary>
@@ -133,6 +136,9 @@ namespace Bummerman.ScreenElements
                 DepthStencilState.Default, RasterizerState.CullCounterClockwise);
             spriteBatch.Draw((Texture2D)screenRT, Vector2.Zero, null, Color.White, 0f,
                 Vector2.Zero, virtualResolutionRatio, SpriteEffects.None, 0f);
+
+            // Debug network data stuff here
+            spriteBatch.DrawString(debugFont, networkMessage, new Vector2(2, 2), Color.White);
             spriteBatch.End();
 
             // Draw ECS debug data
@@ -178,7 +184,7 @@ namespace Bummerman.ScreenElements
             }
 
             spriteBatch.DrawString(debugFont, systemManager.totalEntities.ToString() + " entities",
-                new Vector2(2, 2), Color.White);
+                new Vector2(2, 22), Color.White);
             spriteBatch.End();
         }
     }

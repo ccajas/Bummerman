@@ -35,6 +35,7 @@ namespace Bummerman.ScreenElements
 
             // Aww yeah!
             Console.WriteLine("Server Started");
+            networkMessage = "Server started!";
         }
 
         /// <summary>
@@ -64,7 +65,9 @@ namespace Bummerman.ScreenElements
                         networkServer.SendMessage(outmsg, im.SenderConnection, NetDeliveryMethod.ReliableOrdered, 0);
 
                         // Debug
-                        Console.WriteLine("Approved new connection and updated the world status");
+                        String approved = "Approved new connection and updated the world status";
+                        Console.WriteLine(approved);
+                        networkMessage = approved;
 
                         break;
                     // Data type is all messages manually sent from client
@@ -75,11 +78,15 @@ namespace Bummerman.ScreenElements
                         byte firstByte = im.ReadByte();
 
                         Console.WriteLine(firstByte);
+                        networkMessage = firstByte.ToString();
                         break;
 
                     default:
 
-                        Console.WriteLine("No message");
+                        String noMessage = "No message";
+
+                        Console.WriteLine(noMessage);
+                        networkMessage = noMessage;
                         break;
                 }
 

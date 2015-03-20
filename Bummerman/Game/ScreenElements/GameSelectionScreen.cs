@@ -26,6 +26,9 @@ namespace Bummerman.ScreenElements
             this.game = game;
         }
 
+        /// <summary>
+        /// Handle game selection input
+        /// </summary>
         public override ScreenElement Update(TimeSpan frameStepTime)
         {
             // Choose to host a game server

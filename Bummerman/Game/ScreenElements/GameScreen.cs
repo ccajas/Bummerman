@@ -11,7 +11,7 @@ namespace Bummerman.ScreenElements
     partial class GameScreen : DrawableScreenElement
     {
         // ECS entity manager
-        SystemManager systemManager;
+        protected SystemManager systemManager;
 
         // Sprite textures and other assets
         Dictionary<string, Texture2D> textureCollection;
@@ -20,6 +20,7 @@ namespace Bummerman.ScreenElements
 
         // Game resources
         Level level;
+        protected int activePlayer = 0;
 
         // Debugging network status
         protected String networkMessage;
@@ -62,7 +63,7 @@ namespace Bummerman.ScreenElements
             level = new Level();
 
             // Load level entities
-            level.Load(systemManager.Entities);
+            level.Load(systemManager.Entities, activePlayer);
         }
 
         /// <summary>

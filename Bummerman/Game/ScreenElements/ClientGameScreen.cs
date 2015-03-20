@@ -13,7 +13,7 @@ namespace Bummerman.ScreenElements
     /// </summary>
     class ClientGameScreen : GameScreen
     {
-        // Networking resources
+        /// Networking resources
         readonly NetClient networkClient;
 
         /// <summary>
@@ -22,6 +22,9 @@ namespace Bummerman.ScreenElements
         public ClientGameScreen(Game game, ScreenElement previousScreenElement) :
             base(game, previousScreenElement)
         {
+            // Set player ID
+            activePlayer = 1;
+
             // Create new instance of configs. Parameter is "application Id". It has to be same on client and server.
             NetPeerConfiguration Config = new NetPeerConfiguration("game");
 

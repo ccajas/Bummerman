@@ -41,7 +41,7 @@ namespace Bummerman
                     float speed = playerInfo[i].speed;
                     int spriteTextureX = -1;
 
-                    // Move the position based on input
+                    // Move the position based on input state
                     if (input.ValueFound<InputStates>(InputStates.MoveLeft))
                     {
                         screenPos[i].position.X -= speed * (float)frameStepTime.TotalSeconds;

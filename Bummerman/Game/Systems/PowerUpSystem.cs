@@ -76,7 +76,7 @@ namespace Bummerman
                         playerInfo.bombPower += powerUps[i].powerUpgrade;
 
                     // Remove powerup
-                    entityMgr.DisableEntity(i);
+                    componentMgr.DisableEntity(i);
                 }
             }
             // Finish applying powerups

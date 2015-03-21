@@ -8,7 +8,7 @@ namespace Meteor.ECS
     /// </summary>
     public abstract class EntitySystem
     {
-        protected ComponentManager entityMgr;
+        protected ComponentManager componentMgr;
         protected Dictionary<ComponentType, Component[]> components;
 
         protected int totalEntities = 0;
@@ -18,13 +18,13 @@ namespace Meteor.ECS
         /// </summary>
         public EntitySystem(ComponentManager componentManager)
         {
-            this.entityMgr = componentManager;
+            this.componentMgr = componentManager;
             this.components = componentManager.components;
         }
 
         public void UpdateEntityCount()
         {
-            this.totalEntities = entityMgr.TotalEntities;
+            this.totalEntities = componentMgr.TotalEntities;
         }
 
         /// <summary>

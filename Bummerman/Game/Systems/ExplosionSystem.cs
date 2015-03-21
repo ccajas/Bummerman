@@ -103,7 +103,7 @@ namespace Bummerman
                     // Apply explosion impacts to soft blocks and power-ups by removing them from the stage
                     if (colliders[i].collisionType == CollisionType.SoftBlock)
                     {
-                        entityMgr.DisableEntity(i);
+                        componentMgr.DisableEntity(i);
 
                         // Store soft block location for later
                         softBlockLocations.Add(tiles[i].position);
@@ -115,7 +115,7 @@ namespace Bummerman
 
                     // Remove any other non-solid objects (that includes players)
                     if (colliders[i].collisionType == CollisionType.PassThrough)
-                        entityMgr.DisableEntity(i);
+                        componentMgr.DisableEntity(i);
 
                     if (colliders[i].collisionType == CollisionType.Player)
                         components[ComponentType.PlayerInfo][i].live = false;
@@ -131,7 +131,7 @@ namespace Bummerman
                     Point tilePosition = tiles[i].position;
                     if (explosionsToRemove.Contains(tilePosition) || timedEffect[i].elapsed <= 0f)
                     {
-                        entityMgr.DisableEntity(i);
+                        componentMgr.DisableEntity(i);
                         allExplosions.Remove(tilePosition);
 
                         // If this explosion was on a Soft Block, there is a chance of revealing a powerup
@@ -159,7 +159,7 @@ namespace Bummerman
         /// </summary>
         private void CreateNewExplosion(KeyValuePair<Point, Spreadable> newExplosion)
         {
-            EntityTemplate explosion = entityMgr.CreateEntityFromTemplate("Explosion");
+            EntityTemplate explosion = componentMgr.CreateEntityFromTemplate("Explosion");
             TilePosition explosionTile = (TilePosition)explosion.GetComponent(ComponentType.TilePosition);
             Spreadable explosionSpread = (Spreadable)explosion.GetComponent(ComponentType.Spreadable);
 
@@ -189,7 +189,7 @@ namespace Bummerman
         /// </summary>
         private void CreateNewPowerUp(Point tileLocation, int randomValue)
         {
-            EntityTemplate powerUp = entityMgr.CreateEntityFromTemplate("PowerUp_ExtraBomb");
+            EntityTemplate powerUp = componentMgr.CreateEntityFromTemplate("PowerUp_ExtraBomb");
             TilePosition powerUpTile = (TilePosition)powerUp.GetComponent(ComponentType.TilePosition);
 
             powerUpTile.position = tileLocation;

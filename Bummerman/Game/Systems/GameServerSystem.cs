@@ -22,7 +22,7 @@ namespace Bummerman.Systems
 
         /// Debugging network status
         String networkMessage;
-        int activePlayer = 1;
+        int activePlayer = 0;
 
         /// <summary>
         /// Constructor to add components
@@ -44,7 +44,7 @@ namespace Bummerman.Systems
             Config.Port = 14242;
 
             // Max client amount
-            Config.MaximumConnections = 200;
+            Config.MaximumConnections = 32;
             Config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
 
             // Set up and start server
@@ -61,28 +61,6 @@ namespace Bummerman.Systems
         /// </summary>
         public override int Process(TimeSpan frameStepTime, int totalEntities)
         {
-            // Check for any new inputs from the host player
-            for (int i = 0; i < totalEntities; i++)
-            {
-                if (playerInfo[i] != null && playerInfo[i].live &&
-                    playerInfo[i].playerNumber == activePlayer)
-                {
-                    // Create a test message to send to the server
-                    NetOutgoingMessage outmsg = networkServer.CreateMessage();
-
-                    // Send player ID and input messageS if player had pressed anything
-                    if (inputs[i].currentState > 0 || inputs[i].currentAction > 0)
-                    {
-                        outmsg.Write((byte)playerInfo[i].playerNumber);
-                        outmsg.Write((byte)inputs[i].currentState);
-                        outmsg.Write((byte)inputs[i].currentAction);
-
-                        networkServer.SendMessage(outmsg, networkServer.Connections, 
-                            NetDeliveryMethod.ReliableOrdered, 0);
-                    }
-                }
-            }
-
             // Check incoming messages
             NetIncomingMessage im;
 
@@ -100,10 +78,15 @@ namespace Bummerman.Systems
                         Console.WriteLine("Incoming LOGIN");
                         im.SenderConnection.Approve();
 
-                        // Create test message to send
+                        // Let all players know how many connections there are
+                        byte connectionCount = (byte)networkServer.Connections.Count;
+
                         NetOutgoingMessage outmsg = networkServer.CreateMessage();
-                        outmsg.Write("Test message");
-                        networkServer.SendMessage(outmsg, im.SenderConnection, NetDeliveryMethod.ReliableOrdered, 0);
+                        outmsg.Write(connectionCount);
+                        networkServer.SendMessage(outmsg, networkServer.Connections, NetDeliveryMethod.ReliableOrdered, 0);
+
+                        // Add new player based on current connection count
+                        AddPlayerToLevel(connectionCount);
 
                         // Debug
                         String approved = "Approved new connection and updated the world status";
@@ -121,7 +104,7 @@ namespace Bummerman.Systems
                         byte playerInputState = im.ReadByte();
                         byte playerInputAction = im.ReadByte();
 
-                        // Have the server update its own player
+                        // Have the server update other players
                         UpdatePlayerData(playerNumber, playerInputState, playerInputAction);
 
                         networkMessage = "Player input: " + playerInputState.ToString();
@@ -138,9 +121,42 @@ namespace Bummerman.Systems
 
                 this.networkServer.Recycle(im);
             }
-            // End server test stuff
+            /*
+            // Send outgoing messages back
+            for (int i = 0; i < totalEntities; i++)
+            {
+                if (playerInfo[i] != null && playerInfo[i].live &&
+                    playerInfo[i].playerNumber == activePlayer)
+                {
+                    // Create a test message to send to the server
+                    NetOutgoingMessage outmsg = networkServer.CreateMessage();
+
+                    // Send player ID and input messageS if player had pressed anything
+                    if (inputs[i].currentState > 0 || inputs[i].currentAction > 0)
+                    {
+                        outmsg.Write((byte)playerInfo[i].playerNumber);
+                        outmsg.Write((byte)inputs[i].currentState);
+                        outmsg.Write((byte)inputs[i].currentAction);
+
+                        // Let clients know how many connections are active
+                        outmsg.Write((byte)networkServer.Connections.Count);
+
+                        networkServer.SendMessage(outmsg, networkServer.Connections,
+                            NetDeliveryMethod.ReliableOrdered, 0);
+                    }
+                }
+            } */
 
             return totalEntities;
+        }
+
+        /// <summary>
+        /// Add player with proper number ID. No. of previous connections determines player number
+        /// </summary>
+        private void AddPlayerToLevel(byte playerNumber)
+        {
+            Level level = new Level();
+            level.LoadPlayer(componentMgr, (int)playerNumber);
         }
 
         /// <summary>

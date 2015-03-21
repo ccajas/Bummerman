@@ -83,7 +83,7 @@ namespace Bummerman
                         explodedPlayerBombs.Add(bomb.ownerID);
 
                         // Place explosion
-                        EntityTemplate explosion = entityMgr.CreateEntityFromTemplate("Explosion");
+                        EntityTemplate explosion = componentMgr.CreateEntityFromTemplate("Explosion");
                         TilePosition explosionTile = (TilePosition)explosion.GetComponent(ComponentType.TilePosition);
                         Spreadable explosionSpread = (Spreadable)explosion.GetComponent(ComponentType.Spreadable);
 

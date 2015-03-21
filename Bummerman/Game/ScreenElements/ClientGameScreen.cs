@@ -18,8 +18,9 @@ namespace Bummerman.ScreenElements
         public ClientGameScreen(Game game, ScreenElement previousScreenElement) :
             base(game, previousScreenElement)
         {
-            // Set player ID
+            // Set player ID and add player to the level
             activePlayer = 1;
+            level.LoadPlayer(systemManager.Entities, activePlayer);
 
             // Default message
             networkMessage = "";

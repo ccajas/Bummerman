@@ -22,7 +22,6 @@ namespace Bummerman
         public void Load(ComponentManager componentManager)
         {
             LoadTiles(componentManager);
-            LoadPlayers(componentManager);
         }
 
         /// <summary>
@@ -88,11 +87,7 @@ namespace Bummerman
             PlayerInfo playerInfo = (PlayerInfo)player.GetComponent(ComponentType.PlayerInfo);
 
             // Default mappings to keys
-            Keys[][] keyMappings = new Keys[numberOfPlayers][];
-            keyMappings[0] = new Keys[] { Keys.Q, Keys.E, Keys.A, Keys.D, Keys.S, Keys.W };
-            keyMappings[1] = new Keys[] { Keys.Space, Keys.Enter, Keys.Left, Keys.Right, Keys.Down, Keys.Up };
-            //keyMappings[2] = new Keys[] { Keys.Space, Keys.Enter, Keys.Left, Keys.Right, Keys.Down, Keys.Up };
-            //keyMappings[3] = new Keys[] { Keys.Space, Keys.Enter, Keys.Left, Keys.Right, Keys.Down, Keys.Up };
+            Keys[] keyMappings = new Keys[] { Keys.Q, Keys.E, Keys.A, Keys.D, Keys.S, Keys.W };
 
             int playerNumber = playerInfo.playerNumber - 1;
             int i = 0;
@@ -101,36 +96,37 @@ namespace Bummerman
             inputContext.SetInputs(
                 new KeyValuePair<Keys, InputActions>[]
                 {
-                    new KeyValuePair<Keys, InputActions>(keyMappings[playerNumber][i++], InputActions.setBomb),
-                    new KeyValuePair<Keys, InputActions>(keyMappings[playerNumber][i++], InputActions.remoteTrigger),
+                    new KeyValuePair<Keys, InputActions>(keyMappings[i++], InputActions.setBomb),
+                    new KeyValuePair<Keys, InputActions>(keyMappings[i++], InputActions.remoteTrigger),
                 }, 
                 new KeyValuePair<Keys, InputStates>[]
                 {
-                    new KeyValuePair<Keys, InputStates>(keyMappings[playerNumber][i++], InputStates.MoveLeft),
-                    new KeyValuePair<Keys, InputStates>(keyMappings[playerNumber][i++], InputStates.MoveRight),
-                    new KeyValuePair<Keys, InputStates>(keyMappings[playerNumber][i++], InputStates.MoveDown),
-                    new KeyValuePair<Keys, InputStates>(keyMappings[playerNumber][i++], InputStates.MoveUp),
+                    new KeyValuePair<Keys, InputStates>(keyMappings[i++], InputStates.MoveLeft),
+                    new KeyValuePair<Keys, InputStates>(keyMappings[i++], InputStates.MoveRight),
+                    new KeyValuePair<Keys, InputStates>(keyMappings[i++], InputStates.MoveDown),
+                    new KeyValuePair<Keys, InputStates>(keyMappings[i++], InputStates.MoveUp),
                 }
             );
         }
 
         /// <summary>
-        /// Load player entities
+        /// Load player entity
         /// </summary>
-        private void LoadPlayers(ComponentManager componentManager)
+        public void LoadPlayer(ComponentManager componentManager, int activePlayer)
         {
             Vector2[] startingPositions = 
                 { new Vector2(16, 8), new Vector2(208, 8), new Vector2(16, 120), new Vector2(208, 120) };
 
-            for (int i = 0; i < numberOfPlayers; i++)
-            {
+            //for (int i = 0; i < numberOfPlayers; i++)
+            //{
                 EntityTemplate player = componentManager.CreateEntityFromTemplate("Player");
                 ScreenPosition screenPos = (ScreenPosition)player.GetComponent(ComponentType.ScreenPosition);
                 PlayerInfo playerInfo = (PlayerInfo)player.GetComponent(ComponentType.PlayerInfo);
                 
-                playerInfo.playerNumber = i + 1;
-                screenPos.position = startingPositions[i];
+                playerInfo.playerNumber = activePlayer + 1;
+                screenPos.position = startingPositions[activePlayer];
 
+                // Set controls for active player
                 SetPlayerControls(player);
 
                 // Pre-load bomb entities for each player (maximum carrying capacity)
@@ -138,9 +134,9 @@ namespace Bummerman
                 {
                     EntityTemplate playerBomb = componentManager.CreateEntityFromTemplate("Bomb");
                     Bomb bomb = (Bomb)playerBomb.GetComponent(ComponentType.Bomb);
-                    bomb.ownerID = i + 1;
+                    bomb.ownerID = activePlayer + 1;
                 }
-            }
+            //}
             // Finish loading players
         }
     }

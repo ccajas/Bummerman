@@ -18,8 +18,9 @@ namespace Bummerman.ScreenElements
         public ServerGameScreen(Game game, ScreenElement previousScreenElement) :
             base(game, previousScreenElement)
         {
-            // Host player is always 0
+            // Host player is always 0. Add this player to the level
             activePlayer = 0;
+            level.LoadPlayer(systemManager.Entities, activePlayer);
 
             // Default message
             networkMessage = "";

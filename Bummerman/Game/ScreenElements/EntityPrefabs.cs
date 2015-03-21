@@ -39,7 +39,7 @@ namespace Bummerman.ScreenElements
                         spriteTexture = "sprites",
                         textureArea = new Rectangle(68, 38, 16, 24),
                         animation = Animation.None,
-                        frameLength = 0.2f,
+                        frameLength = 0.125f,
                         frameCount = 3
                     },
                     new Components.Collision()

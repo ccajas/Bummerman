@@ -20,7 +20,7 @@ namespace Bummerman.ScreenElements
         RenderTarget2D screenRT;
 
         // Game resources
-        Level level;
+        protected Level level;
         protected int activePlayer = 0;
 
         // Debugging network status
@@ -64,7 +64,7 @@ namespace Bummerman.ScreenElements
             level = new Level();
 
             // Load level entities
-            level.Load(systemManager.Entities, activePlayer);
+            level.Load(systemManager.Entities);
         }
 
         /// <summary>

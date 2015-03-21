@@ -22,7 +22,7 @@ namespace Bummerman.Systems
 
         /// Debugging network status
         String networkMessage;
-        int activePlayer = 2;
+        int activePlayer = 0;
 
         /// <summary>
         /// Constructor to add components
@@ -38,9 +38,6 @@ namespace Bummerman.Systems
 
             this.spriteBatch = spriteBatch;
             this.debugFont = debugFont;
-
-            // Set player ID
-            activePlayer = 2;
 
             // Create new instance of configs. Parameter is "application Id". It has to be same on client and server.
             NetPeerConfiguration Config = new NetPeerConfiguration("game");
@@ -94,17 +91,35 @@ namespace Bummerman.Systems
             {
                 if (im.MessageType == NetIncomingMessageType.Data)
                 {
-                    // Read the bytes
-                    byte playerNumber = im.ReadByte();
-                    byte playerInputState = im.ReadByte();
-                    byte playerInputAction = im.ReadByte();
+                    if (im.LengthBytes == 1)
+                    {
+                        // Message data contains no. of connections
+                        AddPlayerToLevel(im.ReadByte()); 
+                    }
+                    else
+                    {
+                        // Message containes player input status
+                        byte playerNumber = im.ReadByte();
+                        byte playerInputState = im.ReadByte();
+                        byte playerInputAction = im.ReadByte();
 
-                    // Have the server update its own player
-                    UpdatePlayerData(playerNumber, playerInputState, playerInputAction);
+                        // Have the server update its own player
+                        UpdatePlayerData(playerNumber, playerInputState, playerInputAction);
+                    }
                 }
             }
 
             return totalEntities;
+        }
+
+        /// <summary>
+        /// Add player with proper number ID. No. of previous connections determines player number
+        /// </summary>
+        private void AddPlayerToLevel(byte playerNumber)
+        {
+            Level level = new Level();
+            level.LoadPlayer(componentMgr, (int)playerNumber);
+            activePlayer = playerNumber + 1;
         }
 
         /// <summary>

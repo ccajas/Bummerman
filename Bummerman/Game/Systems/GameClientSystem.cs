@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Lidgren.Network;
@@ -25,6 +22,7 @@ namespace Bummerman.Systems
 
         /// Debugging network status
         String networkMessage;
+        int activePlayer = 2;
 
         /// <summary>
         /// Constructor to add components
@@ -42,7 +40,7 @@ namespace Bummerman.Systems
             this.debugFont = debugFont;
 
             // Set player ID
-            //activePlayer = 1;
+            activePlayer = 2;
 
             // Create new instance of configs. Parameter is "application Id". It has to be same on client and server.
             NetPeerConfiguration Config = new NetPeerConfiguration("game");
@@ -68,12 +66,26 @@ namespace Bummerman.Systems
         /// </summary>
         public override int Process(TimeSpan frameStepTime, int totalEntities)
         {
-            // Create a test message to send to the server
-            NetOutgoingMessage outmsg = networkClient.CreateMessage();
-            outmsg.Write((byte)frameStepTime.TotalMilliseconds);
+            // Check for any new player inputs
+            for (int i = 0; i < totalEntities; i++)
+            {
+                if (playerInfo[i] != null && playerInfo[i].live &&
+                    playerInfo[i].playerNumber == activePlayer)
+                {
+                    // Create a test message to send to the server
+                    NetOutgoingMessage outmsg = networkClient.CreateMessage();
 
-            // Send it to server
-            networkClient.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
+                    // Send player ID and input messageS if player had pressed anything
+                    if (inputs[i].currentState > 0)
+                    {
+                        outmsg.Write((byte)playerInfo[i].playerNumber);
+                        outmsg.Write((byte)inputs[i].currentState);
+                        outmsg.Write((byte)inputs[i].currentAction);
+
+                        networkClient.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
+                    }
+                }
+            }
 
             // Create new incoming message holder
             NetIncomingMessage im;
@@ -94,6 +106,7 @@ namespace Bummerman.Systems
         {
             // Debug network data stuff here
             spriteBatch.Begin();
+            spriteBatch.DrawString(debugFont, networkMessage, new Vector2(2, 1), Color.Black);
             spriteBatch.DrawString(debugFont, networkMessage, new Vector2(2, 0), Color.White);
             spriteBatch.End();
         }

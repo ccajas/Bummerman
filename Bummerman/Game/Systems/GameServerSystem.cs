@@ -88,16 +88,19 @@ namespace Bummerman.Systems
                         networkMessage = approved;
 
                         break;
+
                     // Data type is all messages manually sent from client
                     // ( Approval is automated process )
                     case NetIncomingMessageType.Data:
 
                         // Read first byte
-                        byte firstByte = im.ReadByte();
-                        totalUptime += (float)firstByte;
+                        byte playerNumber = im.ReadByte();
+                        byte playerInput = im.ReadByte();
 
-                        Console.WriteLine("Total client uptime: " + totalUptime);
-                        networkMessage = "Total client uptime: " + totalUptime.ToString();
+                        // Have the server update its own player
+                        UpdatePlayerData(playerNumber, playerInput);
+
+                        networkMessage = "Player input: " + playerInput.ToString();
                         break;
 
                     default:
@@ -116,6 +119,21 @@ namespace Bummerman.Systems
             return totalEntities;
         }
 
+        private void UpdatePlayerData(byte playerNumber, byte playerInput)
+        {
+            // Look for player inputs
+            for (int i = 0; i < totalEntities; i++)
+            {
+                if (playerInfo[i] != null && playerInfo[i].live &&
+                    playerInfo[i].playerNumber == playerNumber)
+                {
+                    inputs[i].currentState = (uint)playerInput;
+                    inputs[i].updatedByServer = true;
+                }
+                // Finished updating this input
+            }
+        }
+
         /// <summary>
         /// Show debug message output for server
         /// </summary>
@@ -123,6 +141,7 @@ namespace Bummerman.Systems
         {
             // Debug network data stuff here
             spriteBatch.Begin();
+            spriteBatch.DrawString(debugFont, networkMessage, new Vector2(2, 1), Color.Black);
             spriteBatch.DrawString(debugFont, networkMessage, new Vector2(2, 0), Color.White);
             spriteBatch.End();
         }

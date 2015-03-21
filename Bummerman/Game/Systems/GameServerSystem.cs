@@ -22,12 +22,13 @@ namespace Bummerman.Systems
 
         /// Debugging network status
         String networkMessage;
-        int activePlayer = 0;
+        byte totalPlayers = 1;
 
         /// <summary>
         /// Constructor to add components
         /// </summary>
-        public GameServerSystem(ComponentManager componentManager,
+        public GameServerSystem(ComponentManager componentManager, 
+            NetServer networkServer,
             SpriteBatch spriteBatch, 
             SpriteFont debugFont)
             : base(componentManager) 
@@ -36,23 +37,14 @@ namespace Bummerman.Systems
             inputs = components[ComponentType.InputContext] as InputContext[];
             playerInfo = components[ComponentType.PlayerInfo] as PlayerInfo[];
 
+            this.networkServer = networkServer;
             this.spriteBatch = spriteBatch;
             this.debugFont = debugFont;
 
-            // Set server port
-            NetPeerConfiguration Config = new NetPeerConfiguration("game");
-            Config.Port = 14242;
+            // Host player gets automatically added
+            AddPlayerToLevel(totalPlayers);
 
-            // Max client amount
-            Config.MaximumConnections = 32;
-            Config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
-
-            // Set up and start server
-            networkServer = new NetServer(Config);
-            networkServer.Start();
-
-            // Aww yeah!
-            Console.WriteLine("Server Started");
+            // Default message
             networkMessage = "Server started!";
         }
 
@@ -78,20 +70,19 @@ namespace Bummerman.Systems
                         Console.WriteLine("Incoming LOGIN");
                         im.SenderConnection.Approve();
 
-                        // Let all players know how many connections there are
-                        byte connectionCount = (byte)networkServer.Connections.Count;
-
-                        NetOutgoingMessage outmsg = networkServer.CreateMessage();
-                        outmsg.Write(connectionCount);
-                        networkServer.SendMessage(outmsg, networkServer.Connections, NetDeliveryMethod.ReliableOrdered, 0);
+                        // Update player count to all players
+                        byte playerCount = ++totalPlayers;
 
                         // Add new player based on current connection count
-                        AddPlayerToLevel(connectionCount);
+                        AddPlayerToLevel(playerCount);
+
+                        NetOutgoingMessage outmsg = networkServer.CreateMessage();
+                        outmsg.Write(playerCount);
+                        networkServer.SendMessage(outmsg, im.SenderConnection, NetDeliveryMethod.ReliableOrdered);
 
                         // Debug
-                        String approved = "Approved new connection and updated the world status";
-                        Console.WriteLine(approved);
-                        networkMessage = approved;
+                        Console.WriteLine("Approved new connection and updated the world status");
+                        Console.WriteLine("Total players: " + playerCount.ToString());
 
                         break;
 
@@ -107,7 +98,8 @@ namespace Bummerman.Systems
                         // Have the server update other players
                         UpdatePlayerData(playerNumber, playerInputState, playerInputAction);
 
-                        networkMessage = "Player input: " + playerInputState.ToString();
+                        networkMessage = "Player "+ playerNumber.ToString() + " input: " + 
+                            playerInputState.ToString();
                         break;
 
                     default:
@@ -121,6 +113,9 @@ namespace Bummerman.Systems
 
                 this.networkServer.Recycle(im);
             }
+
+            byte connectionC = (byte)networkServer.Connections.Count;
+
             /*
             // Send outgoing messages back
             for (int i = 0; i < totalEntities; i++)

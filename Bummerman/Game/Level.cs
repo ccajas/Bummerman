@@ -13,7 +13,6 @@ namespace Bummerman
     {
         int gridLength = 15;
         int gridHeight = 13;
-        int numberOfPlayers = 2;
         int maxPlayerBombs = 9;
 
         /// <summary>
@@ -123,8 +122,8 @@ namespace Bummerman
                 ScreenPosition screenPos = (ScreenPosition)player.GetComponent(ComponentType.ScreenPosition);
                 PlayerInfo playerInfo = (PlayerInfo)player.GetComponent(ComponentType.PlayerInfo);
                 
-                playerInfo.playerNumber = activePlayer + 1;
-                screenPos.position = startingPositions[activePlayer];
+                playerInfo.playerNumber = activePlayer;
+                screenPos.position = startingPositions[activePlayer - 1];
 
                 // Set controls for active player
                 SetPlayerControls(player);
@@ -134,7 +133,7 @@ namespace Bummerman
                 {
                     EntityTemplate playerBomb = componentManager.CreateEntityFromTemplate("Bomb");
                     Bomb bomb = (Bomb)playerBomb.GetComponent(ComponentType.Bomb);
-                    bomb.ownerID = activePlayer + 1;
+                    bomb.ownerID = activePlayer;
                 }
             //}
             // Finish loading players

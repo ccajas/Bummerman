@@ -25,6 +25,9 @@ namespace Bummerman.Components
         public uint previousAction = 0;
         public uint previousState = 0;
 
+        /// Tells if the server changed the inputs
+        public bool updatedByServer = false;
+
         /// <summary>
         /// Initialize mapping lists
         /// </summary>

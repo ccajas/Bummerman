@@ -52,23 +52,29 @@ namespace Bummerman
                     context.previousAction = context.currentAction;
                     context.previousState = context.currentState;
 
-                    // Reset inputs
-                    context.currentAction = 0;
-                    context.currentState = 0;
-
-                    foreach (KeyValuePair<Keys, InputActions> action in context.keyToActions)
+                    // Set non-server controlled inputs
+                    if (!context.updatedByServer)
                     {
-                        // Store the last input action
-                        if (!previousKeyboardState.IsKeyDown(action.Key) && currentKeyboardState.IsKeyDown(action.Key))
-                            context.currentAction = (uint)Convert.ToInt16(action.Value);
-                    }
+                        // Reset inputs
+                        context.currentAction = 0;
+                        context.currentState = 0;
 
-                    foreach (KeyValuePair<Keys, InputStates> state in context.keyToStates)
-                    {
-                        // Store input states. Input states are cumulative
-                        if (currentKeyboardState.IsKeyDown(state.Key))
-                            context.currentState |= (uint)1 << Convert.ToInt16(state.Value);
+                        foreach (KeyValuePair<Keys, InputActions> action in context.keyToActions)
+                        {
+                            // Store the last input action
+                            if (!previousKeyboardState.IsKeyDown(action.Key) && currentKeyboardState.IsKeyDown(action.Key))
+                                context.currentAction = (uint)Convert.ToInt16(action.Value);
+                        }
+
+                        foreach (KeyValuePair<Keys, InputStates> state in context.keyToStates)
+                        {
+                            // Store input states. Input states are cumulative
+                            if (currentKeyboardState.IsKeyDown(state.Key))
+                                context.currentState |= (uint)1 << Convert.ToInt16(state.Value);
+                        }
                     }
+                    else
+                        context.updatedByServer = false;             
                 }
             }
 

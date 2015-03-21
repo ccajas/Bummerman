@@ -28,6 +28,7 @@ namespace Bummerman.Systems
         /// Constructor to add components
         /// </summary>
         public GameClientSystem(ComponentManager componentManager,
+            NetClient networkClient,
             SpriteBatch spriteBatch,
             SpriteFont debugFont)
             : base(componentManager)
@@ -36,23 +37,9 @@ namespace Bummerman.Systems
             inputs = components[ComponentType.InputContext] as InputContext[];
             playerInfo = components[ComponentType.PlayerInfo] as PlayerInfo[];
 
+            this.networkClient = networkClient;
             this.spriteBatch = spriteBatch;
             this.debugFont = debugFont;
-
-            // Create new instance of configs. Parameter is "application Id". It has to be same on client and server.
-            NetPeerConfiguration Config = new NetPeerConfiguration("game");
-
-            networkClient = new NetClient(Config);
-            networkClient.Start();
-
-            // Write byte
-            NetOutgoingMessage outmsg = networkClient.CreateMessage();
-            outmsg.Write((byte)1);
-            outmsg.Write("MyName");
-
-            // Connect client, to ip previously requested from user 
-            networkClient.Connect("localhost", 14242, outmsg);
-            Console.WriteLine("Client Started");
 
             // Default message
             networkMessage = "Waiting to connect...";
@@ -94,7 +81,8 @@ namespace Bummerman.Systems
                     if (im.LengthBytes == 1)
                     {
                         // Message data contains no. of connections
-                        AddPlayerToLevel(im.ReadByte()); 
+                        AddPlayerToLevel(im.ReadByte());
+                        networkMessage = "Connected to server";
                     }
                     else
                     {
@@ -119,7 +107,7 @@ namespace Bummerman.Systems
         {
             Level level = new Level();
             level.LoadPlayer(componentMgr, (int)playerNumber);
-            activePlayer = playerNumber + 1;
+            activePlayer = playerNumber;
         }
 
         /// <summary>

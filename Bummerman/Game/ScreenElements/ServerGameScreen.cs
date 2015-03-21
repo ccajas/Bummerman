@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Lidgren.Network;
 using Meteor.ECS;
 
 namespace Bummerman.ScreenElements
@@ -18,18 +19,27 @@ namespace Bummerman.ScreenElements
         public ServerGameScreen(Game game, ScreenElement previousScreenElement) :
             base(game, previousScreenElement)
         {
-            // Host player is always 0. Add this player to the level
-            activePlayer = 0;
-            level.LoadPlayer(systemManager.Entities, activePlayer);
-
             // Default message
             networkMessage = "";
+
+            // Set server port
+            NetPeerConfiguration Config = new NetPeerConfiguration("game");
+            Config.Port = 14242;
+
+            // Max client amount
+            Config.MaximumConnections = 32;
+            Config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
+
+            // Set up and start server
+            NetServer networkServer = new NetServer(Config);
+            networkServer.Start();
+            Console.WriteLine("Server Started");
 
             // Add a GameServer System to the ECS
             systemManager.AddSystems(new EntitySystem[] 
             { 
-                new Systems.GameServerSystem(systemManager.Entities, spriteBatch, debugFont) 
-            });
+                new Systems.GameServerSystem(systemManager.Entities, networkServer, spriteBatch, debugFont) 
+            });    
         }
     }
 }

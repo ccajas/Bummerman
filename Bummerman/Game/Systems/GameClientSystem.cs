@@ -76,7 +76,7 @@ namespace Bummerman.Systems
                     NetOutgoingMessage outmsg = networkClient.CreateMessage();
 
                     // Send player ID and input messageS if player had pressed anything
-                    if (inputs[i].currentState > 0)
+                    if (inputs[i].currentState > 0 || inputs[i].currentAction > 0)
                     {
                         outmsg.Write((byte)playerInfo[i].playerNumber);
                         outmsg.Write((byte)inputs[i].currentState);
@@ -93,10 +93,37 @@ namespace Bummerman.Systems
             while ((im = networkClient.ReadMessage()) != null)
             {
                 if (im.MessageType == NetIncomingMessageType.Data)
-                    networkMessage = im.ReadString();
+                {
+                    // Read the bytes
+                    byte playerNumber = im.ReadByte();
+                    byte playerInputState = im.ReadByte();
+                    byte playerInputAction = im.ReadByte();
+
+                    // Have the server update its own player
+                    UpdatePlayerData(playerNumber, playerInputState, playerInputAction);
+                }
             }
 
             return totalEntities;
+        }
+
+        /// <summary>
+        /// Update the player data from a server
+        /// </summary>
+        private void UpdatePlayerData(byte playerNumber, byte playerInputState, byte playerInputAction)
+        {
+            // Look for player inputs
+            for (int i = 0; i < totalEntities; i++)
+            {
+                if (playerInfo[i] != null && playerInfo[i].live &&
+                    playerInfo[i].playerNumber == playerNumber)
+                {
+                    inputs[i].currentState = (uint)playerInputState;
+                    inputs[i].currentAction = (uint)playerInputAction;
+                    inputs[i].updatedByServer = true;
+                }
+                // Finished updating this input
+            }
         }
 
         /// <summary>

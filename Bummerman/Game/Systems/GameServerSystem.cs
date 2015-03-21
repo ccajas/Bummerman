@@ -22,7 +22,7 @@ namespace Bummerman.Systems
 
         /// Debugging network status
         String networkMessage;
-        float totalUptime = 0;
+        int activePlayer = 1;
 
         /// <summary>
         /// Constructor to add components
@@ -61,6 +61,29 @@ namespace Bummerman.Systems
         /// </summary>
         public override int Process(TimeSpan frameStepTime, int totalEntities)
         {
+            // Check for any new inputs from the host player
+            for (int i = 0; i < totalEntities; i++)
+            {
+                if (playerInfo[i] != null && playerInfo[i].live &&
+                    playerInfo[i].playerNumber == activePlayer)
+                {
+                    // Create a test message to send to the server
+                    NetOutgoingMessage outmsg = networkServer.CreateMessage();
+
+                    // Send player ID and input messageS if player had pressed anything
+                    if (inputs[i].currentState > 0 || inputs[i].currentAction > 0)
+                    {
+                        outmsg.Write((byte)playerInfo[i].playerNumber);
+                        outmsg.Write((byte)inputs[i].currentState);
+                        outmsg.Write((byte)inputs[i].currentAction);
+
+                        networkServer.SendMessage(outmsg, networkServer.Connections, 
+                            NetDeliveryMethod.ReliableOrdered, 0);
+                    }
+                }
+            }
+
+            // Check incoming messages
             NetIncomingMessage im;
 
             while ((im = this.networkServer.ReadMessage()) != null)
@@ -93,14 +116,15 @@ namespace Bummerman.Systems
                     // ( Approval is automated process )
                     case NetIncomingMessageType.Data:
 
-                        // Read first byte
+                        // Read the bytes
                         byte playerNumber = im.ReadByte();
-                        byte playerInput = im.ReadByte();
+                        byte playerInputState = im.ReadByte();
+                        byte playerInputAction = im.ReadByte();
 
                         // Have the server update its own player
-                        UpdatePlayerData(playerNumber, playerInput);
+                        UpdatePlayerData(playerNumber, playerInputState, playerInputAction);
 
-                        networkMessage = "Player input: " + playerInput.ToString();
+                        networkMessage = "Player input: " + playerInputState.ToString();
                         break;
 
                     default:
@@ -119,7 +143,10 @@ namespace Bummerman.Systems
             return totalEntities;
         }
 
-        private void UpdatePlayerData(byte playerNumber, byte playerInput)
+        /// <summary>
+        /// Update the player data from a client
+        /// </summary>
+        private void UpdatePlayerData(byte playerNumber, byte playerInputState, byte playerInputAction)
         {
             // Look for player inputs
             for (int i = 0; i < totalEntities; i++)
@@ -127,7 +154,8 @@ namespace Bummerman.Systems
                 if (playerInfo[i] != null && playerInfo[i].live &&
                     playerInfo[i].playerNumber == playerNumber)
                 {
-                    inputs[i].currentState = (uint)playerInput;
+                    inputs[i].currentState = (uint)playerInputState;
+                    inputs[i].currentAction = (uint)playerInputAction;
                     inputs[i].updatedByServer = true;
                 }
                 // Finished updating this input

@@ -59,16 +59,16 @@ namespace Bummerman.ScreenElements
                 new EntityTemplate(
                     "Template",
                     new Components.ScreenPosition(),
-                    new Components.TilePosition() { tileSize = 16 },
+                    new Components.TilePosition() { tileSize = 64 },
                     new Components.Sprite()
                     {
-                        spriteTexture = "sprites",
-                        textureArea = new Rectangle(33, 290, 16, 16)
+                        spriteTexture = "blocks",
+                        textureArea = new Rectangle(0, 0, 64, 64)
                     },
                     new Components.Collision()
                     {
                         collisionType = CollisionType.SolidBlock,
-                        bounds = new Rectangle(0, 0, 16, 16)
+                        bounds = new Rectangle(0, 0, 64, 64)
                     }
                 )
             },
@@ -80,16 +80,16 @@ namespace Bummerman.ScreenElements
                 new EntityTemplate(
                     "Template",
                     new Components.ScreenPosition(),
-                    new Components.TilePosition() { tileSize = 16 },
+                    new Components.TilePosition() { tileSize = 64 },
                     new Components.Sprite()
                     {
-                        spriteTexture = "sprites",
-                        textureArea = new Rectangle(16, 290, 16, 16)
+                        spriteTexture = "blocks",
+                        textureArea = new Rectangle(64, 0, 64, 64)
                     },
                     new Components.Collision()
                     {
                         collisionType = CollisionType.SoftBlock,
-                        bounds = new Rectangle(0, 0, 16, 16)
+                        bounds = new Rectangle(0, 0, 64, 64)
                     }
                 )
             },
@@ -104,7 +104,7 @@ namespace Bummerman.ScreenElements
                     new Components.Bomb()               { live = false },
                     new Components.TimedEffect()        { elapsed = 5f },
                     new Components.ScreenPosition(),
-                    new Components.TilePosition()       { tileSize = 16 },
+                    new Components.TilePosition()       { tileSize = 64 },
                     new Components.Sprite()
                     {
                         live = false,
@@ -117,7 +117,7 @@ namespace Bummerman.ScreenElements
                     new Components.Collision()
                     {
                         collisionType = CollisionType.SemiSolid,
-                        bounds = new Rectangle(0, 0, 16, 16)
+                        bounds = new Rectangle(0, 0, 64, 64)
                     }
                 )
             },
@@ -130,17 +130,20 @@ namespace Bummerman.ScreenElements
                     "Template",
                     new Components.Spreadable(),
                     new Components.ScreenPosition(),
-                    new Components.TilePosition()   { tileSize = 16 },
+                    new Components.TilePosition()   { tileSize = 64 },
                     new Components.TimedEffect() { elapsed = 1.25f },
                     new Components.Sprite()
                     {
-                        spriteTexture = "sprites",
-                        textureArea = new Rectangle(518, 290, 16, 16)
+                        spriteTexture = "blocks",
+                        textureArea = new Rectangle(0, 64, 64, 64),
+                        animation = Animation.NotLooped,
+                        frameLength = 0.15f,
+                        frameCount = 4
                     },
                     new Components.Collision()
                     {
                         collisionType = CollisionType.Explosion,
-                        bounds = new Rectangle(0, 0, 16, 16)
+                        bounds = new Rectangle(0, 0, 64, 64)
                     }
                 )
             },
@@ -154,7 +157,7 @@ namespace Bummerman.ScreenElements
                 new EntityTemplate(
                     "Template",
                     new Components.ScreenPosition(),
-                    new Components.TilePosition()   { tileSize = 16 },
+                    new Components.TilePosition()   { tileSize = 64 },
                     new Components.PowerUp()        { bombUprade = 1 },
                     new Components.Sprite()
                     {
@@ -164,7 +167,7 @@ namespace Bummerman.ScreenElements
                     new Components.Collision()
                     {
                         collisionType = CollisionType.PassThrough,
-                        bounds = new Rectangle(0, 0, 16, 16)
+                        bounds = new Rectangle(0, 0, 64, 64)
                     }
                 )
             }

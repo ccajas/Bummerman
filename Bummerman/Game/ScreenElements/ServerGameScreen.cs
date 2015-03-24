@@ -13,6 +13,9 @@ namespace Bummerman.ScreenElements
     /// </summary>
     class ServerGameScreen : GameScreen
     {
+        /// Game server instance
+        NetServer networkServer;
+
         /// <summary>
         /// Setup game server
         /// </summary>
@@ -31,7 +34,7 @@ namespace Bummerman.ScreenElements
             Config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
 
             // Set up and start server
-            NetServer networkServer = new NetServer(Config);
+            networkServer = new NetServer(Config);
             networkServer.Start();
             Console.WriteLine("Server Started");
 
@@ -40,6 +43,16 @@ namespace Bummerman.ScreenElements
             { 
                 new Systems.GameServerSystem(systemManager.Entities, networkServer, spriteBatch, debugFont) 
             });    
+        }
+
+        /// <summary>
+        /// Properly shut down server
+        /// </summary>
+        public override void UnloadContent() 
+        { 
+            // TODO: Send message prior to shutdown
+
+            networkServer.Shutdown("Shutting down");
         }
     }
 }

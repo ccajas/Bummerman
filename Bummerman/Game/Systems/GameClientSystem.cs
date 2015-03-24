@@ -81,7 +81,7 @@ namespace Bummerman.Systems
                     if (im.LengthBytes == 1)
                     {
                         // Message data contains no. of connections
-                        AddPlayerToLevel(im.ReadByte());
+                        AddPlayersToLevel(im.ReadByte());
                         networkMessage = "Connected to server";
                     }
                     else
@@ -103,7 +103,7 @@ namespace Bummerman.Systems
         /// <summary>
         /// Add player with proper number ID. No. of previous connections determines player number
         /// </summary>
-        private void AddPlayerToLevel(byte playerNumber)
+        private void AddPlayersToLevel(byte playerNumber)
         {
             Level level = new Level();
             level.LoadPlayer(componentMgr, (int)playerNumber);

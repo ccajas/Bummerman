@@ -20,9 +20,10 @@ namespace Bummerman.Systems
         SpriteBatch spriteBatch;
         SpriteFont debugFont;
 
-        /// Debugging network status
+        /// Hosted game information
         String networkMessage;
         byte totalPlayers = 1;
+        byte currentPlayerList = 1;
 
         /// <summary>
         /// Constructor to add components

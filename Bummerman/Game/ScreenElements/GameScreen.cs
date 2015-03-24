@@ -27,8 +27,8 @@ namespace Bummerman.ScreenElements
         protected String networkMessage;
 
         // Virtual resolution for adaptive resizing
-        int virtualBufferWidth = 428;
-        int virtualBufferHeight = 240;
+        int virtualBufferWidth = 1600;
+        int virtualBufferHeight = 900;
 
         // Default to virtual res ratio
         float virtualResolutionRatio = 1f;
@@ -42,6 +42,8 @@ namespace Bummerman.ScreenElements
             // Setup game assets
             textureCollection = new Dictionary<string, Texture2D>();
             textureCollection.Add("sprites", game.Content.Load<Texture2D>("textures/sprites"));
+            textureCollection.Add("blocks", game.Content.Load<Texture2D>("textures/blocks"));
+
             debugFont = game.Content.Load<SpriteFont>("debug");
 
             this.game = game;
@@ -135,13 +137,13 @@ namespace Bummerman.ScreenElements
         public override void Draw(TimeSpan frameStepTime)
         {
             graphicsDevice.SetRenderTarget(screenRT);
-            graphicsDevice.Clear(new Color(94, 109, 119));
+            graphicsDevice.Clear(new Color(140, 240, 110));
             systemManager.DrawEntities();
             graphicsDevice.SetRenderTarget(null);
 
             // Draw render target area to window
             graphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp,
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp,
                 DepthStencilState.Default, RasterizerState.CullCounterClockwise);
             spriteBatch.Draw((Texture2D)screenRT, Vector2.Zero, null, Color.White, 0f,
                 Vector2.Zero, virtualResolutionRatio, SpriteEffects.None, 0f);

@@ -13,6 +13,9 @@ namespace Bummerman.ScreenElements
     /// </summary>
     class ClientGameScreen : GameScreen
     {
+        /// Game client instance
+        NetClient networkClient;
+
         /// <summary>
         /// Setup game client
         /// </summary>
@@ -25,7 +28,7 @@ namespace Bummerman.ScreenElements
             // Create new instance of configs. Parameter is "application Id". It has to be same on client and server.
             NetPeerConfiguration Config = new NetPeerConfiguration("game");
 
-            NetClient networkClient = new NetClient(Config);
+            networkClient = new NetClient(Config);
             networkClient.Start();
 
             // Write byte
@@ -36,7 +39,7 @@ namespace Bummerman.ScreenElements
             string ipString = NetUtility.Resolve("localhost").ToString();
 
             // Connect client, to ip previously requested from user 
-            networkClient.Connect("localhost", 14242, outmsg);
+            networkClient.Connect(ipString, 14242, outmsg);
             Console.WriteLine("Client Started");
 
             // Add a GameClient System to the ECS
@@ -44,6 +47,16 @@ namespace Bummerman.ScreenElements
             { 
                 new Systems.GameClientSystem(systemManager.Entities, networkClient, spriteBatch, debugFont) 
             });
+        }
+
+        /// <summary>
+        /// Properly disconnect client from server
+        /// </summary>
+        public override void UnloadContent()
+        {
+            // TODO: Send message prior to disconnecting
+
+            networkClient.Disconnect("Disconnect from server");
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Bummerman
         SpriteBatch spriteBatch;
 
         /// Offset position
-        Vector2 screenAreaOffset = new Vector2(92, 8);
+        Vector2 screenAreaOffset = new Vector2(320, 40);
 
         /// Important components
         Sprite[] sprites;
@@ -59,7 +59,8 @@ namespace Bummerman
                 if (sprites[i] != null && sprites[i].live && sprites[i].animation != Animation.None)
                 {
                     // Update time for Forward animations
-                    if (sprites[i].animation == Animation.Forward || sprites[i].animation == Animation.DualForward)
+                    if (sprites[i].animation == Animation.Forward || 
+                        sprites[i].animation == Animation.DualForward || sprites[i].animation == Animation.NotLooped)
                         sprites[i].frameTime += (float)frameStepTime.TotalSeconds;
 
                     // Update time for Reverse animations

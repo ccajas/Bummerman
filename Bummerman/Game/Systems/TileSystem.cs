@@ -14,7 +14,7 @@ namespace Bummerman
     class TileSystem : EntitySystem
     {
         // Constants
-        readonly int levelTileSize = 16;
+        readonly int levelTileSize = 64;
 
         /// Important components
         ScreenPosition[] screenPos;

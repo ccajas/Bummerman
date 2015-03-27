@@ -22,7 +22,7 @@ namespace Bummerman.Components
 {
     class Collision : Component
     {
-        public override ComponentType type { get { return ComponentType.Collision; } }
+        public override Int32 type { get { return (int)ComponentType.Collision; } }
 
         public CollisionType collisionType = CollisionType.PassThrough;
         public Rectangle bounds = new Rectangle();

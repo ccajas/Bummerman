@@ -9,7 +9,7 @@ namespace Bummerman.Components
 {
     class ScreenPosition : Component
     {
-        public override ComponentType type { get { return ComponentType.ScreenPosition; } }
+        public override Int32 type { get { return (int)ComponentType.ScreenPosition; } }
 
         public Vector2 position = Vector2.Zero;
         public Point offset = Point.Zero;

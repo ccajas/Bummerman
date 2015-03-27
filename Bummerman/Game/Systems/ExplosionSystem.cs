@@ -31,10 +31,10 @@ namespace Bummerman
             : base(componentManager)
         {
             // Load important components
-            tiles = components[ComponentType.TilePosition] as TilePosition[];
-            colliders = components[ComponentType.Collision] as Collision[];
-            spread = components[ComponentType.Spreadable] as Spreadable[];
-            timedEffect = components[ComponentType.TimedEffect] as TimedEffect[];
+            tiles = components[(int)ComponentType.TilePosition] as TilePosition[];
+            colliders = components[(int)ComponentType.Collision] as Collision[];
+            spread = components[(int)ComponentType.Spreadable] as Spreadable[];
+            timedEffect = components[(int)ComponentType.TimedEffect] as TimedEffect[];
 
             // Setup location containers
             explosionsToCheck = new Dictionary<Point, Spreadable>();
@@ -118,7 +118,7 @@ namespace Bummerman
                         componentMgr.DisableEntity(i);
 
                     if (colliders[i].collisionType == CollisionType.Player)
-                        components[ComponentType.PlayerInfo][i].live = false;
+                        components[(int)ComponentType.PlayerInfo][i].live = false;
                 }
             }
 
@@ -160,8 +160,8 @@ namespace Bummerman
         private void CreateNewExplosion(KeyValuePair<Point, Spreadable> newExplosion)
         {
             EntityTemplate explosion = componentMgr.CreateEntityFromTemplate("Explosion");
-            TilePosition explosionTile = (TilePosition)explosion.GetComponent(ComponentType.TilePosition);
-            Spreadable explosionSpread = (Spreadable)explosion.GetComponent(ComponentType.Spreadable);
+            TilePosition explosionTile = (TilePosition)explosion.GetComponent((int)ComponentType.TilePosition);
+            Spreadable explosionSpread = (Spreadable)explosion.GetComponent((int)ComponentType.Spreadable);
 
             explosionTile.position = newExplosion.Key;
             explosionSpread.range = newExplosion.Value.range;
@@ -177,7 +177,7 @@ namespace Bummerman
                         explosionSpread.range = 0;
 
                     // Bombs hit by explosion should detonate
-                    Bomb bomb = (components[ComponentType.Bomb][i] as Bomb);
+                    Bomb bomb = (components[(int)ComponentType.Bomb][i] as Bomb);
                     if (bomb != null)
                         timedEffect[i].elapsed = 0f;
                 }
@@ -190,7 +190,7 @@ namespace Bummerman
         private void CreateNewPowerUp(Point tileLocation, int randomValue)
         {
             EntityTemplate powerUp = componentMgr.CreateEntityFromTemplate("PowerUp_ExtraBomb");
-            TilePosition powerUpTile = (TilePosition)powerUp.GetComponent(ComponentType.TilePosition);
+            TilePosition powerUpTile = (TilePosition)powerUp.GetComponent((int)ComponentType.TilePosition);
 
             powerUpTile.position = tileLocation;
         }

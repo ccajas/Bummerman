@@ -52,7 +52,7 @@ namespace Bummerman
                     // Update solid blocks
                     if (solidBlock != null)
                     {
-                        TilePosition tilePos = (TilePosition)solidBlock.GetComponent(ComponentType.TilePosition);
+                        TilePosition tilePos = (TilePosition)solidBlock.GetComponent((int)ComponentType.TilePosition);
                         tilePos.position = new Point(x, y);
                     }
                     else
@@ -65,7 +65,7 @@ namespace Bummerman
                             {
                                 EntityTemplate softBlock = componentManager.CreateEntityFromTemplate("SoftBlock");
 
-                                TilePosition tilePos = (TilePosition)softBlock.GetComponent(ComponentType.TilePosition);
+                                TilePosition tilePos = (TilePosition)softBlock.GetComponent((int)ComponentType.TilePosition);
                                 tilePos.position = new Point(x, y);
                             }
                         }
@@ -82,8 +82,8 @@ namespace Bummerman
         /// <param name="player"></param>
         private void SetPlayerControls(EntityTemplate player)
         {
-            InputContext inputContext = (InputContext)player.GetComponent(ComponentType.InputContext);
-            PlayerInfo playerInfo = (PlayerInfo)player.GetComponent(ComponentType.PlayerInfo);
+            InputContext inputContext = (InputContext)player.GetComponent((int)ComponentType.InputContext);
+            PlayerInfo playerInfo = (PlayerInfo)player.GetComponent((int)ComponentType.PlayerInfo);
 
             // Default mappings to keys
             Keys[] keyMappings = new Keys[] { Keys.Q, Keys.E, Keys.A, Keys.D, Keys.S, Keys.W };
@@ -119,8 +119,8 @@ namespace Bummerman
             //for (int i = 0; i < numberOfPlayers; i++)
             //{
                 EntityTemplate player = componentManager.CreateEntityFromTemplate("Player");
-                ScreenPosition screenPos = (ScreenPosition)player.GetComponent(ComponentType.ScreenPosition);
-                PlayerInfo playerInfo = (PlayerInfo)player.GetComponent(ComponentType.PlayerInfo);
+                ScreenPosition screenPos = (ScreenPosition)player.GetComponent((int)ComponentType.ScreenPosition);
+                PlayerInfo playerInfo = (PlayerInfo)player.GetComponent((int)ComponentType.PlayerInfo);
                 
                 playerInfo.playerNumber = activePlayer;
                 screenPos.position = startingPositions[activePlayer - 1];
@@ -132,7 +132,7 @@ namespace Bummerman
                 for (int j = 0; j < maxPlayerBombs; j++)
                 {
                     EntityTemplate playerBomb = componentManager.CreateEntityFromTemplate("Bomb");
-                    Bomb bomb = (Bomb)playerBomb.GetComponent(ComponentType.Bomb);
+                    Bomb bomb = (Bomb)playerBomb.GetComponent((int)ComponentType.Bomb);
                     bomb.ownerID = activePlayer;
                 }
             //}

@@ -42,6 +42,7 @@
     <Compile Include="Game\Components\Bomb.cs" />
     <Compile Include="Game\Components\Collision.cs" />
     <Compile Include="Game\Components\InputContext.cs" />
+    <Compile Include="Game\Components\Model.cs" />
     <Compile Include="Game\Components\PlayerInfo.cs" />
     <Compile Include="Game\Components\PowerUp.cs" />
     <Compile Include="Game\Components\ScreenPosition.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="Game\Components\Sprite.cs" />
     <Compile Include="Game\Components\TilePosition.cs" />
     <Compile Include="Game\Components\TimedEffect.cs" />
+    <Compile Include="Game\ComponentType.cs" />
     <Compile Include="Game\ScreenElements\ClientGameScreen.cs" />
     <Compile Include="Game\ScreenElements\EntityPrefabs.cs" />
     <Compile Include="Game\ScreenElements\GameScreen.cs" />

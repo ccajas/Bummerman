@@ -27,22 +27,22 @@ namespace Meteor.ECS
             foreach (Component component in components)
             {
                 componentList.Add(component);
-                entityBitmask |= Convert.ToInt32(component.type);
+                entityBitmask |= 1 << component.type;
             }    
         }
 
         /// <summary>
         /// Get component based on type
         /// </summary>
-        public Component GetComponent(ComponentType type)
+        public Component GetComponent(Int32 type)
         {
-            int componentType = Convert.ToInt32(type);
+            int componentType = type;
 
             if ((entityBitmask & componentType) == componentType)
             {
                 foreach (Component component in componentList)
                 {
-                    if (component.type == type)
+                    if (component.type == (int)type)
                         return component;
                 }
             }

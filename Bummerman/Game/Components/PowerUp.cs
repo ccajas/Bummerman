@@ -8,7 +8,7 @@ namespace Bummerman.Components
 {
     class PowerUp : Component
     {
-        public override ComponentType type { get { return ComponentType.PowerUp; } }
+        public override Int32 type { get { return (int)ComponentType.PowerUp; } }
 
         public int bombUpgrade = 0;
         public int powerUpgrade = 0;

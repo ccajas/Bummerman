@@ -27,8 +27,8 @@ namespace Bummerman
             : base(componentManager) 
         {
             // Load important components
-            screenPos = components[ComponentType.ScreenPosition] as ScreenPosition[];
-            tilePos = components[ComponentType.TilePosition] as TilePosition[];    
+            screenPos = components[(int)ComponentType.ScreenPosition] as ScreenPosition[];
+            tilePos = components[(int)ComponentType.TilePosition] as TilePosition[];    
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Bummerman
             {
                 if (tilePos[i] != null)
                 {
-                    if (components[ComponentType.PlayerInfo][i] == null)
+                    if (components[(int)ComponentType.PlayerInfo][i] == null)
                     {
                         // Snap screen position according to their tile location
                         screenPos[i].position.X = tilePos[i].position.X * tilePos[i].tileSize;

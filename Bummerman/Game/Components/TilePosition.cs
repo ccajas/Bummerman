@@ -9,7 +9,7 @@ namespace Bummerman.Components
 {
     class TilePosition : Component
     {
-        public override ComponentType type { get { return ComponentType.TilePosition; } }
+        public override Int32 type { get { return (int)ComponentType.TilePosition; } }
 
         public Point position = Point.Zero;
         public int tileSize = 24;

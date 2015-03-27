@@ -32,10 +32,10 @@ namespace Bummerman
             : base(componentManager) 
         {
             // Load important components           
-            bombs = components[ComponentType.Bomb] as Bomb[];
-            sprites = components[ComponentType.Sprite] as Sprite[];
-            timedEffect = components[ComponentType.TimedEffect] as TimedEffect[];
-            playerInfo = components[ComponentType.PlayerInfo] as PlayerInfo[];
+            bombs = components[(int)ComponentType.Bomb] as Bomb[];
+            sprites = components[(int)ComponentType.Sprite] as Sprite[];
+            timedEffect = components[(int)ComponentType.TimedEffect] as TimedEffect[];
+            playerInfo = components[(int)ComponentType.PlayerInfo] as PlayerInfo[];
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Bummerman
             {
                 if (playerInfo[i] != null && playerInfo[i].live)
                 {
-                    InputContext input = components[ComponentType.InputContext][i] as InputContext;
+                    InputContext input = components[(int)ComponentType.InputContext][i] as InputContext;
 
                     if (input.currentAction == Convert.ToInt16(InputActions.remoteTrigger))
                         RemoteTriggerBombs(playerInfo[i].playerNumber);
@@ -78,14 +78,14 @@ namespace Bummerman
                         sprite.live = false;
 
                         // Remove bomb location
-                        TilePosition tile = components[ComponentType.TilePosition][i] as TilePosition;
+                        TilePosition tile = components[(int)ComponentType.TilePosition][i] as TilePosition;
                         bombLocations.Remove(tile.position);
                         explodedPlayerBombs.Add(bomb.ownerID);
 
                         // Place explosion
                         EntityTemplate explosion = componentMgr.CreateEntityFromTemplate("Explosion");
-                        TilePosition explosionTile = (TilePosition)explosion.GetComponent(ComponentType.TilePosition);
-                        Spreadable explosionSpread = (Spreadable)explosion.GetComponent(ComponentType.Spreadable);
+                        TilePosition explosionTile = (TilePosition)explosion.GetComponent((int)ComponentType.TilePosition);
+                        Spreadable explosionSpread = (Spreadable)explosion.GetComponent((int)ComponentType.Spreadable);
 
                         explosionTile.position = tile.position;
                         explosionSpread.range = bomb.power;
@@ -153,9 +153,9 @@ namespace Bummerman
                     sprite.live = true;
 
                     // Set its position and add it to list of locations
-                    TilePosition tile = components[ComponentType.TilePosition][i] as TilePosition;
-                    TilePosition playerTile = 
-                        components[ComponentType.TilePosition][playerInfo.entityID] as TilePosition;
+                    TilePosition tile = components[(int)ComponentType.TilePosition][i] as TilePosition;
+                    TilePosition playerTile =
+                        components[(int)ComponentType.TilePosition][playerInfo.entityID] as TilePosition;
 
                     tile.position = playerTile.position;
                     bombLocations.Add(tile.position);
@@ -176,7 +176,7 @@ namespace Bummerman
             if (playerInfo.currentBombs >= playerInfo.maxBombs)
                 return false;
 
-            Point playerPosition = (components[ComponentType.TilePosition][playerInfo.entityID] 
+            Point playerPosition = (components[(int)ComponentType.TilePosition][playerInfo.entityID] 
                 as TilePosition).position;
 
             // Player is already in front of a bomb

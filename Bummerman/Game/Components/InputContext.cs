@@ -10,7 +10,7 @@ namespace Bummerman.Components
 {
     class InputContext : Component
     {
-        public override ComponentType type { get { return ComponentType.InputContext; } }
+        public override Int32 type { get { return (int)ComponentType.InputContext; } }
 
         public Dictionary<Keys, InputActions> keyToActions { get; private set; }
         public Dictionary<Keys, InputStates> keyToStates { get; private set; }

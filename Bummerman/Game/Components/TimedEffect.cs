@@ -8,7 +8,7 @@ namespace Bummerman.Components
 {
     class TimedEffect : Component
     {
-        public override ComponentType type { get { return ComponentType.TimedEffect; } }
+        public override Int32 type { get { return (int)ComponentType.TimedEffect; } }
 
         public float elapsed = 0;
     }

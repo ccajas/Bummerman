@@ -17,7 +17,7 @@ namespace Bummerman.Components
 
     class Spreadable : Component
     {
-        public override ComponentType type { get { return ComponentType.Spreadable; } }
+        public override Int32 type { get { return (int)ComponentType.Spreadable; } }
 
         public int range = 0;
         public Direction direction = Direction.None;

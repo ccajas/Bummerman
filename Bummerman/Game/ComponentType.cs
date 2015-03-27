@@ -2,6 +2,7 @@
 public enum ComponentType
 {
     Bomb = 0,
+    Camera,
     Collision,
     InputContext,
     Message,

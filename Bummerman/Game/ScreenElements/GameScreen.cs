@@ -17,6 +17,7 @@ namespace Bummerman.ScreenElements
         // Sprite textures and other assets
         protected SpriteFont debugFont;
         Dictionary<string, Texture2D> textureCollection;
+        Dictionary<string, Model> modelCollection;
         RenderTarget2D screenRT;
 
         // Game resources
@@ -34,15 +35,18 @@ namespace Bummerman.ScreenElements
         float virtualResolutionRatio = 1f;
 
         /// <summary>
-        /// Setup ECS framework for game entities
+        /// Setup ECS framework for game entitise
         /// </summary>
         public GameScreen(Game game, ScreenElement previousScreenElement) : 
             base(previousScreenElement, game.GraphicsDevice)
         {
             // Setup game assets
             textureCollection = new Dictionary<string, Texture2D>();
+            modelCollection = new Dictionary<string, Model>();
+
             textureCollection.Add("sprites", game.Content.Load<Texture2D>("textures/sprites"));
             textureCollection.Add("blocks", game.Content.Load<Texture2D>("textures/blocks"));
+            modelCollection.Add("solidBLock", game.Content.Load<Model>("models/solidblock1"));
 
             debugFont = game.Content.Load<SpriteFont>("debug");
 

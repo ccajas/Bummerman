@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="Game.cs" />
     <Compile Include="Game\Components\Bomb.cs" />
+    <Compile Include="Game\Components\Camera.cs" />
     <Compile Include="Game\Components\Collision.cs" />
     <Compile Include="Game\Components\InputContext.cs" />
     <Compile Include="Game\Components\Model.cs" />

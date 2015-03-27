@@ -45,32 +45,32 @@ namespace Bummerman
                     if (input.ValueFound<InputStates>(InputStates.MoveLeft))
                     {
                         screenPos[i].position.X -= speed * (float)frameStepTime.TotalSeconds;
-                        spriteTextureX = 106;
+                        //spriteTextureX = 106;
                     }
 
                     if (input.ValueFound<InputStates>(InputStates.MoveRight))
                     {
                         screenPos[i].position.X += speed * (float)frameStepTime.TotalSeconds;
-                        spriteTextureX = 161;
+                        //spriteTextureX = 161;
                     }
 
                     if (input.ValueFound<InputStates>(InputStates.MoveUp))
                     {
                         screenPos[i].position.Y -= speed * (float)frameStepTime.TotalSeconds;
-                        spriteTextureX = 219;
+                        //spriteTextureX = 219;
                     }
 
                     if (input.ValueFound<InputStates>(InputStates.MoveDown))
                     {
                         screenPos[i].position.Y += speed * (float)frameStepTime.TotalSeconds;
-                        spriteTextureX = 52;
+                        //spriteTextureX = 52;
                     }
 
                     if (input.currentState != input.previousState)
                     {
                         // Set proper animation
-                        sprites[i].animation = (input.currentState > 0) ? 
-                            Animation.DualForward : Animation.None;
+                        //sprites[i].animation = (input.currentState > 0) ? 
+                        //    Animation.Forward : Animation.None;
 
                         // Check if sprite animation needs updating
                         if (spriteTextureX >= 0)

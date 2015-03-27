@@ -10,7 +10,7 @@ namespace Bummerman.Components
     {
         public override ComponentType type { get { return ComponentType.PowerUp; } }
 
-        public int bombUprade = 0;
+        public int bombUpgrade = 0;
         public int powerUpgrade = 0;
         public int speedUpgrade = 0;
         public bool kickUpgrade = false;

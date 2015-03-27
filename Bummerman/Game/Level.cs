@@ -114,7 +114,7 @@ namespace Bummerman
         public void LoadPlayer(ComponentManager componentManager, int activePlayer)
         {
             Vector2[] startingPositions = 
-                { new Vector2(80, 80), new Vector2(208, 8), new Vector2(16, 120), new Vector2(208, 120) };
+                { new Vector2(24, 30), new Vector2(208, 8), new Vector2(16, 120), new Vector2(208, 120) };
 
             //for (int i = 0; i < numberOfPlayers; i++)
             //{

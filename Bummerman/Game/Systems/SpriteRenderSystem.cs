@@ -22,7 +22,7 @@ namespace Bummerman
         SpriteBatch spriteBatch;
 
         /// Offset position
-        Vector2 screenAreaOffset = new Vector2(320, 40);
+        Vector2 screenAreaOffset = new Vector2(144, 10);
 
         /// Important components
         Sprite[] sprites;

@@ -37,16 +37,16 @@ namespace Bummerman.ScreenElements
                     new Components.Sprite()
                     {
                         spriteTexture = "sprites",
-                        textureArea = new Rectangle(68, 38, 16, 24),
-                        animation = Animation.None,
-                        frameLength = 0.125f,
-                        frameCount = 3
+                        textureArea = new Rectangle(0, 8, 32, 40),
+                        animation = Animation.Forward,
+                        frameLength = 0.25f,
+                        frameCount = 2
                     },
                     new Components.Collision()
                     {
                         collisionType = CollisionType.Player,
-                        bounds = new Rectangle(0, 0, 14, 14),
-                        offset = new Point(1, 10)
+                        bounds = new Rectangle(0, 0, 18, 20),
+                        offset = new Point(6, 20)
                     }
                 )
             },
@@ -59,16 +59,16 @@ namespace Bummerman.ScreenElements
                 new EntityTemplate(
                     "Template",
                     new Components.ScreenPosition(),
-                    new Components.TilePosition() { tileSize = 64 },
+                    new Components.TilePosition(),
                     new Components.Sprite()
                     {
-                        spriteTexture = "blocks",
-                        textureArea = new Rectangle(0, 0, 64, 64)
+                        spriteTexture = "sprites",
+                        textureArea = new Rectangle(68, 0, 24, 24)
                     },
                     new Components.Collision()
                     {
                         collisionType = CollisionType.SolidBlock,
-                        bounds = new Rectangle(0, 0, 64, 64)
+                        bounds = new Rectangle(0, 0, 24, 24)
                     }
                 )
             },
@@ -80,16 +80,16 @@ namespace Bummerman.ScreenElements
                 new EntityTemplate(
                     "Template",
                     new Components.ScreenPosition(),
-                    new Components.TilePosition() { tileSize = 64 },
+                    new Components.TilePosition(),
                     new Components.Sprite()
                     {
-                        spriteTexture = "blocks",
-                        textureArea = new Rectangle(64, 0, 64, 64)
+                        spriteTexture = "sprites",
+                        textureArea = new Rectangle(68, 24, 24, 24)
                     },
                     new Components.Collision()
                     {
                         collisionType = CollisionType.SoftBlock,
-                        bounds = new Rectangle(0, 0, 64, 64)
+                        bounds = new Rectangle(0, 0, 24, 24)
                     }
                 )
             },
@@ -104,20 +104,20 @@ namespace Bummerman.ScreenElements
                     new Components.Bomb()               { live = false },
                     new Components.TimedEffect()        { elapsed = 5f },
                     new Components.ScreenPosition(),
-                    new Components.TilePosition()       { tileSize = 64 },
+                    new Components.TilePosition(),
                     new Components.Sprite()
                     {
                         live = false,
                         spriteTexture = "sprites",
-                        textureArea = new Rectangle(50, 256, 16, 16),
-                        animation = Animation.DualForward,
+                        textureArea = new Rectangle(92, 24, 24, 24),
+                        animation = Animation.None,
                         frameLength = 0.5f,
                         frameCount = 3
                     },
                     new Components.Collision()
                     {
                         collisionType = CollisionType.SemiSolid,
-                        bounds = new Rectangle(0, 0, 64, 64)
+                        bounds = new Rectangle(0, 0, 24, 24)
                     }
                 )
             },
@@ -130,20 +130,20 @@ namespace Bummerman.ScreenElements
                     "Template",
                     new Components.Spreadable(),
                     new Components.ScreenPosition(),
-                    new Components.TilePosition()   { tileSize = 64 },
+                    new Components.TilePosition(),
                     new Components.TimedEffect() { elapsed = 1.25f },
                     new Components.Sprite()
                     {
-                        spriteTexture = "blocks",
-                        textureArea = new Rectangle(0, 64, 64, 64),
-                        animation = Animation.NotLooped,
+                        spriteTexture = "sprites",
+                        textureArea = new Rectangle(92, 0, 24, 24),
+                        animation = Animation.None,
                         frameLength = 0.15f,
-                        frameCount = 4
+                        frameCount = 1
                     },
                     new Components.Collision()
                     {
                         collisionType = CollisionType.Explosion,
-                        bounds = new Rectangle(0, 0, 64, 64)
+                        bounds = new Rectangle(0, 0, 24, 24)
                     }
                 )
             },
@@ -157,17 +157,17 @@ namespace Bummerman.ScreenElements
                 new EntityTemplate(
                     "Template",
                     new Components.ScreenPosition(),
-                    new Components.TilePosition()   { tileSize = 64 },
-                    new Components.PowerUp()        { bombUprade = 1 },
+                    new Components.TilePosition(),
+                    new Components.PowerUp()        { bombUpgrade = 1 },
                     new Components.Sprite()
                     {
                         spriteTexture = "sprites",
-                        textureArea = new Rectangle(564, 35, 16, 16)
+                        textureArea = new Rectangle(116, 0, 24, 24)
                     },
                     new Components.Collision()
                     {
                         collisionType = CollisionType.PassThrough,
-                        bounds = new Rectangle(0, 0, 64, 64)
+                        bounds = new Rectangle(0, 0, 24, 24)
                     }
                 )
             }

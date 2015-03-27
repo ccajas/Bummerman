@@ -27,8 +27,8 @@ namespace Bummerman.ScreenElements
         protected String networkMessage;
 
         // Virtual resolution for adaptive resizing
-        int virtualBufferWidth = 1600;
-        int virtualBufferHeight = 900;
+        int virtualBufferWidth = 640;
+        int virtualBufferHeight = 360;
 
         // Default to virtual res ratio
         float virtualResolutionRatio = 1f;
@@ -137,13 +137,13 @@ namespace Bummerman.ScreenElements
         public override void Draw(TimeSpan frameStepTime)
         {
             graphicsDevice.SetRenderTarget(screenRT);
-            graphicsDevice.Clear(new Color(140, 240, 110));
+            graphicsDevice.Clear(new Color(240, 220, 150));
             systemManager.DrawEntities();
             graphicsDevice.SetRenderTarget(null);
 
             // Draw render target area to window
             graphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp,
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp,
                 DepthStencilState.Default, RasterizerState.CullCounterClockwise);
             spriteBatch.Draw((Texture2D)screenRT, Vector2.Zero, null, Color.White, 0f,
                 Vector2.Zero, virtualResolutionRatio, SpriteEffects.None, 0f);

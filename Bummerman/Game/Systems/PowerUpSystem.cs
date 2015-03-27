@@ -70,7 +70,7 @@ namespace Bummerman
                 if (powerUps[i] != null && tiles[i].position == tiles[playerInfo.entityID].position)
                 {
                     if (playerInfo.maxBombs < 9)
-                        playerInfo.maxBombs += powerUps[i].bombUprade;
+                        playerInfo.maxBombs += powerUps[i].bombUpgrade;
 
                     if (playerInfo.bombPower < 9)
                         playerInfo.bombPower += powerUps[i].powerUpgrade;

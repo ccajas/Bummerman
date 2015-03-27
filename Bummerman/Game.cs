@@ -36,8 +36,8 @@ namespace Bummerman
             Content.RootDirectory = "Content";
 
             // Graphics settings
-            graphics.PreferredBackBufferWidth = 854;
-            graphics.PreferredBackBufferHeight = 480;
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
             graphics.PreferMultiSampling = false;
             graphics.ApplyChanges();
         }

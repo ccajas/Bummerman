@@ -12,6 +12,6 @@ namespace Bummerman.Components
         public override ComponentType type { get { return ComponentType.TilePosition; } }
 
         public Point position = Point.Zero;
-        public int tileSize = 0;
+        public int tileSize = 24;
     }
 }

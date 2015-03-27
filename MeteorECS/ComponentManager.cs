@@ -14,7 +14,7 @@ namespace Meteor.ECS
         int nextEntity = 0;
 
         /// Component groups
-        public Dictionary<ComponentType, Component[]> components { get; private set; }
+        public Dictionary<Int32, Component[]> components { get; private set; }
 
         /// Entity template/prefab collection
         Dictionary<string, EntityTemplate> entityTemplates;
@@ -25,14 +25,14 @@ namespace Meteor.ECS
         /// <summary>
         /// Setup Component groups
         /// </summary>
-        public ComponentManager(Dictionary<ComponentType, Component[]> componentLists)
+        public ComponentManager(Dictionary<Int32, Component[]> componentLists)
         {
             entityTemplates = new Dictionary<string, EntityTemplate>();
 
             // Add component dictionary and component arrays to it
-            components = new Dictionary<ComponentType, Component[]>();
+            components = new Dictionary<Int32, Component[]>();
 
-            foreach (KeyValuePair<ComponentType, Component[]> componentList in componentLists)
+            foreach (KeyValuePair<Int32, Component[]> componentList in componentLists)
                 components.Add(componentList.Key, componentList.Value);
         }
 

@@ -23,9 +23,9 @@ namespace Bummerman
             : base(componentManager) 
         {
             // Load important components
-            collision = components[ComponentType.Collision] as Collision[];
-            screenPosition = components[ComponentType.ScreenPosition] as ScreenPosition[];      
-            tilePosition = components[ComponentType.TilePosition] as TilePosition[];          
+            collision = components[(int)ComponentType.Collision] as Collision[];
+            screenPosition = components[(int)ComponentType.ScreenPosition] as ScreenPosition[];
+            tilePosition = components[(int)ComponentType.TilePosition] as TilePosition[];          
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Bummerman
                             float absDepthY = Math.Abs(depth.Y);
 
                             Components.ScreenPosition playerPos =
-                                components[ComponentType.ScreenPosition][playerCollider.entityID] 
+                                components[(int)ComponentType.ScreenPosition][playerCollider.entityID] 
                                 as Components.ScreenPosition;
                             Vector2 newPosition = playerPos.position;
 

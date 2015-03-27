@@ -28,8 +28,8 @@ namespace Bummerman
             : base(componentManager)
         {
             // Load important components
-            inputContext = components[ComponentType.InputContext] as InputContext[];
-            playerInfo = components[ComponentType.PlayerInfo] as PlayerInfo[];
+            inputContext = components[(int)ComponentType.InputContext] as InputContext[];
+            playerInfo = components[(int)ComponentType.PlayerInfo] as PlayerInfo[];
         }
 
         /// <summary>

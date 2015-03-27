@@ -40,8 +40,8 @@ namespace Bummerman
             this.textureCollection = textureCollection;
 
             // Load important components
-            sprites = components[ComponentType.Sprite] as Sprite[];
-            screenPosition = components[ComponentType.ScreenPosition] as ScreenPosition[];
+            sprites = components[(int)ComponentType.Sprite] as Sprite[];
+            screenPosition = components[(int)ComponentType.ScreenPosition] as ScreenPosition[];
 
             // Set the effect
             this.spriteBatch = spriteBatch;

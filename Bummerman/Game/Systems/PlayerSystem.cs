@@ -23,7 +23,7 @@ namespace Bummerman
             : base(componentManager) 
         {
             // Load important components
-            playerInfo = components[ComponentType.PlayerInfo] as PlayerInfo[];
+            playerInfo = components[(int)ComponentType.PlayerInfo] as PlayerInfo[];
         }
 
         /// <summary>

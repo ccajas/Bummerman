@@ -22,7 +22,7 @@ namespace Meteor.ECS
         /// <summary>
         /// Setup lists and component groups
         /// </summary>
-        public SystemManager(Dictionary<ComponentType, Component[]> componentLists)
+        public SystemManager(Dictionary<int, Component[]> componentLists)
         {
             entitySystems = new List<EntitySystem>();
             drawableEntitySystems = new List<DrawableEntitySystem>();

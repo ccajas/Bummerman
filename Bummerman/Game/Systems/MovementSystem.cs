@@ -21,9 +21,9 @@ namespace Bummerman
             : base(componentManager) 
         {
             // Load important components
-            screenPos = components[ComponentType.ScreenPosition] as ScreenPosition[];
-            playerInfo = components[ComponentType.PlayerInfo] as PlayerInfo[];
-            sprites = components[ComponentType.Sprite] as Sprite[];  
+            screenPos = components[(int)ComponentType.ScreenPosition] as ScreenPosition[];
+            playerInfo = components[(int)ComponentType.PlayerInfo] as PlayerInfo[];
+            sprites = components[(int)ComponentType.Sprite] as Sprite[];  
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Bummerman
             {
                 if (playerInfo[i] != null && playerInfo[i].live)
                 {
-                    InputContext input = components[ComponentType.InputContext][i] as InputContext;
+                    InputContext input = components[(int)ComponentType.InputContext][i] as InputContext;
 
                     float speed = playerInfo[i].speed;
                     int spriteTextureX = -1;

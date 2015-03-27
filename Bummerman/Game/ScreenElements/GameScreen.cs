@@ -76,18 +76,18 @@ namespace Bummerman.ScreenElements
         {
             int maxEntities = 1000;
 
-            systemManager = new SystemManager(new Dictionary<ComponentType, Component[]>
+            systemManager = new SystemManager(new Dictionary<Int32, Component[]>
             { 
-                { ComponentType.ScreenPosition, new Components.ScreenPosition[maxEntities]},
-                { ComponentType.TilePosition,   new Components.TilePosition[maxEntities]},
-                { ComponentType.Sprite,         new Components.Sprite[maxEntities]},
-                { ComponentType.InputContext,   new Components.InputContext[maxEntities]},
-                { ComponentType.Collision,      new Components.Collision[maxEntities]},
-                { ComponentType.PlayerInfo,     new Components.PlayerInfo[maxEntities]},
-                { ComponentType.Bomb,           new Components.Bomb[maxEntities]},
-                { ComponentType.PowerUp,        new Components.PowerUp[maxEntities]},
-                { ComponentType.Spreadable,     new Components.Spreadable[maxEntities]},
-                { ComponentType.TimedEffect,    new Components.TimedEffect[maxEntities]}
+                { (int)ComponentType.ScreenPosition, new Components.ScreenPosition[maxEntities]},
+                { (int)ComponentType.TilePosition,   new Components.TilePosition[maxEntities]},
+                { (int)ComponentType.Sprite,         new Components.Sprite[maxEntities]},
+                { (int)ComponentType.InputContext,   new Components.InputContext[maxEntities]},
+                { (int)ComponentType.Collision,      new Components.Collision[maxEntities]},
+                { (int)ComponentType.PlayerInfo,     new Components.PlayerInfo[maxEntities]},
+                { (int)ComponentType.Bomb,           new Components.Bomb[maxEntities]},
+                { (int)ComponentType.PowerUp,        new Components.PowerUp[maxEntities]},
+                { (int)ComponentType.Spreadable,     new Components.Spreadable[maxEntities]},
+                { (int)ComponentType.TimedEffect,    new Components.TimedEffect[maxEntities]}
             });
 
             systemManager.AddSystems(new EntitySystem[] 

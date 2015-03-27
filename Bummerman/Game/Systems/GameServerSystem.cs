@@ -35,8 +35,8 @@ namespace Bummerman.Systems
             : base(componentManager) 
         {
             // Load important components           
-            inputs = components[ComponentType.InputContext] as InputContext[];
-            playerInfo = components[ComponentType.PlayerInfo] as PlayerInfo[];
+            inputs = components[(int)ComponentType.InputContext] as InputContext[];
+            playerInfo = components[(int)ComponentType.PlayerInfo] as PlayerInfo[];
 
             this.networkServer = networkServer;
             this.spriteBatch = spriteBatch;

@@ -5,21 +5,6 @@ using System.Text;
 
 namespace Meteor.ECS
 {
-    public enum ComponentType
-    {
-        Bomb = 0,
-        Collision,
-        InputContext,
-        Message,
-        PlayerInfo,
-        PowerUp,
-        ScreenPosition,
-        Spreadable,
-        Sprite,
-        TilePosition,
-        TimedEffect
-    }
-
     public abstract class Component : IDeepCloneable<Component>
     {
         // ID that ties components to an Entity
@@ -29,7 +14,7 @@ namespace Meteor.ECS
         public bool live = true;
 
         // Component type ID
-        public abstract ComponentType type { get; }
+        public abstract Int32 type { get; }
 
         /// <summary>
         /// Set the entity ID

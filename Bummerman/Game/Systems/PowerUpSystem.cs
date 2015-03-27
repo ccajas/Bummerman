@@ -23,9 +23,9 @@ namespace Bummerman
             : base(componentManager)
         {
             // Load important components
-            powerUps = components[ComponentType.PowerUp] as PowerUp[];
-            playerInfo = components[ComponentType.PlayerInfo] as PlayerInfo[];
-            tiles = components[ComponentType.TilePosition] as TilePosition[];
+            powerUps = components[(int)ComponentType.PowerUp] as PowerUp[];
+            playerInfo = components[(int)ComponentType.PlayerInfo] as PlayerInfo[];
+            tiles = components[(int)ComponentType.TilePosition] as TilePosition[];
         }
 
         /// <summary>

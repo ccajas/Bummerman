@@ -8,7 +8,7 @@ namespace Bummerman.Components
 {
     class PlayerInfo : Component
     {
-        public override ComponentType type { get { return ComponentType.PlayerInfo; } }
+        public override Int32 type { get { return (int)ComponentType.PlayerInfo; } }
 
         public int playerNumber = 0;
         public int bombPower = 1;

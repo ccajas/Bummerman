@@ -9,7 +9,7 @@ namespace Meteor.ECS
     public abstract class EntitySystem
     {
         protected ComponentManager componentMgr;
-        protected Dictionary<ComponentType, Component[]> components;
+        protected Dictionary<Int32, Component[]> components;
 
         protected int totalEntities = 0;
 

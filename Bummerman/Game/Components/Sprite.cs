@@ -22,7 +22,7 @@ namespace Bummerman.Components
 {
     class Sprite : Component
     {
-        public override ComponentType type { get { return ComponentType.Sprite; } }
+        public override Int32 type { get { return (int)ComponentType.Sprite; } }
 
         public string spriteTexture;
         public Rectangle textureArea = new Rectangle();

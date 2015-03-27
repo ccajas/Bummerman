@@ -38,7 +38,7 @@ namespace Meteor.ECS
         {
             int componentType = type;
 
-            if ((entityBitmask & componentType) == componentType)
+            if ((entityBitmask & 1 << componentType) == 1 << componentType)
             {
                 foreach (Component component in componentList)
                 {

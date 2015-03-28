@@ -59,6 +59,7 @@
     <Compile Include="Game\ScreenElements\ServerGameScreen.cs" />
     <Compile Include="Game\Systems\GameClientSystem.cs" />
     <Compile Include="Game\Systems\GameServerSystem.cs" />
+    <Compile Include="Game\Systems\ModelRenderSystem.cs" />
     <Compile Include="Helpers\RectangleExtensions.cs" />
     <Compile Include="Game\Input\InputActions.cs" />
     <Compile Include="Game\Input\InputStates.cs" />

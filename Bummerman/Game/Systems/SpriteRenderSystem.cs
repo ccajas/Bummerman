@@ -7,8 +7,6 @@ using Meteor.ECS;
 
 namespace Bummerman
 {
-    using ComponentCollection = Dictionary<ComponentType, Component[]>;
-
     /// <summary>
     /// Renders all entities with a Sprite component.
     /// </summary>
@@ -116,8 +114,7 @@ namespace Bummerman
 
         /// <summary>
         /// Draw entities with Sprite components
-        /// </summary>
-        
+        /// </summary>     
         public override void Draw()
         {
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp,

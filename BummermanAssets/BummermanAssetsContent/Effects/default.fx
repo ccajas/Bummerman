@@ -41,9 +41,9 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 	float3 Normal = cross(ddy(input.PositionWorld.xyz), ddx(input.PositionWorld.xyz));
 	Normal = normalize(Normal);
 
-    // TODO: add your pixel shader code here.
+	float3 ambient = 0.3f;
 	float4 color = float4(1, 1, 1, 1);
-	color.xyz *= dot(lightDir, Normal);
+	color.xyz *= (1 - ambient) * dot(lightDir, Normal) + ambient;
 
     return color;
 }
@@ -52,8 +52,6 @@ technique Technique1
 {
     pass Pass1
     {
-        // TODO: set renderstates here.
-
         VertexShader = compile vs_4_0 VertexShaderFunction();
         PixelShader = compile ps_4_0 PixelShaderFunction();
     }

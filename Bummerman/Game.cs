@@ -38,7 +38,7 @@ namespace Bummerman
             // Graphics settings
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
-            graphics.PreferMultiSampling = false;
+            graphics.PreferMultiSampling = true;
             graphics.ApplyChanges();
         }
 

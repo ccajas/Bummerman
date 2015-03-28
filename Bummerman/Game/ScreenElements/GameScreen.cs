@@ -43,6 +43,7 @@ namespace Bummerman.ScreenElements
             textureCollection.Add("blocks", game.Content.Load<Texture2D>("textures/blocks"));
 
             modelCollection.Add("solidBlock1", game.Content.Load<Model>("models/solidBlock1"));
+            modelCollection.Add("barrel", game.Content.Load<Model>("models/barrel"));
             effectCollection.Add("default", game.Content.Load<Effect>("effects/default"));
 
             debugFont = game.Content.Load<SpriteFont>("debug");

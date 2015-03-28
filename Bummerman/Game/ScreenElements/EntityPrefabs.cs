@@ -86,6 +86,11 @@ namespace Bummerman.ScreenElements
                     "Template",
                     new Components.ScreenPosition(),
                     new Components.TilePosition(),
+                    new Components.MeshModel()
+                    {
+                        modelName = "barrel",
+                        effectName = "default"
+                    },
                     new Components.Sprite()
                     {
                         spriteTexture = "sprites",

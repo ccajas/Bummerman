@@ -44,6 +44,7 @@ namespace Bummerman
         /// </summary>     
         public override void Draw()
         {
+            // Setup active camera(s)
             for (int i = 0; i < totalEntities; i++)
             {
                 // Check valid Model components
@@ -57,6 +58,7 @@ namespace Bummerman
                 }
             }
 
+            // Draw the models
             for (int i = 0; i < totalEntities; i++)
             {
                 // Check valid Model components
@@ -82,7 +84,6 @@ namespace Bummerman
                     }
                     // Finish drawing this model
                 }
-
             }
             // Finish drawing all models
         }

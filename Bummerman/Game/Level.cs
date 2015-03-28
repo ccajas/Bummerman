@@ -76,8 +76,7 @@ namespace Bummerman
             }
 
             // Level camera parameters
-            Vector3 camPosition = new Vector3(0, 10, 0);
-            Matrix world = Matrix.CreateTranslation(camPosition);
+            Vector3 camPosition = new Vector3(165, 150, -150);
             float fov = MathHelper.PiOver4;
 
             // Add a camera to view the level with
@@ -87,8 +86,8 @@ namespace Bummerman
                 new Components.Camera()
                 {
                     fieldOfView = fov,
-                    world = world,
-                    view = Matrix.CreateLookAt(camPosition, new Vector3(0, 0, 50), world.Up),
+                    position = camPosition,
+                    view = Matrix.CreateLookAt(camPosition, new Vector3(165, 0, 250), Matrix.Identity.Up),
                     projection = Matrix.CreatePerspectiveFieldOfView(fov, 16/9f, 1, 1000)
                 }
             );

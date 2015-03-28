@@ -14,7 +14,7 @@ namespace Bummerman.Components
 		public float cameraRotation = -90;
         public float targetRotation = -90;
 
-        public Matrix world;
+        public Vector3 position;
         public Matrix view;
         public Matrix projection;
 

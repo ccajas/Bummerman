@@ -46,15 +46,32 @@ namespace Bummerman
         {
             for (int i = 0; i < totalEntities; i++)
             {
-                // Check valid Sprite components
+                // Check valid Model components
+                if (cameras[i] != null)
+                {
+                    // Set global shader variables
+                    Effect defaultEffect = effectCollection["default"];
+
+                    defaultEffect.Parameters["View"].SetValue(cameras[i].view);
+                    defaultEffect.Parameters["Projection"].SetValue(cameras[i].projection);
+                }
+            }
+
+            for (int i = 0; i < totalEntities; i++)
+            {
+                // Check valid Model components
                 if (models[i] != null && models[i].live)
                 {
                     Model model = modelCollection[models[i].modelName];
+                    Effect defaultEffect = effectCollection[models[i].effectName];
+
+                    // Set model position
+                    defaultEffect.Parameters["World"].SetValue(models[i].matrix);
 
                     foreach (ModelMesh mesh in model.Meshes)
                     {
                         foreach (ModelMeshPart part in mesh.MeshParts)
-                            part.Effect = effectCollection[models[i].effectName];
+                            part.Effect = defaultEffect;
 
                         // Draw the mesh with a particular effect
                         foreach (Effect effect in mesh.Effects)

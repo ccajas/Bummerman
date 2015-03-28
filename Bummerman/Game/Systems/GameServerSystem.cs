@@ -181,7 +181,7 @@ namespace Bummerman.Systems
         {
             // Debug network data stuff here
             spriteBatch.Begin();
-            spriteBatch.DrawString(debugFont, networkMessage, new Vector2(2, 1), Color.Black);
+            spriteBatch.DrawString(debugFont, networkMessage, new Vector2(3, 1), Color.Black);
             spriteBatch.DrawString(debugFont, networkMessage, new Vector2(2, 0), Color.White);
             spriteBatch.End();
         }

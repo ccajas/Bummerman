@@ -13,6 +13,7 @@ namespace Bummerman
     {
         /// Reference to texture and model assets
         Dictionary<string, Model> modelCollection;
+        Dictionary<string, Effect> effectCollection;
         Dictionary<string, Texture2D> textureCollection;
 
         /// Important components
@@ -24,12 +25,14 @@ namespace Bummerman
         /// </summary>
         public ModelRenderSystem(ComponentManager componentManager,
             Dictionary<string, Model> modelCollection,
+            Dictionary<string, Effect> effectCollection,
             Dictionary<string, Texture2D> textureCollection)
             : base(componentManager)
         {
             // Initialize asset collections
             this.textureCollection = textureCollection;
             this.modelCollection = modelCollection;
+            this.effectCollection = effectCollection;
 
             // Load important components
             models = components[(int)ComponentType.MeshModel] as MeshModel[];
@@ -44,12 +47,27 @@ namespace Bummerman
             for (int i = 0; i < totalEntities; i++)
             {
                 // Check valid Sprite components
-                //if (sprites[i] != null && sprites[i].live)
+                if (models[i] != null && models[i].live)
                 {
+                    Model model = modelCollection[models[i].modelName];
 
+                    foreach (ModelMesh mesh in model.Meshes)
+                    {
+                        foreach (ModelMeshPart part in mesh.MeshParts)
+                            part.Effect = effectCollection[models[i].effectName];
+
+                        // Draw the mesh with a particular effect
+                        foreach (Effect effect in mesh.Effects)
+                        {
+                            effect.CurrentTechnique = effect.Techniques["Technique1"];
+                            mesh.Draw();
+                        }
+                    }
+                    // Finish drawing this model
                 }
 
             }
+            // Finish drawing all models
         }
     }
 }

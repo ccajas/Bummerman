@@ -14,7 +14,6 @@ namespace Bummerman
     {
         /// Reference to texture and model assets
         Dictionary<string, Texture2D> textureCollection;
-        //Dictionary<string, Model> modelCollection;
 
         /// Graphics resources
         GraphicsDevice graphicsDevice;

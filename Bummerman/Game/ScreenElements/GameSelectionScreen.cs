@@ -39,6 +39,10 @@ namespace Bummerman.ScreenElements
             if (Keyboard.GetState().IsKeyDown(Keys.S) && !previousKeyboardState.IsKeyDown(Keys.S))
                 return new ClientGameScreen(this.game, this);
 
+            // Leave this screen
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+                this.Exit();
+
             previousKeyboardState = Keyboard.GetState();
 
             return base.Update(frameStepTime);

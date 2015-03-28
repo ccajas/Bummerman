@@ -18,7 +18,6 @@ namespace Bummerman.ScreenElements
         protected SpriteFont debugFont;
         Dictionary<string, Texture2D> textureCollection;
         Dictionary<string, Model> modelCollection;
-        RenderTarget2D screenRT;
 
         // Game resources
         protected Level level;
@@ -26,13 +25,6 @@ namespace Bummerman.ScreenElements
 
         // Debugging network status
         protected String networkMessage;
-
-        // Virtual resolution for adaptive resizing
-        int virtualBufferWidth = 640;
-        int virtualBufferHeight = 360;
-
-        // Default to virtual res ratio
-        float virtualResolutionRatio = 1f;
 
         /// <summary>
         /// Setup ECS framework for game entitise
@@ -54,13 +46,6 @@ namespace Bummerman.ScreenElements
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(graphicsDevice);
-
-            // Set render target to virtual resolution
-            screenRT = new RenderTarget2D(graphicsDevice,
-                virtualBufferWidth,
-                virtualBufferHeight
-            );
-            virtualResolutionRatio = (float)graphicsDevice.Viewport.Width / (float)virtualBufferWidth;
 
             // Add SystemManager and component types to it
             SetupComponentsAndSystems();
@@ -144,19 +129,10 @@ namespace Bummerman.ScreenElements
         /// </summary>
         public override void Draw(TimeSpan frameStepTime)
         {
-            graphicsDevice.SetRenderTarget(screenRT);
-            graphicsDevice.Clear(new Color(240, 220, 150));
             systemManager.DrawEntities();
-            graphicsDevice.SetRenderTarget(null);
-
-            // Draw render target area to window
-            graphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp,
-                DepthStencilState.Default, RasterizerState.CullCounterClockwise);
-            spriteBatch.Draw((Texture2D)screenRT, Vector2.Zero, null, Color.White, 0f,
-                Vector2.Zero, virtualResolutionRatio, SpriteEffects.None, 0f);
 
             // Debug network data stuff here
+            spriteBatch.Begin();
             spriteBatch.DrawString(debugFont, networkMessage, new Vector2(2, 2), Color.White);
             spriteBatch.End();
 

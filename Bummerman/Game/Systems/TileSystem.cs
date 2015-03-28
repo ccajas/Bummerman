@@ -45,6 +45,15 @@ namespace Bummerman
                         // Snap screen position according to their tile location
                         screenPos[i].position.X = tilePos[i].position.X * tilePos[i].tileSize;
                         screenPos[i].position.Y = tilePos[i].position.Y * tilePos[i].tileSize;
+
+                        MeshModel model = components[(int)ComponentType.MeshModel][i] as MeshModel;
+
+                        // Align any models to the X-Z plane
+                        if (model != null)
+                        {
+                            model.position = new Vector3(screenPos[i].position.X, 0, screenPos[i].position.Y);
+                            model.matrix = Matrix.CreateScale(levelTileSize / 2) * Matrix.CreateTranslation(model.position);
+                        }
                     }
                     else
                     {

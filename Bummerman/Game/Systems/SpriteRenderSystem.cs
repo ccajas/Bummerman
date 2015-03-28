@@ -17,7 +17,9 @@ namespace Bummerman
         //Dictionary<string, Model> modelCollection;
 
         /// Graphics resources
+        GraphicsDevice graphicsDevice;
         SpriteBatch spriteBatch;
+        RenderTarget2D screenRT;
 
         /// Offset position
         Vector2 screenAreaOffset = new Vector2(144, 10);
@@ -25,6 +27,13 @@ namespace Bummerman
         /// Important components
         Sprite[] sprites;
         ScreenPosition[] screenPosition;
+
+        // Virtual resolution for adaptive resizing
+        int virtualBufferWidth = 640;
+        int virtualBufferHeight = 360;
+
+        // Default to virtual res ratio
+        float virtualResolutionRatio = 1f;
 
         /// <summary>
         /// Constructor to add component references
@@ -43,7 +52,14 @@ namespace Bummerman
 
             // Set the effect
             this.spriteBatch = spriteBatch;
-            //SetupEffect();
+            this.graphicsDevice = spriteBatch.GraphicsDevice;
+
+            // Set render target to virtual resolution
+            screenRT = new RenderTarget2D(graphicsDevice,
+                virtualBufferWidth,
+                virtualBufferHeight
+            );
+            virtualResolutionRatio = (float)graphicsDevice.Viewport.Width / (float)virtualBufferWidth;
         }
 
         /// <summary>
@@ -117,6 +133,10 @@ namespace Bummerman
         /// </summary>     
         public override void Draw()
         {
+            graphicsDevice.SetRenderTarget(screenRT);
+            graphicsDevice.Clear(new Color(240, 220, 150));
+
+            // Draw sprites to the render target
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp,
                 DepthStencilState.Default, RasterizerState.CullCounterClockwise);
 
@@ -134,6 +154,16 @@ namespace Bummerman
                 }
             }
             // Finish drawing entities
+            spriteBatch.End();
+
+            graphicsDevice.SetRenderTarget(null);
+
+            // Draw render target area to window
+            graphicsDevice.Clear(Color.CornflowerBlue);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp,
+                DepthStencilState.Default, RasterizerState.CullCounterClockwise);
+            spriteBatch.Draw((Texture2D)screenRT, Vector2.Zero, null, Color.White, 0f,
+                Vector2.Zero, virtualResolutionRatio, SpriteEffects.None, 0f);
             spriteBatch.End();
         }
     }

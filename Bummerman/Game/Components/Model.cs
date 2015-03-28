@@ -7,9 +7,9 @@ using Meteor.ECS;
 
 namespace Bummerman.Components
 {
-    class Model : Component
+    class MeshModel : Component
     {
-        public override Int32 type { get { return (int)ComponentType.Model; } }
+        public override Int32 type { get { return (int)ComponentType.MeshModel; } }
 
         public string modelName;
         public Vector3 position = Vector3.Zero;

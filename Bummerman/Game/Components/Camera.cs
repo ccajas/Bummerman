@@ -9,18 +9,18 @@ namespace Bummerman.Components
     {
         public override Int32 type { get { return (int)ComponentType.Camera; } }
 
-		protected float cameraArc = 0;
-		protected float targetArc = 0;
-		protected float cameraRotation = -90;
-		protected float targetRotation = -90;
+		public float cameraArc = 0;
+        public float targetArc = 0;
+		public float cameraRotation = -90;
+        public float targetRotation = -90;
 
-		protected Matrix worldMatrix;
-		protected Matrix view;
-		protected Matrix projection;
+        public Matrix world;
+        public Matrix view;
+        public Matrix projection;
 
-		protected Vector3 position;
-		protected float fieldOfView;
-		protected float aspectRatio;
+        public bool isRendering = true;
+        public float fieldOfView = 90;
+        public float aspectRatio = 16f/9f;
 	}
 }
 

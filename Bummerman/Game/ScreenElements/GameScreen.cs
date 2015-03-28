@@ -85,6 +85,8 @@ namespace Bummerman.ScreenElements
                 { (int)ComponentType.ScreenPosition, new Components.ScreenPosition[maxEntities]},
                 { (int)ComponentType.TilePosition,   new Components.TilePosition[maxEntities]},
                 { (int)ComponentType.Sprite,         new Components.Sprite[maxEntities]},
+                { (int)ComponentType.MeshModel,          new Components.MeshModel[maxEntities]},
+                { (int)ComponentType.Camera,         new Components.Camera[maxEntities]},
                 { (int)ComponentType.InputContext,   new Components.InputContext[maxEntities]},
                 { (int)ComponentType.Collision,      new Components.Collision[maxEntities]},
                 { (int)ComponentType.PlayerInfo,     new Components.PlayerInfo[maxEntities]},
@@ -103,6 +105,8 @@ namespace Bummerman.ScreenElements
                 new PowerUpSystem       (systemManager.Entities),
                 new TileSystem          (systemManager.Entities),
                 new CollisionSystem     (systemManager.Entities),
+                new ModelRenderSystem   (systemManager.Entities,
+                    modelCollection, textureCollection),
                 new SpriteRenderSystem  (systemManager.Entities,
                     textureCollection, spriteBatch)
             });

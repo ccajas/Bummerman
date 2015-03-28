@@ -127,8 +127,8 @@ Global
 		{3B2F8167-B135-401B-A5D2-54E5FB7A2BBF}.Windows|x86.ActiveCfg = Windows|Any CPU
 		{3B2F8167-B135-401B-A5D2-54E5FB7A2BBF}.Windows8|Any CPU.ActiveCfg = Windows8|Any CPU
 		{3B2F8167-B135-401B-A5D2-54E5FB7A2BBF}.Windows8|Any CPU.Build.0 = Windows8|Any CPU
-		{3B2F8167-B135-401B-A5D2-54E5FB7A2BBF}.Windows8|Mixed Platforms.ActiveCfg = Windows|Any CPU
-		{3B2F8167-B135-401B-A5D2-54E5FB7A2BBF}.Windows8|Mixed Platforms.Build.0 = Windows|Any CPU
+		{3B2F8167-B135-401B-A5D2-54E5FB7A2BBF}.Windows8|Mixed Platforms.ActiveCfg = Windows8|Any CPU
+		{3B2F8167-B135-401B-A5D2-54E5FB7A2BBF}.Windows8|Mixed Platforms.Build.0 = Windows8|Any CPU
 		{3B2F8167-B135-401B-A5D2-54E5FB7A2BBF}.Windows8|x86.ActiveCfg = Windows8|Any CPU
 		{A470EEB6-3C6E-465D-A4E1-E9D264AD035A}.Android|Any CPU.ActiveCfg = Android|Any CPU
 		{A470EEB6-3C6E-465D-A4E1-E9D264AD035A}.Android|Mixed Platforms.ActiveCfg = Android|Any CPU

@@ -55,7 +55,6 @@ namespace Bummerman.ScreenElements
         public override void UnloadContent()
         {
             // TODO: Send message prior to disconnecting
-
             networkClient.Disconnect("Disconnect from server");
         }
     }

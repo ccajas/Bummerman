@@ -18,6 +18,7 @@ namespace Bummerman.ScreenElements
         protected SpriteFont debugFont;
         Dictionary<string, Texture2D> textureCollection;
         Dictionary<string, Model> modelCollection;
+        Dictionary<string, Effect> effectCollection;
 
         // Game resources
         protected Level level;
@@ -32,13 +33,17 @@ namespace Bummerman.ScreenElements
         public GameScreen(Game game, ScreenElement previousScreenElement) : 
             base(previousScreenElement, game.GraphicsDevice)
         {
-            // Setup game assets
+            // Setup asset collections
             textureCollection = new Dictionary<string, Texture2D>();
             modelCollection = new Dictionary<string, Model>();
+            effectCollection = new Dictionary<string, Effect>();
 
+            // Setup game assets
             textureCollection.Add("sprites", game.Content.Load<Texture2D>("textures/sprites"));
             textureCollection.Add("blocks", game.Content.Load<Texture2D>("textures/blocks"));
-            modelCollection.Add("solidBLock", game.Content.Load<Model>("models/solidblock1"));
+
+            modelCollection.Add("solidBlock1", game.Content.Load<Model>("models/solidBlock1"));
+            effectCollection.Add("default", game.Content.Load<Effect>("effects/default"));
 
             debugFont = game.Content.Load<SpriteFont>("debug");
 
@@ -90,10 +95,10 @@ namespace Bummerman.ScreenElements
                 new PowerUpSystem       (systemManager.Entities),
                 new TileSystem          (systemManager.Entities),
                 new CollisionSystem     (systemManager.Entities),
-                new ModelRenderSystem   (systemManager.Entities,
-                    modelCollection, textureCollection),
                 new SpriteRenderSystem  (systemManager.Entities,
-                    textureCollection, spriteBatch)
+                    textureCollection, spriteBatch),
+                new ModelRenderSystem   (systemManager.Entities,
+                    modelCollection, effectCollection, textureCollection)
             });
         }
 
@@ -111,12 +116,9 @@ namespace Bummerman.ScreenElements
         /// </summary>
         public override ScreenElement Update(TimeSpan frameStepTime)
         {
-            // Quit the game
+            // Quit the current game
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
-                //networkClient.Disconnect("Good bye");
                 this.Exit();
-            }
 
             // Handle the component and entity updates
             systemManager.ProcessComponents(frameStepTime);

@@ -12,6 +12,7 @@ namespace Bummerman.Components
         public override Int32 type { get { return (int)ComponentType.MeshModel; } }
 
         public string modelName;
+        public string effectName;
         public Vector3 position = Vector3.Zero;
         public Matrix matrix = Matrix.Identity;
     }

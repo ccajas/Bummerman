@@ -71,6 +71,21 @@ namespace Meteor.ECS
         }
 
         /// <summary>
+        /// Create an entity from a template
+        /// </summary>
+        public EntityTemplate CreateEntityFromTemplate(EntityTemplate newTemplate)
+        {
+            // Add each component
+            foreach (Component component in newTemplate.componentList)
+                components[component.type][nextEntity] = component;
+
+            // Finish adding components for entity
+            nextEntity++;
+
+            return newTemplate;
+        }
+
+        /// <summary>
         /// Set the entity ID for each component here
         /// </summary>
         private EntityTemplate SetComponentEntityIDs(EntityTemplate template, int ID)

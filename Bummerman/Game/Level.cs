@@ -74,6 +74,25 @@ namespace Bummerman
                     // Finished adding this block
                 }
             }
+
+            // Level camera parameters
+            Vector3 camPosition = new Vector3(0, 10, 0);
+            Matrix world = Matrix.CreateTranslation(camPosition);
+            float fov = MathHelper.PiOver4;
+
+            // Add a camera to view the level with
+            EntityTemplate camera = new EntityTemplate(
+                "Template",
+                new Components.ScreenPosition(),
+                new Components.Camera()
+                {
+                    fieldOfView = fov,
+                    world = world,
+                    view = Matrix.CreateLookAt(camPosition, new Vector3(0, 0, 50), world.Up),
+                    projection = Matrix.CreatePerspectiveFieldOfView(fov, 16/9f, 1, 1000)
+                }
+            );
+            componentManager.CreateEntityFromTemplate(camera);
         }
 
         /// <summary>

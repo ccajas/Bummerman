@@ -89,6 +89,7 @@ namespace Bummerman.ScreenElements
                     new Components.MeshModel()
                     {
                         modelName = "barrel",
+                        textureName = "barrel_dm",
                         effectName = "default"
                     },
                     new Components.Sprite()

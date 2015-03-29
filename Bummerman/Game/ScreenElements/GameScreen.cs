@@ -39,8 +39,10 @@ namespace Bummerman.ScreenElements
             effectCollection = new Dictionary<string, Effect>();
 
             // Setup game assets
+            textureCollection.Add("default", pixel);
             textureCollection.Add("sprites", game.Content.Load<Texture2D>("textures/sprites"));
             textureCollection.Add("blocks", game.Content.Load<Texture2D>("textures/blocks"));
+            textureCollection.Add("barrel_dm", game.Content.Load<Texture2D>("textures/barrel_dm"));
 
             modelCollection.Add("solidBlock1", game.Content.Load<Model>("models/solidBlock1"));
             modelCollection.Add("barrel", game.Content.Load<Model>("models/barrel"));

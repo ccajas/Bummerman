@@ -67,8 +67,11 @@ namespace Bummerman
                     Model model = modelCollection[models[i].modelName];
                     Effect defaultEffect = effectCollection[models[i].effectName];
 
-                    // Set model position
+                    string textureName = models[i].textureName ?? "default";
+
+                    // Set model parameters
                     defaultEffect.Parameters["World"].SetValue(models[i].matrix);
+                    defaultEffect.Parameters["Texture"].SetValue(textureCollection[textureName]);
 
                     foreach (ModelMesh mesh in model.Meshes)
                     {

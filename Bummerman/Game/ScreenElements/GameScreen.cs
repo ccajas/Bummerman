@@ -46,7 +46,10 @@ namespace Bummerman.ScreenElements
 
             modelCollection.Add("solidBlock1", game.Content.Load<Model>("models/solidBlock1"));
             modelCollection.Add("barrel", game.Content.Load<Model>("models/barrel"));
+
+            // Setup game effects
             effectCollection.Add("default", game.Content.Load<Effect>("effects/default"));
+            effectCollection.Add("billboard", game.Content.Load<Effect>("effects/billboard"));
 
             debugFont = game.Content.Load<SpriteFont>("debug");
 
@@ -78,7 +81,7 @@ namespace Bummerman.ScreenElements
                 { (int)ComponentType.ScreenPosition, new Components.ScreenPosition[maxEntities]},
                 { (int)ComponentType.TilePosition,   new Components.TilePosition[maxEntities]},
                 { (int)ComponentType.Sprite,         new Components.Sprite[maxEntities]},
-                { (int)ComponentType.MeshModel,          new Components.MeshModel[maxEntities]},
+                { (int)ComponentType.MeshModel,      new Components.MeshModel[maxEntities]},
                 { (int)ComponentType.Camera,         new Components.Camera[maxEntities]},
                 { (int)ComponentType.InputContext,   new Components.InputContext[maxEntities]},
                 { (int)ComponentType.Collision,      new Components.Collision[maxEntities]},
@@ -100,10 +103,10 @@ namespace Bummerman.ScreenElements
                 new CollisionSystem     (systemManager.Entities),
                 new SpriteRenderSystem  (systemManager.Entities,
                     textureCollection, effectCollection, spriteBatch),
+                new ModelRenderSystem   (systemManager.Entities,
+                    modelCollection, effectCollection, textureCollection),
                 new BillboardSpriteSystem (systemManager.Entities,
                     textureCollection, effectCollection, graphicsDevice),
-                new ModelRenderSystem   (systemManager.Entities,
-                    modelCollection, effectCollection, textureCollection)
             });
         }
 

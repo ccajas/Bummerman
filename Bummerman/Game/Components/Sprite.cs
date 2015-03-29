@@ -26,6 +26,7 @@ namespace Bummerman.Components
 
         public string spriteTexture;
         public bool billboard = false;
+        public Point textureSize = Point.Zero;
         public Rectangle textureArea = new Rectangle();
         public Animation animation = Animation.None;
         public float frameLength = 1f;

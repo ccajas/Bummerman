@@ -15,6 +15,7 @@ namespace Bummerman.Components
         public float targetRotation = -90;
 
         public Vector3 position;
+        public Vector3 lookAt;
         public Matrix view;
         public Matrix projection;
 

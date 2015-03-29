@@ -63,6 +63,9 @@ namespace Bummerman
         /// </summary>
         public override void Draw()
         {
+            Effect billboardEffect = effectCollection["billboard"];
+            Vector3 camPos, camLookAt;
+
             // Setup active camera(s)
             for (int i = 0; i < totalEntities; i++)
             {
@@ -70,11 +73,12 @@ namespace Bummerman
                 if (components[(int)ComponentType.Camera][i] != null)
                 {
                     // Set global shader variables
-                    Effect defaultEffect = effectCollection["default"];
                     Camera camera = components[(int)ComponentType.Camera][i] as Camera;
+                    camPos = camera.position;
+                    camLookAt = camera.lookAt;
 
-                    defaultEffect.Parameters["View"].SetValue(camera.view);
-                    defaultEffect.Parameters["Projection"].SetValue(camera.projection);
+                    billboardEffect.Parameters["View"].SetValue(camera.view);
+                    billboardEffect.Parameters["Projection"].SetValue(camera.projection);
                 }
             }
 
@@ -83,7 +87,33 @@ namespace Bummerman
             {
                 if (sprites[i] != null && sprites[i].billboard)
                 {
+                    string textureName = sprites[i].spriteTexture ?? "default";
+                    Vector2 position = screenPosition[i].position;
+                    Vector2 scale = new Vector2(sprites[i].textureArea.Width, sprites[i].textureArea.Height);
 
+                    // Set texture area coordinates
+                    Vector2 finalPos = new Vector2(sprites[i].textureArea.X, sprites[i].textureArea.Y);
+                    Vector2 finalSize = new Vector2(sprites[i].textureArea.Width, sprites[i].textureArea.Height);
+
+                    finalPos.X += sprites[i].frame * sprites[i].textureArea.Width;
+                    finalPos /= new Vector2((float)sprites[i].textureSize.X, (float)sprites[i].textureSize.Y);
+                    finalSize /= new Vector2((float)sprites[i].textureSize.X, (float)sprites[i].textureSize.Y);
+
+                    // Set quad vertices
+                    quadVertices[0].TextureCoordinate = new Vector2(finalPos.X + finalSize.X, finalPos.Y + finalSize.Y);
+                    quadVertices[1].TextureCoordinate = new Vector2(finalPos.X, finalPos.Y + finalSize.Y);
+                    quadVertices[2].TextureCoordinate = new Vector2(finalPos.X, finalPos.Y);
+                    quadVertices[3].TextureCoordinate = new Vector2(finalPos.X + finalSize.X, finalPos.Y);
+
+                    // Set model parameters
+                    billboardEffect.Parameters["World"].SetValue(
+                        Matrix.CreateScale(new Vector3(scale / 2f, 1)) * 
+                        Matrix.CreateTranslation(new Vector3(position.X, 0, position.Y)));
+                    billboardEffect.Parameters["Texture"].SetValue(textureCollection[textureName]);
+                    billboardEffect.CurrentTechnique.Passes[0].Apply();
+
+                    // Draw the sprite
+                    graphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, quadVertices, 0, 4, quadIndices, 0, 2);
                 }
             }
             // Finish drawing all billboard sprites

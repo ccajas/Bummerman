@@ -125,6 +125,13 @@ namespace Bummerman
                         sprites[i].frameTime += sprites[i].frameLength;
                     }
                 }
+
+                if (sprites[i] != null)
+                {
+                    // Set sprite texture sizes
+                    Texture2D spriteTexture = textureCollection[sprites[i].spriteTexture];
+                    sprites[i].textureSize = new Point(spriteTexture.Width, spriteTexture.Height);
+                }
             }
 
             return base.Process(frameStepTime, totalEntities);

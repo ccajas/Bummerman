@@ -37,6 +37,7 @@ namespace Bummerman.ScreenElements
                     new Components.Sprite()
                     {
                         spriteTexture = "sprites",
+                        billboard = true,
                         textureArea = new Rectangle(0, 8, 32, 40),
                         animation = Animation.Forward,
                         frameLength = 0.25f,

@@ -25,6 +25,7 @@ namespace Bummerman.Components
         public override Int32 type { get { return (int)ComponentType.Sprite; } }
 
         public string spriteTexture;
+        public bool billboard = false;
         public Rectangle textureArea = new Rectangle();
         public Animation animation = Animation.None;
         public float frameLength = 1f;

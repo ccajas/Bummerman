@@ -99,7 +99,9 @@ namespace Bummerman.ScreenElements
                 new TileSystem          (systemManager.Entities),
                 new CollisionSystem     (systemManager.Entities),
                 new SpriteRenderSystem  (systemManager.Entities,
-                    textureCollection, spriteBatch),
+                    textureCollection, effectCollection, spriteBatch),
+                new BillboardSpriteSystem (systemManager.Entities,
+                    textureCollection, effectCollection, graphicsDevice),
                 new ModelRenderSystem   (systemManager.Entities,
                     modelCollection, effectCollection, textureCollection)
             });

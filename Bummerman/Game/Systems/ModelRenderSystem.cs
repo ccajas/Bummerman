@@ -18,6 +18,7 @@ namespace Bummerman
 
         /// Important components
         MeshModel[] models;
+        Sprite[] sprites;
         Camera[] cameras;
 
         /// <summary>
@@ -36,6 +37,7 @@ namespace Bummerman
 
             // Load important components
             models = components[(int)ComponentType.MeshModel] as MeshModel[];
+            sprites = components[(int)ComponentType.Sprite] as Sprite[];
             cameras = components[(int)ComponentType.Camera] as Camera[];
         }
 
@@ -58,6 +60,14 @@ namespace Bummerman
                 }
             }
 
+            DrawModels();
+        }
+
+        /// <summary>
+        /// Render Model entities
+        /// </summary>
+        private void DrawModels()
+        {
             // Draw the models
             for (int i = 0; i < totalEntities; i++)
             {

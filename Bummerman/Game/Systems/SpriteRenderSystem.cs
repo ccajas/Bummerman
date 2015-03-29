@@ -14,6 +14,7 @@ namespace Bummerman
     {
         /// Reference to texture and model assets
         Dictionary<string, Texture2D> textureCollection;
+        Dictionary<string, Effect> effectCollection;
 
         /// Graphics resources
         GraphicsDevice graphicsDevice;
@@ -39,11 +40,13 @@ namespace Bummerman
         /// </summary>
         public SpriteRenderSystem(ComponentManager componentManager,
             Dictionary<string, Texture2D> textureCollection,
+            Dictionary<string, Effect> effectCollection,
             SpriteBatch spriteBatch)
             : base(componentManager)
         {
             // Initialize asset collections
             this.textureCollection = textureCollection;
+            this.effectCollection = effectCollection;
 
             // Load important components
             sprites = components[(int)ComponentType.Sprite] as Sprite[];

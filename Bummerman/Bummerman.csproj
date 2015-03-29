@@ -57,6 +57,7 @@
     <Compile Include="Game\ScreenElements\GameScreen.cs" />
     <Compile Include="Game\ScreenElements\GameSelectionScreen.cs" />
     <Compile Include="Game\ScreenElements\ServerGameScreen.cs" />
+    <Compile Include="Game\Systems\BillboardSpriteSystem.cs" />
     <Compile Include="Game\Systems\GameClientSystem.cs" />
     <Compile Include="Game\Systems\GameServerSystem.cs" />
     <Compile Include="Game\Systems\ModelRenderSystem.cs" />
